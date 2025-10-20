@@ -34,7 +34,8 @@ This repository contains a high-performance Sankey diagram component for Idyll 5
 ├── components/
 │   └── IdyllSankey.js     # Bridge to compiled TypeScript
 ├── data/
-│   └── flows.csv          # Sample data
+│   ├── flows.csv          # Small sample dataset
+│   └── flows_from_connections.csv  # Large sample dataset
 ├── index.idyll            # Main Idyll document
 └── package.json
 ```
