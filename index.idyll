@@ -29,10 +29,10 @@ This demonstrates performance with a large dataset (~900+ flows).
   labelMinHeight:10
   width:1200
   height:800
-  allowNegative:false
-  minValue:0.01
+  allowNegative:false // Clamps negative values to zero
+  minValue:0.01 // Filters out very small flows
   units:"Quads"
-  aggregateDuplicates:true
+  aggregateDuplicates:true // Combines duplicate source->target flows
 /]
 
 ## About
