@@ -18,6 +18,7 @@ interface IdyllSankeyProps {
   minValue?: number;
   units?: string;
   aggregateDuplicates?: boolean;
+  performanceThreshold?: number | boolean;
 }
 
 class IdyllSankey extends React.Component<IdyllSankeyProps> {
@@ -30,6 +31,7 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
     allowNegative: false,
     minValue: 0.01,
     aggregateDuplicates: true,
+    performanceThreshold: 5000,
   };
 
   render() {
@@ -43,6 +45,7 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
       minValue,
       units,
       aggregateDuplicates,
+      performanceThreshold,
     } = this.props;
 
     // Handle empty data
@@ -70,6 +73,7 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
         labelMinHeight={labelMinHeight!}
         units={units}
         allowNegative={allowNegative}
+        performanceThreshold={performanceThreshold}
       />
     );
   }

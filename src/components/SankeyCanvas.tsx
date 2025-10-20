@@ -16,6 +16,7 @@ interface SankeyCanvasProps {
   labelMinHeight: number;
   units?: string;
   allowNegative?: boolean;
+  performanceThreshold?: number | boolean;
 }
 
 interface LinkColors {
@@ -78,11 +79,20 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
 
   /**
    * Check performance flags for large datasets
-   * Auto-disable shadows/halos if links > 5000
+   * Auto-disable shadows/halos based on performanceThreshold
    */
   private checkPerformanceFlags() {
-    const { data } = this.props;
-    this.useShadows = data.links.length <= 5000;
+    const { data, performanceThreshold } = this.props;
+    
+    // If performanceThreshold is false or 0, never disable shadows
+    if (performanceThreshold === false || performanceThreshold === 0) {
+      this.useShadows = true;
+      return;
+    }
+    
+    // Otherwise, use the threshold (default 5000)
+    const threshold = typeof performanceThreshold === 'number' ? performanceThreshold : 5000;
+    this.useShadows = data.links.length <= threshold;
   }
 
   /**
@@ -145,32 +155,13 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       }
     }
 
-    // Hit test links (approximate bounding box)
+    // Hit test links with proper bezier curve checking
     let foundLink: SankeyLink | null = null;
     if (!foundNode) {
       for (const link of this.props.data.links) {
-        const source = typeof link.source === 'number' ? this.props.data.nodes[link.source] : link.source;
-        const target = typeof link.target === 'number' ? this.props.data.nodes[link.target] : link.target;
-        
-        if (
-          source.x1 !== undefined &&
-          target.x0 !== undefined &&
-          link.y0 !== undefined &&
-          link.y1 !== undefined
-        ) {
-          const linkWidth = link.width || 0;
-          const minY = Math.min(link.y0 - linkWidth / 2, (link.y1 || link.y0) - linkWidth / 2);
-          const maxY = Math.max(link.y0 + linkWidth / 2, (link.y1 || link.y0) + linkWidth / 2);
-          
-          if (
-            x >= source.x1 &&
-            x <= target.x0 &&
-            y >= minY &&
-            y <= maxY
-          ) {
-            foundLink = link;
-            break;
-          }
+        if (this.isPointInLink(x, y, link)) {
+          foundLink = link;
+          break;
         }
       }
     }
@@ -216,6 +207,64 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       canvas.style.cursor = 'default';
     }
   };
+
+  /**
+   * Check if a point is inside a link's bezier curve area
+   * Uses sampling along the bezier curve to determine if point is within the link width
+   */
+  private isPointInLink(x: number, y: number, link: SankeyLink): boolean {
+    const source = typeof link.source === 'number' ? this.props.data.nodes[link.source] : link.source;
+    const target = typeof link.target === 'number' ? this.props.data.nodes[link.target] : link.target;
+    
+    if (
+      source.x1 === undefined ||
+      target.x0 === undefined ||
+      link.y0 === undefined ||
+      link.y1 === undefined
+    ) {
+      return false;
+    }
+
+    const linkWidth = link.width || 0;
+    
+    // First, do a quick bounding box check
+    if (x < source.x1 || x > target.x0) {
+      return false;
+    }
+    
+    // Calculate the bezier curve position at the x coordinate
+    const x0 = source.x1;
+    const x1 = target.x0;
+    const y0 = link.y0;
+    const y1 = link.y1 || link.y0;
+    
+    // Control point at horizontal midpoint
+    const xi = (x0 + x1) / 2;
+    
+    // Find t parameter for the x position along the curve
+    // For horizontal bezier: x(t) = x0(1-t)^2 + 2*xi*t(1-t) + x1*t^2
+    // Simplified for our case where control points are at midpoint
+    const t = (x - x0) / (x1 - x0);
+    
+    if (t < 0 || t > 1) {
+      return false;
+    }
+    
+    // Calculate y position on the center curve at this t
+    // Cubic bezier: y(t) = y0(1-t)^3 + 3*cy0*t(1-t)^2 + 3*cy1*t^2(1-t) + y1*t^3
+    // For horizontal control points at midpoint:
+    const cy0 = y0;
+    const cy1 = y1;
+    const oneMinusT = 1 - t;
+    const curveY = y0 * oneMinusT * oneMinusT * oneMinusT +
+                   3 * cy0 * t * oneMinusT * oneMinusT +
+                   3 * cy1 * t * t * oneMinusT +
+                   y1 * t * t * t;
+    
+    // Check if point is within the link width of the curve center
+    const distanceFromCurve = Math.abs(y - curveY);
+    return distanceFromCurve <= linkWidth / 2;
+  }
 
   /**
    * Start requestAnimationFrame render loop

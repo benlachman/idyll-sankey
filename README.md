@@ -45,6 +45,7 @@ Note: Place your CSV file in the `data/` directory and reference it by filename 
 - `minValue` - Minimum absolute value to include in visualization (default: `0.01`)
 - `units` - Optional string to append to tooltip values (e.g., `"Quads"`)
 - `aggregateDuplicates` - Aggregate duplicate flows (default: `true`)
+- `performanceThreshold` - Number of links above which shadows are disabled for performance (default: `5000`). Set to `0` or `false` to never disable shadows
 
 ### Data Format
 
@@ -72,8 +73,7 @@ This will compile TypeScript and start the Idyll development server at `http://l
 
 ### Available Pages
 
-- `index.idyll` - Main demo with sample dataset
-- `stress-test.idyll` - Performance test with large dataset (~900+ flows)
+- `index.idyll` - Main demo with both small and large datasets
 
 This project is designed to work entirely through PRs and GitHub Actions. No local terminal work needed!
 
@@ -135,7 +135,7 @@ The implementation is optimized for performance:
 - **Efficient hit testing**: Uses simple bounding box checks
 - **requestAnimationFrame**: Smooth rendering loop
 - **Label culling**: Only draws labels for nodes above minimum height threshold
-- **Auto-optimization**: For datasets with >5000 links, shadows and halos are automatically disabled
+- **Auto-optimization**: For large datasets, shadows and halos can be automatically disabled (configurable via `performanceThreshold` prop)
 - **Smart filtering**: `minValue` prop filters out tiny flows before layout computation
 - **Duplicate aggregation**: Reduces layout complexity by combining duplicate source-target pairs
 
