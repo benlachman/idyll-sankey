@@ -125,14 +125,21 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
           source.x1 !== undefined &&
           target.x0 !== undefined &&
           link.y0 !== undefined &&
-          link.y1 !== undefined &&
-          x >= source.x1 &&
-          x <= target.x0 &&
-          y >= Math.min(link.y0, link.y1 || 0) &&
-          y <= Math.max(link.y0, link.y1 || 0)
+          link.y1 !== undefined
         ) {
-          foundLink = link;
-          break;
+          const linkWidth = link.width || 0;
+          const minY = Math.min(link.y0 - linkWidth / 2, (link.y1 || link.y0) - linkWidth / 2);
+          const maxY = Math.max(link.y0 + linkWidth / 2, (link.y1 || link.y0) + linkWidth / 2);
+          
+          if (
+            x >= source.x1 &&
+            x <= target.x0 &&
+            y >= minY &&
+            y <= maxY
+          ) {
+            foundLink = link;
+            break;
+          }
         }
       }
     }
@@ -220,18 +227,28 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
       ctx.globalAlpha = isHovered ? 0.8 : 0.4;
       ctx.fillStyle = color;
 
-      // Draw link as a simple trapezoid
-      const linkWidth = link.width || Math.abs((link.y1 || 0) - link.y0);
-      const sy0 = link.y0;
-      const sy1 = link.y0 + linkWidth;
-      const ty0 = link.y1 || link.y0;
-      const ty1 = ty0 + linkWidth;
+      // Draw link as a bezier curve
+      // link.y0 and link.y1 are the center positions, link.width is the thickness
+      const linkWidth = link.width || 0;
+      
+      // Calculate top and bottom edges at source and target
+      const sy0 = link.y0 - linkWidth / 2;  // top edge at source
+      const sy1 = link.y0 + linkWidth / 2;  // bottom edge at source
+      const ty0 = (link.y1 || link.y0) - linkWidth / 2;  // top edge at target
+      const ty1 = (link.y1 || link.y0) + linkWidth / 2;  // bottom edge at target
+
+      // Control points at horizontal midpoint
+      const xi = (source.x1 + target.x0) / 2;
 
       ctx.beginPath();
+      // Draw top curve from source to target
       ctx.moveTo(source.x1, sy0);
-      ctx.lineTo(target.x0, ty0);
+      ctx.bezierCurveTo(xi, sy0, xi, ty0, target.x0, ty0);
+      // Draw along target edge
       ctx.lineTo(target.x0, ty1);
-      ctx.lineTo(source.x1, sy1);
+      // Draw bottom curve from target to source
+      ctx.bezierCurveTo(xi, ty1, xi, sy1, source.x1, sy1);
+      // Close path
       ctx.closePath();
       ctx.fill();
     });
