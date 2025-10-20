@@ -78,7 +78,7 @@ This repository contains a high-performance Sankey diagram component for Idyll 5
 - **Canvas optimization**: Batch drawing operations, precompute colors/gradients
 - **Large datasets**: Auto-disable shadows/effects when links exceed threshold (default: 5000)
 - **Label culling**: Only render labels for nodes above minimum height
-- **Efficient hit testing**: Use simple bounding box checks
+- **Efficient hit testing**: Use bezier curve hit testing with bounding box optimization as first pass
 - **Data preprocessing**: Filter minimum values and aggregate duplicates before layout
 
 ### Code Style
@@ -96,12 +96,22 @@ CSV files in `data/` directory with three columns:
 - `target`: Target node label (string)
 - `value`: Flow value (number, can be negative if `allowNegative` is true)
 
+Note: The CSV format is fixed at these three columns. No additional CSV options are currently supported.
+
 ## CI/CD Pipeline
 
 - **ci.yml**: Runs tests on all pull requests
 - **pages.yml**: Builds and deploys to GitHub Pages on merge to main
 - **Node version**: 20.x LTS
 - **Package manager**: npm with `npm ci` for reproducible installs
+
+### Deployment Preview
+
+To review a deployment before merging a PR:
+1. PRs are built and tested via ci.yml, but not deployed
+2. Consider adding a workflow to build and upload artifacts for PR preview
+3. After merge to main, the site deploys automatically to GitHub Pages
+4. Manual workflow_dispatch trigger available in pages.yml for on-demand deployments
 
 ## Common Tasks
 
