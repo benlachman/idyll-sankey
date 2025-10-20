@@ -19,8 +19,8 @@ describe('rendering correctness', () => {
     layout.links.forEach((link) => {
       const source = typeof link.source === 'number' ? layout.nodes[link.source] : link.source;
       
-      // link.y0 is the center of the link at the source
-      // The link spans from y0 - width/2 to y0 + width/2
+      // link.y0 is the center position of the link at the source
+      // The link spans from (center - width/2) to (center + width/2)
       const linkWidth = link.width || 0;
       const linkTop = link.y0! - linkWidth / 2;
       const linkBottom = link.y0! + linkWidth / 2;
@@ -37,7 +37,7 @@ describe('rendering correctness', () => {
     layout.links.forEach((link) => {
       const target = typeof link.target === 'number' ? layout.nodes[link.target] : link.target;
       
-      // link.y1 is the center of the link at the target
+      // link.y1 is the center position of the link at the target
       const linkWidth = link.width || 0;
       const linkTop = (link.y1 || link.y0!) - linkWidth / 2;
       const linkBottom = (link.y1 || link.y0!) + linkWidth / 2;
