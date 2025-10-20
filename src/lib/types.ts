@@ -6,6 +6,7 @@ export interface CSVRow {
   source: string;
   target: string;
   value: number;
+  group?: string;
 }
 
 export interface SankeyNode {

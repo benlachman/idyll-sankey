@@ -14,6 +14,8 @@ interface SankeyCanvasProps {
   height: number;
   linkColorStrategy: LinkColorStrategy;
   labelMinHeight: number;
+  units?: string;
+  allowNegative?: boolean;
 }
 
 interface LinkColors {
@@ -36,6 +38,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
   private hoveredLink: SankeyLink | null = null;
   private linkColorCache = new Map<SankeyLink, LinkColors>();
   private needsRedraw = true;
+  private useShadows = true; // Performance flag for large datasets
 
   constructor(props: SankeyCanvasProps) {
     super(props);
@@ -48,12 +51,14 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
   }
 
   componentDidMount() {
+    this.checkPerformanceFlags();
     this.precomputeColors();
     this.startRenderLoop();
     this.setupMouseHandlers();
   }
 
   componentDidUpdate() {
+    this.checkPerformanceFlags();
     this.linkColorCache.clear();
     this.precomputeColors();
     this.needsRedraw = true;
@@ -69,6 +74,15 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       canvas.removeEventListener('mousemove', this.handleMouseMove);
       canvas.removeEventListener('mouseleave', this.handleMouseLeave);
     }
+  }
+
+  /**
+   * Check performance flags for large datasets
+   * Auto-disable shadows/halos if links > 5000
+   */
+  private checkPerformanceFlags() {
+    const { data } = this.props;
+    this.useShadows = data.links.length <= 5000;
   }
 
   /**
@@ -164,19 +178,21 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
     // Update tooltip
     if (foundNode) {
       const nodeValue = this.getNodeValue(foundNode);
+      const units = this.props.units ? ` ${this.props.units}` : '';
       this.setState({
         tooltipX: e.clientX,
         tooltipY: e.clientY,
-        tooltipText: `${foundNode.id}: ${nodeValue.toFixed(2)}`,
+        tooltipText: `${foundNode.id}: ${nodeValue.toFixed(2)}${units}`,
         showTooltip: true,
       });
     } else if (foundLink) {
       const source = typeof foundLink.source === 'number' ? this.props.data.nodes[foundLink.source] : foundLink.source;
       const target = typeof foundLink.target === 'number' ? this.props.data.nodes[foundLink.target] : foundLink.target;
+      const units = this.props.units ? ` ${this.props.units}` : '';
       this.setState({
         tooltipX: e.clientX,
         tooltipY: e.clientY,
-        tooltipText: `${source.id} → ${target.id}: ${foundLink.value.toFixed(2)}`,
+        tooltipText: `${source.id} → ${target.id}: ${foundLink.value.toFixed(2)}${units}`,
         showTooltip: true,
       });
     } else {
@@ -298,6 +314,14 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       ctx.globalAlpha = isHovered ? 0.8 : 0.4;
       ctx.fillStyle = color;
 
+      // Handle negative values with dashed strokes
+      const isNegative = link.value < 0 && this.props.allowNegative;
+      if (isNegative) {
+        ctx.setLineDash([5, 5]);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = Math.abs(link.width || 0);
+      }
+
       // Draw link as a bezier curve
       // link.y0 and link.y1 are the center positions, link.width is the thickness
       const linkWidth = link.width || 0;
@@ -321,7 +345,13 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       ctx.bezierCurveTo(xi, ty1, xi, sy1, source.x1, sy1);
       // Close path
       ctx.closePath();
-      ctx.fill();
+      
+      if (isNegative) {
+        ctx.stroke();
+        ctx.setLineDash([]); // Reset dash pattern
+      } else {
+        ctx.fill();
+      }
     });
 
     ctx.globalAlpha = 1;

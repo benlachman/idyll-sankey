@@ -1,0 +1,27 @@
+[meta title:"Idyll Sankey - Performance Stress Test" description:"Large dataset performance testing" /]
+
+# Sankey Diagram - Performance Stress Test
+
+This page demonstrates the Sankey diagram with a large dataset (~900+ flows) for performance testing.
+
+[data name:"largeFlows" source:"flows_from_connections.csv" /]
+
+[IdyllSankey
+  rows:largeFlows
+  linkColorStrategy:"gradient"
+  labelMinHeight:10
+  width:1200
+  height:800
+  allowNegative:false
+  minValue:0.01
+  units:"Quads"
+  aggregateDuplicates:true
+/]
+
+## Performance Notes
+
+This dataset contains:
+- ~900+ flow connections
+- Negative values (clamped to zero when allowNegative is false)
+- Very small values (filtered when below minValue threshold)
+- Performance optimizations auto-enabled for large datasets

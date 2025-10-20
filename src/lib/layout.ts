@@ -12,22 +12,76 @@ import {
 import { CSVRow, SankeyData, SankeyNode, SankeyLink } from './types';
 
 /**
+ * Normalize label text (title case)
+ */
+function normalizeLabel(label: string): string {
+  return label
+    .split(' ')
+    .map(word => {
+      if (word.length === 0) return word;
+      // Title case for all words
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+/**
  * Convert CSV rows to Sankey data structure and compute layout
  */
 export function computeLayout(
   rows: CSVRow[],
   width: number,
-  height: number
+  height: number,
+  options: {
+    allowNegative?: boolean;
+    minValue?: number;
+    aggregateDuplicates?: boolean;
+  } = {}
 ): SankeyData {
+  const {
+    allowNegative = false,
+    minValue = 0.01,
+    aggregateDuplicates = true,
+  } = options;
+
   // Handle empty data
   if (!rows || rows.length === 0) {
     return { nodes: [], links: [] };
   }
 
+  // Filter and process rows
+  let processedRows = rows
+    .map(row => ({
+      ...row,
+      // Clamp negative values if not allowed
+      value: allowNegative ? row.value : Math.max(0, row.value),
+      // Normalize labels
+      source: normalizeLabel(row.source),
+      target: normalizeLabel(row.target),
+    }))
+    .filter(row => Math.abs(row.value) >= minValue); // Filter by minValue
+
+  // Aggregate duplicates if enabled
+  if (aggregateDuplicates) {
+    const aggregateMap = new Map<string, CSVRow>();
+    
+    processedRows.forEach(row => {
+      const key = `${row.source}|${row.target}`;
+      if (aggregateMap.has(key)) {
+        const existing = aggregateMap.get(key)!;
+        existing.value += row.value;
+      } else {
+        aggregateMap.set(key, { ...row });
+      }
+    });
+    
+    processedRows = Array.from(aggregateMap.values());
+  }
+
   // Build unique nodes
   const nodeMap = new Map<string, SankeyNode>();
   
-  rows.forEach((row) => {
+  processedRows.forEach((row) => {
     if (!nodeMap.has(row.source)) {
       nodeMap.set(row.source, { id: row.source });
     }
@@ -45,7 +99,7 @@ export function computeLayout(
   });
 
   // Build links using the index map
-  const links: SankeyLink[] = rows.map((row) => ({
+  const links: SankeyLink[] = processedRows.map((row) => ({
     source: nodeIndexMap.get(row.source)!,
     target: nodeIndexMap.get(row.target)!,
     value: row.value,
