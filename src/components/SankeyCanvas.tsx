@@ -28,6 +28,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
   private hoveredNode: SankeyNode | null = null;
   private hoveredLink: SankeyLink | null = null;
   private linkColorCache = new Map<SankeyLink, LinkColors>();
+  private needsRedraw = true;
 
   componentDidMount() {
     this.precomputeColors();
@@ -38,11 +39,18 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
   componentDidUpdate() {
     this.linkColorCache.clear();
     this.precomputeColors();
+    this.needsRedraw = true;
   }
 
   componentWillUnmount() {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
+    }
+    // Remove event listeners to prevent memory leaks
+    const canvas = this.canvasRef.current;
+    if (canvas) {
+      canvas.removeEventListener('mousemove', this.handleMouseMove);
+      canvas.removeEventListener('mouseleave', this.handleMouseLeave);
     }
   }
 
@@ -132,6 +140,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
     if (foundNode !== this.hoveredNode || foundLink !== this.hoveredLink) {
       this.hoveredNode = foundNode;
       this.hoveredLink = foundLink;
+      this.needsRedraw = true;
       canvas.style.cursor = foundNode || foundLink ? 'pointer' : 'default';
     }
   };
@@ -147,10 +156,14 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
 
   /**
    * Start requestAnimationFrame render loop
+   * Only redraws when needsRedraw flag is set
    */
   private startRenderLoop() {
     const render = () => {
-      this.draw();
+      if (this.needsRedraw) {
+        this.draw();
+        this.needsRedraw = false;
+      }
       this.rafId = requestAnimationFrame(render);
     };
     render();

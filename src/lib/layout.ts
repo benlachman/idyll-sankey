@@ -37,11 +37,17 @@ export function computeLayout(
   });
 
   const nodes = Array.from(nodeMap.values());
+  
+  // Create index map for O(1) lookup
+  const nodeIndexMap = new Map<string, number>();
+  nodes.forEach((node, index) => {
+    nodeIndexMap.set(node.id, index);
+  });
 
-  // Build links
+  // Build links using the index map
   const links: SankeyLink[] = rows.map((row) => ({
-    source: nodes.findIndex((n) => n.id === row.source),
-    target: nodes.findIndex((n) => n.id === row.target),
+    source: nodeIndexMap.get(row.source)!,
+    target: nodeIndexMap.get(row.target)!,
     value: row.value,
   }));
 
