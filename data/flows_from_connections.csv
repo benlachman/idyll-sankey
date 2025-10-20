@@ -1,0 +1,945 @@
+source,target,group,value
+Aerospace Product and Parts,Aircraft,mecs,0.023
+Aerospace Product and Parts,boiler fuel,mecs,0.011
+Aerospace Product and Parts,end use not reported,mecs,0.006
+Aerospace Product and Parts,energy materials in products,mecs,0.002
+Aerospace Product and Parts,nonprocess energy,mecs,0.028
+Aerospace Product and Parts,process energy,mecs,0.02
+Agriculture,Crops,food,0.494
+Agriculture,Livestock,food,0.3
+Air,Domestic Carriers,transport-people,1.430854248
+Air,Freight Carriers,transport-people,0.142838211
+Air,General Aviation,transport-people,0.133357666
+Aircraft,boiler fuel,mecs,0.004
+Aircraft,end use not reported,mecs,0.0
+Aircraft,energy materials in products,mecs,0.0
+Aircraft,nonprocess energy,mecs,0.012
+Aircraft,process energy,mecs,0.005
+Airport Lighting,Approach Systems,lighting,0.000204
+Airport Lighting,Centerline Lights,lighting,0.000544
+Airport Lighting,Taxiway/Runway Edge Lights,lighting,0.000476
+Airport Lighting,Touchdown Lights,lighting,0.000408
+Alumina and Aluminum,"Aluminum Sheet, Plate and Foils",mecs,0.062
+Alumina and Aluminum,"Other Aluminum Rolling, Drawing and Extruding",mecs,0.021
+Alumina and Aluminum,Secondary Smelting and Alloying of Aluminum,mecs,0.02
+Alumina and Aluminum,boiler fuel,mecs,0.027
+Alumina and Aluminum,end use not reported,mecs,0.008
+Alumina and Aluminum,energy materials in products,mecs,0.011
+Alumina and Aluminum,nonprocess energy,mecs,0.016
+Alumina and Aluminum,process energy,mecs,0.191
+"Aluminum Foundries, except Die-Casting",boiler fuel,mecs,0.0
+"Aluminum Foundries, except Die-Casting",end use not reported,mecs,0.0
+"Aluminum Foundries, except Die-Casting",energy materials in products,mecs,0.0
+"Aluminum Foundries, except Die-Casting",nonprocess energy,mecs,0.002
+"Aluminum Foundries, except Die-Casting",process energy,mecs,0.009
+"Aluminum Sheet, Plate and Foils",boiler fuel,mecs,0.002
+"Aluminum Sheet, Plate and Foils",end use not reported,mecs,0.002
+"Aluminum Sheet, Plate and Foils",energy materials in products,mecs,0.0
+"Aluminum Sheet, Plate and Foils",nonprocess energy,mecs,0.007
+"Aluminum Sheet, Plate and Foils",process energy,mecs,0.051
+Animal Slaughtering and Processing,boiler fuel,mecs,0.084
+Animal Slaughtering and Processing,end use not reported,mecs,0.006
+Animal Slaughtering and Processing,energy materials in products,mecs,0.0
+Animal Slaughtering and Processing,nonprocess energy,mecs,0.034
+Animal Slaughtering and Processing,process energy,mecs,0.075
+Apartments in 2-4 Unit Buildings,Multi-Family,housing,0.686
+Apartments in 5 or More Unit Buildings,Multi-Family,housing,0.884
+Artificial and Synthetic Fibers and Filaments,boiler fuel,mecs,0.019
+Artificial and Synthetic Fibers and Filaments,end use not reported,mecs,0.0
+Artificial and Synthetic Fibers and Filaments,energy materials in products,mecs,0.0
+Artificial and Synthetic Fibers and Filaments,nonprocess energy,mecs,0.002
+Artificial and Synthetic Fibers and Filaments,process energy,mecs,0.013
+Asphalt Paving Mixture and Block,boiler fuel,mecs,0.005
+Asphalt Paving Mixture and Block,end use not reported,mecs,0.004
+Asphalt Paving Mixture and Block,energy materials in products,mecs,0.373
+Asphalt Paving Mixture and Block,nonprocess energy,mecs,0.002
+Asphalt Paving Mixture and Block,process energy,mecs,0.045
+Asphalt Shingle and Coating Materials,boiler fuel,mecs,0.003
+Asphalt Shingle and Coating Materials,end use not reported,mecs,0.0
+Asphalt Shingle and Coating Materials,energy materials in products,mecs,0.153
+Asphalt Shingle and Coating Materials,nonprocess energy,mecs,0.001
+Asphalt Shingle and Coating Materials,process energy,mecs,0.009
+Auto-Other,0-5 Miles,transport-people,0.002727994914
+Auto-Other,20-50 Miles,transport-people,0.01943087969
+Auto-Other,5-19 Miles,transport-people,0.01847380764
+Auto-Other,50+ Miles,transport-people,0.041103428
+Automobiles,boiler fuel,mecs,0.002
+Automobiles,end use not reported,mecs,0.001
+Automobiles,energy materials in products,mecs,0.0
+Automobiles,nonprocess energy,mecs,0.009
+Automobiles,process energy,mecs,0.02
+Balancing Item,Primary Natural Gas,,-0.01475933541
+Beneficiation and Processing,Crushing,stuff,0.0519
+Beneficiation and Processing,Grinding,stuff,0.4943
+Beneficiation and Processing,Separations,stuff,0.0459
+Beverage and Tobacco Products,Beverages,mecs,0.086
+Beverage and Tobacco Products,Tobacco,mecs,0.009
+Beverages,boiler fuel,mecs,0.037
+Beverages,end use not reported,mecs,0.009
+Beverages,energy materials in products,mecs,0.0
+Beverages,nonprocess energy,mecs,0.015
+Beverages,process energy,mecs,0.024
+Buses,Intercity,transport-people,0.031346144
+Buses,School,transport-people,0.122350952
+Buses,Transit,transport-people,0.107123535
+Cars,Auto-Other,transport-people,0.03877557573
+Cars,Earn a Living,transport-people,2.462320904
+Cars,Family/Personal Business,transport-people,2.332651118
+Cars,School/Church,transport-people,0.3125856794
+Cars,Social & Recreational,transport-people,1.729858869
+Cars,Unreported,transport-people,0.2281179136
+Cements,boiler fuel,mecs,0.001
+Cements,end use not reported,mecs,0.077
+Cements,energy materials in products,mecs,0.003
+Cements,nonprocess energy,mecs,0.004
+Cements,process energy,mecs,0.214
+Chemicals,Artificial and Synthetic Fibers and Filaments,mecs,0.035
+Chemicals,"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",mecs,0.042
+Chemicals,Ethyl Alcohol,mecs,0.491
+Chemicals,Industrial Gases,mecs,0.185
+Chemicals,Nitrogenous Fertilizers,mecs,0.706
+Chemicals,Other Basic Inorganic Chemicals,mecs,0.375
+Chemicals,Other Basic Organic Chemicals,mecs,1.414
+Chemicals,Petrochemicals,mecs,1.11
+Chemicals,Pharmaceuticals and Medicines,mecs,0.094
+Chemicals,Phosphatic Fertilizers,mecs,0.036
+Chemicals,"Photographic Film, Paper, Plate, and Chemicals",mecs,0.009
+Chemicals,Plastics Materials and Resins,mecs,1.775
+Chemicals,Synthetic Rubber,mecs,0.034
+Class 3-6 Trucks,"Agricultural products (excludes animal feed, cereal grains, and forage products)",transport-stuff,0.03138724458
+Class 3-6 Trucks,Base metal in primary or semi-finished forms and in finished basic shapes,transport-stuff,0.05881299227
+Class 3-6 Trucks,Basic chemicals,transport-stuff,0.03727870149
+Class 3-6 Trucks,Gravel and crushed stone (excludes dolomite and slate),transport-stuff,0.03209828248
+Class 3-6 Trucks,"Meat, poultry, fish, seafood, and their preparations",transport-stuff,0.03463770357
+Class 3-6 Trucks,Mixed freight,transport-stuff,0.05444518801
+Class 3-6 Trucks,Motorized and other vehicles (includes parts),transport-stuff,0.04032600679
+Class 3-6 Trucks,Non-metallic mineral products,transport-stuff,0.05525780276
+Class 3-6 Trucks,Other Commodities,transport-stuff,0.3745138212
+Class 3-6 Trucks,"Other coal and petroleum products, not elsewhere classified",transport-stuff,0.0387007773
+Class 3-6 Trucks,"Other prepared foodstuffs, and fats and oils (CFS10)",transport-stuff,0.1033036496
+Class 3-6 Trucks,Plastics and rubber,transport-stuff,0.04428750368
+Class 3-6 Trucks,"Pulp, newsprint, paper, and paperboard",transport-stuff,0.0326061667
+Class 3-6 Trucks,Waste and scrap,transport-stuff,0.03545031831
+Class 7-8 Trucks,"Agricultural products (excludes animal feed, cereal grains, and forage products)",transport-stuff,0.1391069568
+Class 7-8 Trucks,Base metal in primary or semi-finished forms and in finished basic shapes,transport-stuff,0.2606567249
+Class 7-8 Trucks,Basic chemicals,transport-stuff,0.1652176477
+Class 7-8 Trucks,Gravel and crushed stone (excludes dolomite and slate),transport-stuff,0.1422582471
+Class 7-8 Trucks,"Meat, poultry, fish, seafood, and their preparations",transport-stuff,0.1535128552
+Class 7-8 Trucks,Mixed freight,transport-stuff,0.2412987988
+Class 7-8 Trucks,Motorized and other vehicles (includes parts),transport-stuff,0.1787231775
+Class 7-8 Trucks,Non-metallic mineral products,transport-stuff,0.2449002735
+Class 7-8 Trucks,Other Commodities,transport-stuff,1.659829611
+Class 7-8 Trucks,"Other coal and petroleum products, not elsewhere classified",transport-stuff,0.1715202283
+Class 7-8 Trucks,"Other prepared foodstuffs, and fats and oils (CFS10)",transport-stuff,0.4578374597
+Class 7-8 Trucks,Plastics and rubber,transport-stuff,0.1962803662
+Class 7-8 Trucks,"Pulp, newsprint, paper, and paperboard",transport-stuff,0.1445091687
+Class 7-8 Trucks,Waste and scrap,transport-stuff,0.1571143298
+Clay Building Material and Refractories,boiler fuel,mecs,0.001
+Clay Building Material and Refractories,end use not reported,mecs,0.002
+Clay Building Material and Refractories,energy materials in products,mecs,0.0
+Clay Building Material and Refractories,nonprocess energy,mecs,0.003
+Clay Building Material and Refractories,process energy,mecs,0.037
+Coal Losses and Unaccounted,Primary Coal,Coal,-0.07475365954
+Coal Production,Primary Coal,Coal,17.61768059
+Commercial Sector,Commercial-District Heat,Commercial,0.341
+Commercial Sector,Commercial-Electricity,Commercial,4.241
+Commercial Sector,Commercial-Fuel Oil,Commercial,0.134
+Commercial Sector,Commercial-Natural Gas,Commercial,2.248
+Commercial-District Heat,Education,Commercial,0.065
+Commercial-District Heat,Healthcare-Inpatient,Commercial,0.062
+Commercial-District Heat,Healthcare-Outpatient,Commercial,0.006
+Commercial-District Heat,Lodging,Commercial,0.031
+Commercial-District Heat,Office,Commercial,0.076
+Commercial-District Heat,Public assembly,Commercial,0.064
+Commercial-Electricity,Commercial-Other,Electricity,0.191
+Commercial-Electricity,Education,Electricity,0.458
+Commercial-Electricity,Enclosed and strip malls,Electricity,0.424
+Commercial-Electricity,Food sales,Electricity,0.208
+Commercial-Electricity,Food service,Electricity,0.279
+Commercial-Electricity,Healthcare-Inpatient,Electricity,0.251
+Commercial-Electricity,Healthcare-Outpatient,Electricity,0.114
+Commercial-Electricity,Lodging,Electricity,0.304
+Commercial-Electricity,Office,Electricity,0.865
+Commercial-Electricity,Public assembly,Electricity,0.275
+Commercial-Electricity,Public order and safety,Electricity,0.073
+Commercial-Electricity,Religious worship,Electricity,0.081
+Commercial-Electricity,Retail (other than mall),Electricity,0.281
+Commercial-Electricity,Service,Electricity,0.127
+Commercial-Electricity,Vacant,Electricity,0.026
+Commercial-Electricity,Warehouse and storage,Electricity,0.284
+Commercial-Fuel Oil,Commercial-Other,Commercial,0.01
+Commercial-Fuel Oil,Education,Commercial,0.028
+Commercial-Fuel Oil,Enclosed and strip malls,Commercial,0.002
+Commercial-Fuel Oil,Healthcare-Inpatient,Commercial,0.016
+Commercial-Fuel Oil,Healthcare-Outpatient,Commercial,0.004
+Commercial-Fuel Oil,Lodging,Commercial,0.008
+Commercial-Fuel Oil,Office,Commercial,0.018
+Commercial-Fuel Oil,Public assembly,Commercial,0.007
+Commercial-Fuel Oil,Public order and safety,Commercial,0.002
+Commercial-Fuel Oil,Religious worship,Commercial,0.005
+Commercial-Fuel Oil,Retail (other than mall),Commercial,0.007
+Commercial-Fuel Oil,Service,Commercial,0.016
+Commercial-Fuel Oil,Warehouse and storage,Commercial,0.005
+Commercial-Natural Gas,Commercial-Other,Natural Gas,0.081
+Commercial-Natural Gas,Education,Natural Gas,0.291
+Commercial-Natural Gas,Enclosed and strip malls,Natural Gas,0.217
+Commercial-Natural Gas,Food sales,Natural Gas,0.053
+Commercial-Natural Gas,Food service,Natural Gas,0.227
+Commercial-Natural Gas,Healthcare-Inpatient,Natural Gas,0.219
+Commercial-Natural Gas,Healthcare-Outpatient,Natural Gas,0.046
+Commercial-Natural Gas,Lodging,Natural Gas,0.221
+Commercial-Natural Gas,Office,Natural Gas,0.282
+Commercial-Natural Gas,Public assembly,Natural Gas,0.135
+Commercial-Natural Gas,Public order and safety,Natural Gas,0.041
+Commercial-Natural Gas,Religious worship,Natural Gas,0.087
+Commercial-Natural Gas,Retail (other than mall),Natural Gas,0.074
+Commercial-Natural Gas,Service,Natural Gas,0.122
+Commercial-Natural Gas,Vacant,Natural Gas,0.013
+Commercial-Natural Gas,Warehouse and storage,Natural Gas,0.139
+Commercial-Other,Air Conditioning,services,0.026
+Commercial-Other,Computing,services,0.04
+Commercial-Other,Lighting,services,0.037
+Commercial-Other,Office Equipment,services,0.002
+Commercial-Other,Other Appliances,services,0.077
+Commercial-Other,Refrigerators,services,0.015
+Commercial-Other,Space Heating,services,0.069
+Commercial-Other,Ventilation,services,0.016
+Commercial-Other,Water Heating,services,0.002
+Computer and Electronic Products,Semiconductors and Related Devices,mecs,0.09
+Construction,Construction of buildings,,0.219128859
+Construction,Heavy and civil engineering construction,,0.4206744183
+Construction,Specialty trade contractors,,0.9751967243
+Construction of buildings,Commercial and institutional building construction,,0.1010759317
+Construction of buildings,Industrial building construction,,0.007857994847
+Construction of buildings,New housing for-sale builders,,0.02532260325
+Construction of buildings,New multifamily housing construction (except for-sale builders),,0.004826190187
+Construction of buildings,New single-family housing construction (except for-sale builders),,0.02570002138
+Construction of buildings,Residential remodelers,,0.05434617504
+Crops,Greenhouse and Nursery,food,0.020254
+Crops,Major Field Crops,food,0.280098
+Crops,Vegetables and Fruits,food,0.077064
+"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",boiler fuel,mecs,0.015
+"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",end use not reported,mecs,0.007
+"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",energy materials in products,mecs,0.001
+"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",nonprocess energy,mecs,0.002
+"Cyclic Crudes, Intermediate and Gum and Wood Chemicals",process energy,mecs,0.017
+Dairy Product,boiler fuel,mecs,0.047
+Dairy Product,end use not reported,mecs,0.006
+Dairy Product,energy materials in products,mecs,0.001
+Dairy Product,nonprocess energy,mecs,0.011
+Dairy Product,process energy,mecs,0.043
+Department of Defense,Auto Gas,,0.01351932656
+Department of Defense,Aviation Gas,,0.0001655950648
+Department of Defense,Dist-Diesel,,0.09963207319
+Department of Defense,DoD-Coal,,0.009152821848
+Department of Defense,DoD-Electricity,,0.0896561148
+Department of Defense,DoD-Natural Gas,,0.06483048954
+Department of Defense,DoD-Other,,0.00629
+Department of Defense,DoD-Petroleum,,0.01727848117
+Department of Defense,DoD-Renewables,,0.004657043696
+Department of Defense,Jet Fuel,,0.4080640234
+Earn a Living,0-5 Miles,,0.287466251
+Earn a Living,20-50 Miles,,1.952840995
+Earn a Living,5-19 Miles,,1.935818443
+Earn a Living,50+ Miles,,1.014272917
+Education,Air Conditioning,,0.091
+Education,Computing,,0.078
+Education,Cooking,,0.015
+Education,Lighting,,0.078
+Education,Office Equipment,,0.021
+Education,Other Appliances,,0.084
+Education,Refrigerators,,0.04
+Education,Space Heating,,0.299
+Education,Ventilation,,0.068
+Education,Water Heating,,0.068
+Electricity,Commercial Electricity Loss,Electricity,8.518937396
+Electricity,Commercial Sector,Electricity,4.634924
+Electricity,Electricity Used in Generation,Electricity,0.74
+Electricity,Government Electricity Loss,Electricity,0.334697721
+Electricity,Government Sector,Electricity,0.1821
+Electricity,Industrial Electricity Loss,Electricity,6.011358544
+Electricity,Municipal Lighting,Electricity,0.19499
+Electricity,Residential Electricity Loss,Electricity,8.778974183
+Electricity,Residential Sector,Electricity,4.776403
+Electricity,Transportation Electricity Loss,Electricity,0.04803215565
+Electricity,Transportation Sector,Electricity,0.026133
+Electricity,Wastewater treatment,Electricity,0.103
+Electricity,Water treatment,Electricity,0.134
+Electricity,industrial sector,Electricity,3.33255
+Electricity Net Imports,Electricity,Electricity,0.2265892582
+Enclosed and strip malls,Air Conditioning,stuff,0.052
+Enclosed and strip malls,Computing,stuff,0.012
+Enclosed and strip malls,Cooking,stuff,0.064
+Enclosed and strip malls,Lighting,stuff,0.068
+Enclosed and strip malls,Office Equipment,stuff,0.011
+Enclosed and strip malls,Other Appliances,stuff,0.057
+Enclosed and strip malls,Refrigerators,stuff,0.139
+Enclosed and strip malls,Space Heating,stuff,0.106
+Enclosed and strip malls,Ventilation,stuff,0.075
+Enclosed and strip malls,Water Heating,stuff,0.061
+Ethyl Alcohol,boiler fuel,mecs,0.254
+Ethyl Alcohol,end use not reported,mecs,0.052
+Ethyl Alcohol,energy materials in products,mecs,0.001
+Ethyl Alcohol,nonprocess energy,mecs,0.007
+Ethyl Alcohol,process energy,mecs,0.174
+Extraction,Blasting,stuff,0.024
+Extraction,Dewatering,stuff,0.0277
+Extraction,Digging,stuff,0.0786
+Extraction,Drilling,stuff,0.0672
+Extraction,Ventilation,stuff,0.1216
+Family/Personal Business,0-5 Miles,,0.8270176491
+Family/Personal Business,20-50 Miles,,1.109406638
+Family/Personal Business,5-19 Miles,,2.03369494
+Family/Personal Business,50+ Miles,,0.9203111334
+Flat Glass,boiler fuel,mecs,0.0
+Flat Glass,end use not reported,mecs,0.011
+Flat Glass,energy materials in products,mecs,0.0
+Flat Glass,nonprocess energy,mecs,0.002
+Flat Glass,process energy,mecs,0.048
+Food,Animal Slaughtering and Processing,mecs,0.199
+Food,Dairy Product,mecs,0.11
+Food,Fruit and Vegetable Preserving and Specialty Food,mecs,0.144
+Food,Grain and Oilseed Milling,mecs,0.28
+Food,Sugar Manufacturing,mecs,0.174
+Food sales,Air Conditioning,food,0.006
+Food sales,Computing,food,0.002
+Food sales,Cooking,food,0.029
+Food sales,Lighting,food,0.016
+Food sales,Office Equipment,food,0.002
+Food sales,Other Appliances,food,0.014
+Food sales,Refrigerators,food,0.147
+Food sales,Space Heating,food,0.031
+Food sales,Ventilation,food,0.012
+Food sales,Water Heating,food,0.003
+Food service,Air Conditioning,food,0.03
+Food service,Computing,food,0.004
+Food service,Cooking,food,0.199
+Food service,Lighting,food,0.019
+Food service,Office Equipment,food,0.007
+Food service,Other Appliances,food,0.021
+Food service,Refrigerators,food,0.114
+Food service,Space Heating,food,0.046
+Food service,Ventilation,food,0.031
+Food service,Water Heating,food,0.043
+Foundries,"Aluminum Foundries, except Die-Casting",mecs,0.011
+Foundries,Iron Foundries,mecs,0.054
+Foundries,Nonferrous Metal Die-Casting Foundries,mecs,0.024
+Foundries,boiler fuel,mecs,0.001
+Foundries,end use not reported,mecs,0.015
+Foundries,energy materials in products,mecs,0.002
+Foundries,nonprocess energy,mecs,0.021
+Foundries,process energy,mecs,0.078
+Freight Trucks,Class 3-6 Trucks,transport-stuff,1.015768433
+Freight Trucks,Class 7-8 Trucks,transport-stuff,4.501843262
+Fruit and Vegetable Preserving and Specialty Food,boiler fuel,mecs,0.07
+Fruit and Vegetable Preserving and Specialty Food,end use not reported,mecs,0.011
+Fruit and Vegetable Preserving and Specialty Food,energy materials in products,mecs,0.001
+Fruit and Vegetable Preserving and Specialty Food,nonprocess energy,mecs,0.017
+Fruit and Vegetable Preserving and Specialty Food,process energy,mecs,0.045
+Geothermal Energy Production,Primary Geothermal,Geothermal,0.224066
+Glass Containers,boiler fuel,mecs,0.0
+Glass Containers,end use not reported,mecs,0.0
+Glass Containers,energy materials in products,mecs,0.0
+Glass Containers,nonprocess energy,mecs,0.003
+Glass Containers,process energy,mecs,0.054
+Glass Products from Purchased Glass,boiler fuel,mecs,0.001
+Glass Products from Purchased Glass,end use not reported,mecs,0.001
+Glass Products from Purchased Glass,energy materials in products,mecs,0.0
+Glass Products from Purchased Glass,nonprocess energy,mecs,0.004
+Glass Products from Purchased Glass,process energy,mecs,0.017
+Government Sector,Department of Agriculture,Government,0.0063
+Government Sector,Department of Defense,Government,0.7306
+Government Sector,Department of Energy,Government,0.0294
+Government Sector,Department of Health and Human Services,Government,0.0095
+Government Sector,Department of Justice,Government,0.0156
+Government Sector,Department of Transportation,Government,0.0052
+Government Sector,Department of Veterans Affairs,Government,0.0314
+Government Sector,Department of the Interior,Government,0.0062
+Government Sector,General Services Administration,Government,0.017
+Government Sector,National Aeronautics and Space Administration,Government,0.0083
+Government Sector,Other U.S. Government Agencies,Government,0.039
+Government Sector,Postal Service,Government,0.043
+Grain and Oilseed Milling,Wet Corn Milling,mecs,0.138
+Grain and Oilseed Milling,boiler fuel,mecs,0.13
+Grain and Oilseed Milling,end use not reported,mecs,0.051
+Grain and Oilseed Milling,energy materials in products,mecs,0.003
+Grain and Oilseed Milling,nonprocess energy,mecs,0.01
+Grain and Oilseed Milling,process energy,mecs,0.086
+Gypsum,boiler fuel,mecs,0.001
+Gypsum,end use not reported,mecs,0.0
+Gypsum,energy materials in products,mecs,0.0
+Gypsum,nonprocess energy,mecs,0.003
+Gypsum,process energy,mecs,0.049
+Healthcare-Inpatient,Air Conditioning,health,0.067
+Healthcare-Inpatient,Computing,health,0.021
+Healthcare-Inpatient,Cooking,health,0.047
+Healthcare-Inpatient,Lighting,health,0.04
+Healthcare-Inpatient,Office Equipment,health,0.012
+Healthcare-Inpatient,Other Appliances,health,0.059
+Healthcare-Inpatient,Refrigerators,health,0.014
+Healthcare-Inpatient,Space Heating,health,0.164
+Healthcare-Inpatient,Ventilation,health,0.046
+Healthcare-Inpatient,Water Heating,health,0.078
+Healthcare-Outpatient,Air Conditioning,health,0.012
+Healthcare-Outpatient,Computing,health,0.013
+Healthcare-Outpatient,Cooking,health,0.004
+Healthcare-Outpatient,Lighting,health,0.021
+Healthcare-Outpatient,Office Equipment,health,0.005
+Healthcare-Outpatient,Other Appliances,health,0.023
+Healthcare-Outpatient,Refrigerators,health,0.004
+Healthcare-Outpatient,Space Heating,health,0.046
+Healthcare-Outpatient,Ventilation,health,0.037
+Healthcare-Outpatient,Water Heating,health,0.004
+Heavy and civil engineering construction,"Highway, street, and bridge construction",roads,0.2156979407
+Heavy and civil engineering construction,Land subdivision,roads,0.002708968674
+Heavy and civil engineering construction,Oil and gas pipeline and related structures construction,roads,0.05255127977
+Heavy and civil engineering construction,Other heavy and civil engineering construction,roads,0.03084163855
+Heavy and civil engineering construction,Power and communication line and related structures construction,roads,0.05450873505
+Heavy and civil engineering construction,Water and sewer line and related structures construction,roads,0.06436605122
+Highway,Buses,,0.260820648
+Highway,Commercial Light Trucks,,0.545045044
+Highway,Freight Trucks,,5.517611816
+Highway,Light-Duty Vehicles,,14.96915723
+Hydroelectric Energy Production,Primary Hydroelectric,Hydroelectric,2.388612
+Industrial Gases,boiler fuel,mecs,0.005
+Industrial Gases,end use not reported,mecs,0.003
+Industrial Gases,energy materials in products,mecs,0.087
+Industrial Gases,nonprocess energy,mecs,0.018
+Industrial Gases,process energy,mecs,0.083
+Iron Foundries,boiler fuel,mecs,0.0
+Iron Foundries,end use not reported,mecs,0.015
+Iron Foundries,energy materials in products,mecs,0.002
+Iron Foundries,nonprocess energy,mecs,0.01
+Iron Foundries,process energy,mecs,0.025
+Iron and Steel Mills and Ferroalloys,boiler fuel,mecs,0.046
+Iron and Steel Mills and Ferroalloys,end use not reported,mecs,0.556
+Iron and Steel Mills and Ferroalloys,energy materials in products,mecs,0.043
+Iron and Steel Mills and Ferroalloys,nonprocess energy,mecs,0.036
+Iron and Steel Mills and Ferroalloys,process energy,mecs,0.533
+Light Trucks,Auto-Other,transport-people,0.04281523348
+Light Trucks,Earn a Living,transport-people,2.718846656
+Light Trucks,Family/Personal Business,transport-people,2.575667811
+Light Trucks,School/Church,transport-people,0.3451510029
+Light Trucks,Social & Recreational,transport-people,1.910076381
+Light Trucks,Unreported,transport-people,0.2518833454
+Light Trucks and Utility Vehicles,boiler fuel,mecs,0.005
+Light Trucks and Utility Vehicles,end use not reported,mecs,0.002
+Light Trucks and Utility Vehicles,energy materials in products,mecs,0.0
+Light Trucks and Utility Vehicles,nonprocess energy,mecs,0.01
+Light Trucks and Utility Vehicles,process energy,mecs,0.022
+Light-Duty Vehicles,Cars,transport-people,7.104310059
+Light-Duty Vehicles,Light Trucks,transport-people,7.84444043
+Light-Duty Vehicles,Motorcycles,transport-people,0.020406815
+Lime,boiler fuel,mecs,0.0
+Lime,end use not reported,mecs,0.019
+Lime,energy materials in products,mecs,0.0
+Lime,nonprocess energy,mecs,0.001
+Lime,process energy,mecs,0.084
+Livestock,Aquaculture and Other,food,0.015086
+Livestock,Beef and Cattle Ranching,food,0.077309
+Livestock,Cattle Feedlots,food,0.019056
+Livestock,Dairy Cattle and Milk Production,food,0.041288
+Livestock,Hog and Pig Farming,food,0.017468
+Livestock,Poultry and Egg Production,food,0.017468
+Lodging,Air Conditioning,services,0.039
+Lodging,Computing,services,0.006
+Lodging,Cooking,services,0.069
+Lodging,Lighting,services,0.04
+Lodging,Office Equipment,services,0.043
+Lodging,Other Appliances,services,0.083
+Lodging,Refrigerators,services,0.033
+Lodging,Space Heating,services,0.067
+Lodging,Ventilation,services,0.049
+Lodging,Water Heating,services,0.136
+Materials Handling,Diesel Equipment,stuff,0.2113
+Materials Handling,Electric Equipment,stuff,0.0484
+Mineral Wool,boiler fuel,mecs,0.0
+Mineral Wool,end use not reported,mecs,0.001
+Mineral Wool,energy materials in products,mecs,0.0
+Mineral Wool,nonprocess energy,mecs,0.003
+Mineral Wool,process energy,mecs,0.027
+Mining,Beneficiation and Processing,oil-production,0.5921
+Mining,Extraction,oil-production,0.3191
+Mining,Materials Handling,oil-production,0.2597
+Mining,Oil and Natural Gas Extraction,oil-production,1.827916188
+Mobile Homes,Air Conditioning,housing,0.039
+Mobile Homes,Other-Residential,housing,0.173
+Mobile Homes,Refrigerators,housing,0.029
+Mobile Homes,Space Heating,housing,0.15
+Mobile Homes,Water Heating,housing,0.08
+Multi-Family,Air Conditioning,housing,0.07
+Multi-Family,Other-Residential,housing,0.391
+Multi-Family,Refrigerators,housing,0.086
+Multi-Family,Space Heating,housing,0.722
+Multi-Family,Water Heating,housing,0.302
+Municipal Lighting,Airport Lighting,lighting,0.001632
+Municipal Lighting,Other Municipal Lighting,lighting,0.181356
+Municipal Lighting,Traffic Lighting,lighting,0.012002
+Natural Gas Net Imports,Primary Natural Gas,Natural Gas,0.9637868705
+Natural Gas Production (Dry),Primary Natural Gas,Natural Gas,27.87085948
+Net Storage Withdrawals,Primary Natural Gas,,-0.5554184523
+Newsprint Mills,boiler fuel,mecs,0.008
+Newsprint Mills,end use not reported,mecs,0.023
+Newsprint Mills,energy materials in products,mecs,0.0
+Newsprint Mills,nonprocess energy,mecs,0.001
+Newsprint Mills,process energy,mecs,0.028
+Nitrogenous Fertilizers,boiler fuel,mecs,0.036
+Nitrogenous Fertilizers,end use not reported,mecs,0.018
+Nitrogenous Fertilizers,energy materials in products,mecs,0.524
+Nitrogenous Fertilizers,nonprocess energy,mecs,0.002
+Nitrogenous Fertilizers,process energy,mecs,0.125
+Non-Highway,Air,,1.707050171
+Non-Highway,Pipeline Fuel Natural Gas,,0.873435974
+Non-Highway,Rail,,0.517655273
+Non-Highway,Water,,0.969173279
+Nonferrous Metal (except Aluminum) Smelting and Refining,boiler fuel,mecs,0.006
+Nonferrous Metal (except Aluminum) Smelting and Refining,end use not reported,mecs,0.004
+Nonferrous Metal (except Aluminum) Smelting and Refining,energy materials in products,mecs,0.004
+Nonferrous Metal (except Aluminum) Smelting and Refining,nonprocess energy,mecs,0.002
+Nonferrous Metal (except Aluminum) Smelting and Refining,process energy,mecs,0.035
+Nonferrous Metal Die-Casting Foundries,boiler fuel,mecs,0.001
+Nonferrous Metal Die-Casting Foundries,end use not reported,mecs,0.0
+Nonferrous Metal Die-Casting Foundries,energy materials in products,mecs,0.0
+Nonferrous Metal Die-Casting Foundries,nonprocess energy,mecs,0.005
+Nonferrous Metal Die-Casting Foundries,process energy,mecs,0.018
+"Nonferrous Metals, except Aluminum",Nonferrous Metal (except Aluminum) Smelting and Refining,mecs,0.052
+"Nonferrous Metals, except Aluminum",boiler fuel,mecs,0.008
+"Nonferrous Metals, except Aluminum",end use not reported,mecs,0.007
+"Nonferrous Metals, except Aluminum",energy materials in products,mecs,0.013
+"Nonferrous Metals, except Aluminum",nonprocess energy,mecs,0.008
+"Nonferrous Metals, except Aluminum",process energy,mecs,0.072
+Nonmetallic Mineral Products,Cements,mecs,0.3
+Nonmetallic Mineral Products,Clay Building Material and Refractories,mecs,0.043
+Nonmetallic Mineral Products,Flat Glass,mecs,0.062
+Nonmetallic Mineral Products,Glass Containers,mecs,0.058
+Nonmetallic Mineral Products,Glass Products from Purchased Glass,mecs,0.023
+Nonmetallic Mineral Products,Gypsum,mecs,0.053
+Nonmetallic Mineral Products,Lime,mecs,0.105
+Nonmetallic Mineral Products,Mineral Wool,mecs,0.033
+Nonmetallic Mineral Products,Other Pressed and Blown Glass and Glassware,mecs,0.032
+Nuclear Production,Primary Nuclear,Nuclear,8.33768
+Office,Air Conditioning,services,0.118
+Office,Computing,services,0.167
+Office,Lighting,services,0.148
+Office,Office Equipment,services,0.037
+Office,Other Appliances,services,0.153
+Office,Refrigerators,services,0.028
+Office,Space Heating,services,0.305
+Office,Ventilation,services,0.214
+Office,Water Heating,services,0.035
+"Other Aluminum Rolling, Drawing and Extruding",boiler fuel,mecs,0.001
+"Other Aluminum Rolling, Drawing and Extruding",end use not reported,mecs,0.0
+"Other Aluminum Rolling, Drawing and Extruding",energy materials in products,mecs,0.001
+"Other Aluminum Rolling, Drawing and Extruding",nonprocess energy,mecs,0.003
+"Other Aluminum Rolling, Drawing and Extruding",process energy,mecs,0.015
+Other Basic Inorganic Chemicals,boiler fuel,mecs,0.104
+Other Basic Inorganic Chemicals,end use not reported,mecs,0.074
+Other Basic Inorganic Chemicals,energy materials in products,mecs,0.017
+Other Basic Inorganic Chemicals,nonprocess energy,mecs,0.01
+Other Basic Inorganic Chemicals,process energy,mecs,0.169
+Other Basic Organic Chemicals,boiler fuel,mecs,0.279
+Other Basic Organic Chemicals,end use not reported,mecs,0.321
+Other Basic Organic Chemicals,energy materials in products,mecs,0.843
+Other Basic Organic Chemicals,nonprocess energy,mecs,0.015
+Other Basic Organic Chemicals,process energy,mecs,0.176
+Other Municipal Lighting,Billboards,lighting,0.00034
+Other Municipal Lighting,Parking Lots,lighting,0.075752
+Other Municipal Lighting,Street Lighting,lighting,0.105264
+Other Petroleum and Coal Products,boiler fuel,mecs,0.002
+Other Petroleum and Coal Products,end use not reported,mecs,0.044
+Other Petroleum and Coal Products,energy materials in products,mecs,0.143
+Other Petroleum and Coal Products,nonprocess energy,mecs,0.001
+Other Petroleum and Coal Products,process energy,mecs,0.011
+Other Pressed and Blown Glass and Glassware,boiler fuel,mecs,0.003
+Other Pressed and Blown Glass and Glassware,end use not reported,mecs,0.0
+Other Pressed and Blown Glass and Glassware,energy materials in products,mecs,0.0
+Other Pressed and Blown Glass and Glassware,nonprocess energy,mecs,0.002
+Other Pressed and Blown Glass and Glassware,process energy,mecs,0.026
+Other Wood Products,boiler fuel,mecs,0.004
+Other Wood Products,end use not reported,mecs,0.0
+Other Wood Products,energy materials in products,mecs,0.0
+Other Wood Products,nonprocess energy,mecs,0.013
+Other Wood Products,process energy,mecs,0.028
+Other-Residential,Cooking,housing,0.667032967
+Other-Residential,Electronics,housing,0.4558058608
+Other-Residential,Lighting,housing,0.8337912088
+Other-Residential,Other Appliances,housing,0.5447435897
+Other-Residential,Washing,housing,0.5336263736
+Paper,Newsprint Mills,mecs,0.059
+Paper,"Paper Mills, except Newsprint",mecs,0.751
+Paper,Paperboard Mills,mecs,0.915
+Paper,Pulp Mills,mecs,0.255
+"Paper Mills, except Newsprint",boiler fuel,mecs,0.183
+"Paper Mills, except Newsprint",end use not reported,mecs,0.43
+"Paper Mills, except Newsprint",energy materials in products,mecs,0.0
+"Paper Mills, except Newsprint",nonprocess energy,mecs,0.013
+"Paper Mills, except Newsprint",process energy,mecs,0.125
+Paperboard Mills,boiler fuel,mecs,0.187
+Paperboard Mills,end use not reported,mecs,0.622
+Paperboard Mills,energy materials in products,mecs,0.0
+Paperboard Mills,nonprocess energy,mecs,0.011
+Paperboard Mills,process energy,mecs,0.096
+Petrochemicals,boiler fuel,mecs,0.087
+Petrochemicals,end use not reported,mecs,0.207
+Petrochemicals,energy materials in products,mecs,0.998
+Petrochemicals,nonprocess energy,mecs,0.002
+Petrochemicals,process energy,mecs,0.24
+Petroleum Adjustments,Primary Petroleum,Petroleum,0.624588
+Petroleum Net Imports,Primary Petroleum,Petroleum,8.48719535
+Petroleum Processing Gain,Primary Petroleum,Petroleum,1.8941894
+Petroleum Refineries,boiler fuel,mecs,0.341
+Petroleum Refineries,end use not reported,mecs,2.274
+Petroleum Refineries,energy materials in products,mecs,0.0
+Petroleum Refineries,nonprocess energy,mecs,0.021
+Petroleum Refineries,process energy,mecs,0.737
+Petroleum and Coal Products,Asphalt Paving Mixture and Block,mecs,0.43
+Petroleum and Coal Products,Asphalt Shingle and Coating Materials,mecs,0.165
+Petroleum and Coal Products,Other Petroleum and Coal Products,mecs,0.201
+Petroleum and Coal Products,Petroleum Refineries,mecs,3.372
+Pharmaceutical Preparation,boiler fuel,mecs,0.016
+Pharmaceutical Preparation,end use not reported,mecs,0.003
+Pharmaceutical Preparation,energy materials in products,mecs,0.0
+Pharmaceutical Preparation,nonprocess energy,mecs,0.014
+Pharmaceutical Preparation,process energy,mecs,0.013
+Pharmaceuticals and Medicines,Pharmaceutical Preparation,mecs,0.047
+Pharmaceuticals and Medicines,boiler fuel,mecs,0.039
+Pharmaceuticals and Medicines,end use not reported,mecs,0.004
+Pharmaceuticals and Medicines,energy materials in products,mecs,0.001
+Pharmaceuticals and Medicines,nonprocess energy,mecs,0.027
+Pharmaceuticals and Medicines,process energy,mecs,0.023
+Phosphatic Fertilizers,boiler fuel,mecs,0.006
+Phosphatic Fertilizers,end use not reported,mecs,0.0
+Phosphatic Fertilizers,energy materials in products,mecs,0.0
+Phosphatic Fertilizers,nonprocess energy,mecs,0.001
+Phosphatic Fertilizers,process energy,mecs,0.028
+"Photographic Film, Paper, Plate, and Chemicals",boiler fuel,mecs,0.002
+"Photographic Film, Paper, Plate, and Chemicals",end use not reported,mecs,0.002
+"Photographic Film, Paper, Plate, and Chemicals",energy materials in products,mecs,0.0
+"Photographic Film, Paper, Plate, and Chemicals",nonprocess energy,mecs,0.001
+"Photographic Film, Paper, Plate, and Chemicals",process energy,mecs,0.003
+Plastics Materials and Resins,boiler fuel,mecs,0.29
+Plastics Materials and Resins,end use not reported,mecs,0.104
+Plastics Materials and Resins,energy materials in products,mecs,1.306
+Plastics Materials and Resins,nonprocess energy,mecs,0.014
+Plastics Materials and Resins,process energy,mecs,0.136
+Primary Biomass,Electricity,Biomass,0.520226
+Primary Biomass,Produced and Distributed Biomass,Biomass,4.19508
+Primary Coal,Electricity,Coal,14.56816544
+Primary Coal,Produced and Distributed Coal,Coal,3.161569484
+Primary Geothermal,Electricity,Geothermal,0.159458
+Primary Geothermal,Produced and Distributed Geothermal,Geothermal,0.2081202
+Primary Hydroelectric,Electricity,Hydroelectric,2.375652
+Primary Hydroelectric,Produced and Distributed Hydroelectric,Hydroelectric,0.012961
+Primary Metals,Alumina and Aluminum,mecs,0.254
+Primary Metals,Foundries,mecs,0.119
+Primary Metals,Iron and Steel Mills and Ferroalloys,mecs,1.101
+Primary Metals,"Nonferrous Metals, except Aluminum",mecs,0.109
+Primary Metals,Steel Products from Purchased Steel,mecs,0.058
+Primary Natural Gas,Electricity,Natural Gas,9.970587797
+Primary Natural Gas,Produced and Distributed Natural Gas,Natural Gas,18.35539243
+Primary Nuclear,Electricity,Nuclear,8.33768
+Primary Petroleum,Electricity,Petroleum,0.2774765694
+Primary Petroleum,Produced and Distributed Petroleum,Petroleum,35.91084446
+Primary Solar/PV,Electricity,Solar/PV,0.24621
+Primary Solar/PV,Produced and Distributed Solar/PV,Solar/PV,0.4637485
+Primary Wind,Electricity,Wind,1.814013
+Primary Wind,Produced and Distributed Wind,Wind,1.18081145
+Produced and Distributed Biomass,Commercial Sector,Biomass,0.122194
+Produced and Distributed Biomass,Residential Sector,Biomass,0.43152
+Produced and Distributed Biomass,Transportation Sector,Biomass,1.347034
+Produced and Distributed Biomass,industrial sector,Biomass,2.4669
+Produced and Distributed Coal,Coal Net Exports,Coal,1.231750541
+Produced and Distributed Coal,Coal Stock Change,Coal,0.8855592536
+Produced and Distributed Coal,Commercial Sector,Coal,0.056489
+Produced and Distributed Coal,Government Sector,Coal,0.0135
+Produced and Distributed Coal,Residential Sector,Coal,0.007782
+Produced and Distributed Coal,industrial sector,Coal,1.20534
+Produced and Distributed Geothermal,Commercial Sector,Geothermal,0.0197
+Produced and Distributed Geothermal,Residential Sector,Geothermal,0.043966
+Produced and Distributed Geothermal,industrial sector,Geothermal,0.0042
+Produced and Distributed Hydroelectric,Commercial Sector,Hydroelectric,0.000381
+Produced and Distributed Hydroelectric,industrial sector,Hydroelectric,0.01172
+Produced and Distributed Natural Gas,Commercial Sector,Natural Gas,3.3041
+Produced and Distributed Natural Gas,Government Sector,Natural Gas,0.1475
+Produced and Distributed Natural Gas,Residential Sector,Natural Gas,4.752747
+Produced and Distributed Natural Gas,Transportation Sector,Natural Gas,0.923167
+Produced and Distributed Natural Gas,industrial sector,Natural Gas,9.63847
+Produced and Distributed Petroleum,Commercial Sector,Petroleum,0.561601
+Produced and Distributed Petroleum,Government Sector,Petroleum,0.5984
+Produced and Distributed Petroleum,Petroleum Stock,Petroleum,0.79166675
+Produced and Distributed Petroleum,Residential Sector,Petroleum,0.982731
+Produced and Distributed Petroleum,Transportation Sector,Petroleum,25.358195
+Produced and Distributed Petroleum,industrial sector,Petroleum,8.34681
+Produced and Distributed Solar/PV,Commercial Sector,Solar/PV,0.005267
+Produced and Distributed Solar/PV,Residential Sector,Solar/PV,0.349747
+Produced and Distributed Solar/PV,industrial sector,Solar/PV,0.01927
+Produced and Distributed Wind,Commercial Sector,Wind,0.001154
+Produced and Distributed Wind,industrial sector,Wind,0.00065
+Public assembly,Air Conditioning,services,0.086
+Public assembly,Computing,services,0.016
+Public assembly,Cooking,services,0.014
+Public assembly,Lighting,services,0.035
+Public assembly,Office Equipment,services,0.007
+Public assembly,Other Appliances,services,0.072
+Public assembly,Refrigerators,services,0.025
+Public assembly,Space Heating,services,0.189
+Public assembly,Ventilation,services,0.024
+Public assembly,Water Heating,services,0.007
+Public order and safety,Air Conditioning,services,0.016
+Public order and safety,Computing,services,0.008
+Public order and safety,Cooking,services,0.004
+Public order and safety,Lighting,services,0.015
+Public order and safety,Office Equipment,services,0.003
+Public order and safety,Other Appliances,services,0.022
+Public order and safety,Refrigerators,services,0.003
+Public order and safety,Space Heating,services,0.036
+Public order and safety,Ventilation,services,0.005
+Public order and safety,Water Heating,services,0.021
+Pulp Mills,boiler fuel,mecs,0.018
+Pulp Mills,end use not reported,mecs,0.216
+Pulp Mills,energy materials in products,mecs,0.0
+Pulp Mills,nonprocess energy,mecs,0.0
+Pulp Mills,process energy,mecs,0.018
+Rail,Freight-Rail,transport-stuff,0.466393524
+Rail,Passenger,transport-stuff,0.051261734
+Reconstituted Wood Products,boiler fuel,mecs,0.004
+Reconstituted Wood Products,end use not reported,mecs,0.058
+Reconstituted Wood Products,energy materials in products,mecs,0.0
+Reconstituted Wood Products,nonprocess energy,mecs,0.002
+Reconstituted Wood Products,process energy,mecs,0.032
+Religious worship,Air Conditioning,services,0.015
+Religious worship,Computing,services,0.003
+Religious worship,Cooking,services,0.011
+Religious worship,Lighting,services,0.009
+Religious worship,Office Equipment,services,0.003
+Religious worship,Other Appliances,services,0.026
+Religious worship,Refrigerators,services,0.004
+Religious worship,Space Heating,services,0.075
+Religious worship,Ventilation,services,0.013
+Renewable Fuels and Oxygenate Plant Net Production,Primary Petroleum,,1.99817425
+Residenital-Propane/ LPG,Apartments in 2-4 Unit Buildings,housing,0.011
+Residenital-Propane/ LPG,Apartments in 5 or More Unit Buildings,housing,0.01
+Residenital-Propane/ LPG,Mobile Homes,housing,0.049
+Residenital-Propane/ LPG,Single-Family Attached,housing,0.007
+Residenital-Propane/ LPG,Single-Family Detached,housing,0.415
+Residential Sector,Residenital-Propane/ LPG,Residential,0.492
+Residential Sector,Residential-Electricity,Residential,4.388
+Residential Sector,Residential-Fuel Oil,Residential,0.584
+Residential Sector,Residential-Kerosene,Residential,0.024
+Residential Sector,Residential-Natural Gas,Residential,4.694
+Residential-Electricity,Apartments in 2-4 Unit Buildings,housing,0.22
+Residential-Electricity,Apartments in 5 or More Unit Buildings,housing,0.416
+Residential-Electricity,Mobile Homes,housing,0.316
+Residential-Electricity,Single-Family Attached,housing,0.207
+Residential-Electricity,Single-Family Detached,housing,3.229
+Residential-Fuel Oil,Apartments in 2-4 Unit Buildings,housing,0.043
+Residential-Fuel Oil,Apartments in 5 or More Unit Buildings,housing,0.064
+Residential-Fuel Oil,Mobile Homes,housing,0.004
+Residential-Fuel Oil,Single-Family Attached,housing,0.035
+Residential-Fuel Oil,Single-Family Detached,housing,0.439
+Residential-Kerosene,Mobile Homes,housing,0.011
+Residential-Kerosene,Single-Family Detached,housing,0.011
+Residential-Natural Gas,Apartments in 2-4 Unit Buildings,housing,0.412
+Residential-Natural Gas,Apartments in 5 or More Unit Buildings,housing,0.393
+Residential-Natural Gas,Mobile Homes,housing,0.091
+Residential-Natural Gas,Single-Family Attached,housing,0.296
+Residential-Natural Gas,Single-Family Detached,housing,3.502
+Retail (other than mall),Air Conditioning,stuff,0.04
+Retail (other than mall),Computing,stuff,0.011
+Retail (other than mall),Cooking,stuff,0.008
+Retail (other than mall),Lighting,stuff,0.072
+Retail (other than mall),Office Equipment,stuff,0.007
+Retail (other than mall),Other Appliances,stuff,0.046
+Retail (other than mall),Refrigerators,stuff,0.053
+Retail (other than mall),Space Heating,stuff,0.076
+Retail (other than mall),Ventilation,stuff,0.047
+Retail (other than mall),Water Heating,stuff,0.005
+Sawmills,boiler fuel,mecs,0.002
+Sawmills,end use not reported,mecs,0.095
+Sawmills,energy materials in products,mecs,0.0
+Sawmills,nonprocess energy,mecs,0.006
+Sawmills,process energy,mecs,0.02
+School/Church,0-5 Miles,transport-people,0.0752050623
+School/Church,20-50 Miles,transport-people,0.1742942458
+School/Church,5-19 Miles,transport-people,0.2923411661
+School/Church,50+ Miles,transport-people,0.1170680089
+Secondary Smelting and Alloying of Aluminum,boiler fuel,mecs,0.0
+Secondary Smelting and Alloying of Aluminum,end use not reported,mecs,0.001
+Secondary Smelting and Alloying of Aluminum,energy materials in products,mecs,0.0
+Secondary Smelting and Alloying of Aluminum,nonprocess energy,mecs,0.002
+Secondary Smelting and Alloying of Aluminum,process energy,mecs,0.016
+Semiconductors and Related Devices,boiler fuel,mecs,0.011
+Semiconductors and Related Devices,end use not reported,mecs,0.001
+Semiconductors and Related Devices,energy materials in products,mecs,0.0
+Semiconductors and Related Devices,nonprocess energy,mecs,0.032
+Semiconductors and Related Devices,process energy,mecs,0.046
+Service,Air Conditioning,services,0.021
+Service,Computing,services,0.008
+Service,Cooking,services,0.001
+Service,Lighting,services,0.037
+Service,Office Equipment,services,0.004
+Service,Other Appliances,services,0.039
+Service,Refrigerators,services,0.005
+Service,Space Heating,services,0.118
+Service,Ventilation,services,0.014
+Service,Water Heating,services,0.022
+Single-Family,Air Conditioning,housing,0.527
+Single-Family,Other-Residential,housing,2.471
+Single-Family,Refrigerators,housing,0.369
+Single-Family,Space Heating,housing,3.354
+Single-Family,Water Heating,housing,1.421
+Single-Family Attached,Single-Family,housing,0.546
+Single-Family Detached,Single-Family,housing,7.595
+Social & Recreational,0-5 Miles,transport-people,0.2308802817
+Social & Recreational,20-50 Miles,transport-people,0.8008686217
+Social & Recreational,5-19 Miles,transport-people,1.108104929
+Social & Recreational,50+ Miles,transport-people,1.402596411
+Solar/PV Energy Production,Primary Solar/PV,Solar/PV,0.549922
+Specialty trade contractors,All other specialty trade contractors,,0.07888270246
+Specialty trade contractors,Drywall and insulation contractors,,0.08025049583
+Specialty trade contractors,Electrical contractors and other wiring installation contractors,,0.1190106112
+Specialty trade contractors,Finish carpentry contractors,,0.02708005548
+Specialty trade contractors,Flooring contractors,,0.01208920465
+Specialty trade contractors,Framing contractors,,0.009684024312
+Specialty trade contractors,Glass and glazing contractors,,0.009096901273
+Specialty trade contractors,Masonry contractors,,0.0220894014
+Specialty trade contractors,Other building equipment contractors,,0.02378492913
+Specialty trade contractors,Other building finishing contractors,,0.01215238765
+Specialty trade contractors,"Other foundation, structure, and building exterior contractors",,0.009125888021
+Specialty trade contractors,Painting and wall covering contractors,,0.02981355042
+Specialty trade contractors,"Plumbing, heating, and air-conditioning contractors",,0.192806157
+Specialty trade contractors,Poured concrete foundation and structure contractors,,0.04078108283
+Specialty trade contractors,Roofing contractors,,0.03890539823
+Specialty trade contractors,Siding contractors,,0.006938252614
+Specialty trade contractors,Site preparation contractors,,0.2423135898
+Specialty trade contractors,Structural steel and precast concrete contractors,,0.01112957695
+Specialty trade contractors,Tile and terrazzo contractors,,0.009263377106
+Steel Products from Purchased Steel,boiler fuel,mecs,0.003
+Steel Products from Purchased Steel,end use not reported,mecs,0.007
+Steel Products from Purchased Steel,energy materials in products,mecs,0.001
+Steel Products from Purchased Steel,nonprocess energy,mecs,0.008
+Steel Products from Purchased Steel,process energy,mecs,0.038
+Sugar Manufacturing,boiler fuel,mecs,0.043
+Sugar Manufacturing,end use not reported,mecs,0.108
+Sugar Manufacturing,energy materials in products,mecs,0.0
+Sugar Manufacturing,nonprocess energy,mecs,0.002
+Sugar Manufacturing,process energy,mecs,0.021
+Supplemental Gaseous Fuels,Primary Natural Gas,,0.06151166443
+Synthetic Rubber,boiler fuel,mecs,0.019
+Synthetic Rubber,end use not reported,mecs,0.01
+Synthetic Rubber,energy materials in products,mecs,0.0
+Synthetic Rubber,nonprocess energy,mecs,0.001
+Synthetic Rubber,process energy,mecs,0.004
+Tobacco,boiler fuel,mecs,0.004
+Tobacco,end use not reported,mecs,0.0
+Tobacco,energy materials in products,mecs,0.0
+Tobacco,nonprocess energy,mecs,0.003
+Tobacco,process energy,mecs,0.003
+Total Biomass Energy Production,Primary Biomass,Biomass,4.715306
+Total Petroleum Field Production,Primary Petroleum,Petroleum,23.18417402
+Traffic Lighting,Pedestrian Signals,lighting,0.002074
+Traffic Lighting,Traffic Signals,lighting,0.009724
+Traffic Lighting,Turn Arrows,lighting,0.000204
+Transportation Equipment,Aerospace Product and Parts,mecs,0.069
+Transportation Equipment,Automobiles,mecs,0.033
+Transportation Equipment,Light Trucks and Utility Vehicles,mecs,0.039
+Transportation Sector,Highway,Transportation,21.29263474
+Transportation Sector,Non-Highway,Transportation,4.067314697
+Transportation Sector,Transportation-Related Fuel Consumption,Transportation,2.0884
+Transportation-Related Fuel Consumption,Agricultural Equipment,Transportation,0.5966
+Transportation-Related Fuel Consumption,Construction and Mining Equipment,Transportation,0.9575
+Transportation-Related Fuel Consumption,Industrial Equipment,Transportation,0.3491
+Transportation-Related Fuel Consumption,Recreational Equipment,Transportation,0.1852
+Unreported,0-5 Miles,transport-people,0.007555635715
+Unreported,20-50 Miles,transport-people,0.07909900189
+Unreported,5-19 Miles,transport-people,0.05545724488
+Unreported,50+ Miles,transport-people,0.3387445787
+Vacant,Air Conditioning,services,0.002
+Vacant,Computing,services,0.001
+Vacant,Lighting,services,0.005
+Vacant,Other Appliances,services,0.008
+Vacant,Refrigerators,services,0.001
+Vacant,Space Heating,services,0.013
+Vacant,Ventilation,services,0.004
+"Veneer, Plywood, and Engineered Woods",Reconstituted Wood Products,mecs,0.097
+"Veneer, Plywood, and Engineered Woods",boiler fuel,mecs,0.006
+"Veneer, Plywood, and Engineered Woods",end use not reported,mecs,0.104
+"Veneer, Plywood, and Engineered Woods",energy materials in products,mecs,0.0
+"Veneer, Plywood, and Engineered Woods",nonprocess energy,mecs,0.007
+"Veneer, Plywood, and Engineered Woods",process energy,mecs,0.043
+Warehouse and storage,Air Conditioning,stuff,0.035
+Warehouse and storage,Computing,stuff,0.016
+Warehouse and storage,Lighting,stuff,0.085
+Warehouse and storage,Office Equipment,stuff,0.006
+Warehouse and storage,Other Appliances,stuff,0.074
+Warehouse and storage,Refrigerators,stuff,0.047
+Warehouse and storage,Space Heating,stuff,0.116
+Warehouse and storage,Ventilation,stuff,0.013
+Warehouse and storage,Water Heating,stuff,0.011
+Waste Coal Supplied,Primary Coal,Coal,0.186808
+Water,Recreational Boats,,0.242934662
+Water,Water-Freight,,0.726238647
+Water-Freight,Domestic Shipping,transport-stuff,0.103327293
+Water-Freight,International Shipping,transport-stuff,0.622911377
+Wet Corn Milling,boiler fuel,mecs,0.066
+Wet Corn Milling,end use not reported,mecs,0.035
+Wet Corn Milling,energy materials in products,mecs,0.0
+Wet Corn Milling,nonprocess energy,mecs,0.003
+Wet Corn Milling,process energy,mecs,0.036
+Wind Energy Production,Primary Wind,Wind,1.815716
+Wood Products,Other Wood Products,mecs,0.094
+Wood Products,Sawmills,mecs,0.123
+Wood Products,"Veneer, Plywood, and Engineered Woods",mecs,0.161
+boiler fuel,chp and/or cogeneration process,mecs,1.775
+boiler fuel,conventional boiler use,mecs,0.772
+industrial sector,industrial-coal,Industrial,1.43
+industrial sector,industrial-electricity,Industrial,3.4
+industrial sector,industrial-natural gas,Industrial,10.84
+industrial sector,industrial-other,Industrial,7.11
+industrial sector,industrial-petroleum,Industrial,1.39
+industrial-coal,manufacturing,Coal,1.41
+industrial-coal,non-manufacturing,Coal,0.0174
+industrial-electricity,manufacturing,Electricity,2.6
+industrial-electricity,non-manufacturing,Electricity,0.9275
+industrial-natural gas,manufacturing,Natural Gas,8.856
+industrial-natural gas,non-manufacturing,Natural Gas,2.0979
+industrial-other,manufacturing,Industrial,4.994
+industrial-other,non-manufacturing,Industrial,1.63867
+industrial-petroleum,manufacturing,Petroleum,0.186
+industrial-petroleum,non-manufacturing,Petroleum,1.2064
+manufacturing,Apparel,mecs,0.005
+manufacturing,Beverage and Tobacco Products,mecs,0.095
+manufacturing,Chemicals,mecs,6.297
+manufacturing,Computer and Electronic Products,mecs,0.162
+manufacturing,"Electrical Equip., Appliances, and Components",mecs,0.074
+manufacturing,Fabricated Metal Products,mecs,0.349
+manufacturing,Food,mecs,1.113
+manufacturing,Furniture and Related Products,mecs,0.037
+manufacturing,Leather and Allied Products,mecs,0.003
+manufacturing,Machinery,mecs,0.165
+manufacturing,Miscellaneous,mecs,0.057
+manufacturing,Nonmetallic Mineral Products,mecs,0.833
+manufacturing,Paper,mecs,2.087
+manufacturing,Petroleum and Coal Products,mecs,4.168
+manufacturing,Plastics and Rubber Products,mecs,0.295
+manufacturing,Primary Metals,mecs,1.641
+manufacturing,Printing and Related Support,mecs,0.09
+manufacturing,Textile Mills,mecs,0.097
+manufacturing,Textile Product Mills,mecs,0.028
+manufacturing,Transportation Equipment,mecs,0.323
+manufacturing,Wood Products,mecs,0.386
+non-manufacturing,Agriculture,,1.167
+non-manufacturing,Construction,,1.5069
+non-manufacturing,Data Centers,,0.2388
+non-manufacturing,Mining,,2.97517
+nonprocess energy,conventional electricity generation,mecs,0.007
+nonprocess energy,facility hvac,mecs,0.307
+nonprocess energy,facility lighting,mecs,0.083
+nonprocess energy,onsite transportation,mecs,0.035
+nonprocess energy,other facility support,mecs,0.05
+nonprocess energy,other nonprocess use,mecs,0.009
+process energy,electro-chemical processes,mecs,0.163
+process energy,machine drive,mecs,1.025
+process energy,other process use,mecs,0.209
+process energy,process cooling and refrigeration,mecs,0.158
+process energy,process heating,mecs,2.682
