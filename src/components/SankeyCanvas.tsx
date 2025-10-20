@@ -22,13 +22,30 @@ interface LinkColors {
   gradientColor: string;
 }
 
-export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
+interface SankeyCanvasState {
+  tooltipX: number;
+  tooltipY: number;
+  tooltipText: string;
+  showTooltip: boolean;
+}
+
+export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanvasState> {
   private canvasRef = React.createRef<HTMLCanvasElement>();
   private rafId: number | null = null;
   private hoveredNode: SankeyNode | null = null;
   private hoveredLink: SankeyLink | null = null;
   private linkColorCache = new Map<SankeyLink, LinkColors>();
   private needsRedraw = true;
+
+  constructor(props: SankeyCanvasProps) {
+    super(props);
+    this.state = {
+      tooltipX: 0,
+      tooltipY: 0,
+      tooltipText: '',
+      showTooltip: false,
+    };
+  }
 
   componentDidMount() {
     this.precomputeColors();
@@ -125,16 +142,45 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
           source.x1 !== undefined &&
           target.x0 !== undefined &&
           link.y0 !== undefined &&
-          link.y1 !== undefined &&
-          x >= source.x1 &&
-          x <= target.x0 &&
-          y >= Math.min(link.y0, link.y1 || 0) &&
-          y <= Math.max(link.y0, link.y1 || 0)
+          link.y1 !== undefined
         ) {
-          foundLink = link;
-          break;
+          const linkWidth = link.width || 0;
+          const minY = Math.min(link.y0 - linkWidth / 2, (link.y1 || link.y0) - linkWidth / 2);
+          const maxY = Math.max(link.y0 + linkWidth / 2, (link.y1 || link.y0) + linkWidth / 2);
+          
+          if (
+            x >= source.x1 &&
+            x <= target.x0 &&
+            y >= minY &&
+            y <= maxY
+          ) {
+            foundLink = link;
+            break;
+          }
         }
       }
+    }
+
+    // Update tooltip
+    if (foundNode) {
+      const nodeValue = this.getNodeValue(foundNode);
+      this.setState({
+        tooltipX: e.clientX,
+        tooltipY: e.clientY,
+        tooltipText: `${foundNode.id}: ${nodeValue.toFixed(2)}`,
+        showTooltip: true,
+      });
+    } else if (foundLink) {
+      const source = typeof foundLink.source === 'number' ? this.props.data.nodes[foundLink.source] : foundLink.source;
+      const target = typeof foundLink.target === 'number' ? this.props.data.nodes[foundLink.target] : foundLink.target;
+      this.setState({
+        tooltipX: e.clientX,
+        tooltipY: e.clientY,
+        tooltipText: `${source.id} → ${target.id}: ${foundLink.value.toFixed(2)}`,
+        showTooltip: true,
+      });
+    } else {
+      this.setState({ showTooltip: false });
     }
 
     if (foundNode !== this.hoveredNode || foundLink !== this.hoveredLink) {
@@ -148,6 +194,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
   private handleMouseLeave = () => {
     this.hoveredNode = null;
     this.hoveredLink = null;
+    this.setState({ showTooltip: false });
     const canvas = this.canvasRef.current;
     if (canvas) {
       canvas.style.cursor = 'default';
@@ -167,6 +214,37 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
       this.rafId = requestAnimationFrame(render);
     };
     render();
+  }
+
+  /**
+   * Get the total value for a node (sum of incoming or outgoing links)
+   */
+  private getNodeValue(node: SankeyNode): number {
+    // Node value is already computed by d3-sankey
+    // It's the sum of all links flowing through the node
+    const nodeIndex = this.props.data.nodes.indexOf(node);
+    if (nodeIndex === -1) return 0;
+    
+    // Sum all outgoing links from this node
+    let value = 0;
+    this.props.data.links.forEach((link) => {
+      const sourceIndex = typeof link.source === 'number' ? link.source : this.props.data.nodes.indexOf(link.source);
+      if (sourceIndex === nodeIndex) {
+        value += link.value;
+      }
+    });
+    
+    // If no outgoing links, sum incoming links
+    if (value === 0) {
+      this.props.data.links.forEach((link) => {
+        const targetIndex = typeof link.target === 'number' ? link.target : this.props.data.nodes.indexOf(link.target);
+        if (targetIndex === nodeIndex) {
+          value += link.value;
+        }
+      });
+    }
+    
+    return value;
   }
 
   /**
@@ -220,18 +298,28 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
       ctx.globalAlpha = isHovered ? 0.8 : 0.4;
       ctx.fillStyle = color;
 
-      // Draw link as a simple trapezoid
-      const linkWidth = link.width || Math.abs((link.y1 || 0) - link.y0);
-      const sy0 = link.y0;
-      const sy1 = link.y0 + linkWidth;
-      const ty0 = link.y1 || link.y0;
-      const ty1 = ty0 + linkWidth;
+      // Draw link as a bezier curve
+      // link.y0 and link.y1 are the center positions, link.width is the thickness
+      const linkWidth = link.width || 0;
+      
+      // Calculate top and bottom edges at source and target
+      const sy0 = link.y0 - linkWidth / 2;  // top edge at source
+      const sy1 = link.y0 + linkWidth / 2;  // bottom edge at source
+      const ty0 = (link.y1 || link.y0) - linkWidth / 2;  // top edge at target
+      const ty1 = (link.y1 || link.y0) + linkWidth / 2;  // bottom edge at target
+
+      // Control points at horizontal midpoint
+      const xi = (source.x1 + target.x0) / 2;
 
       ctx.beginPath();
+      // Draw top curve from source to target
       ctx.moveTo(source.x1, sy0);
-      ctx.lineTo(target.x0, ty0);
+      ctx.bezierCurveTo(xi, sy0, xi, ty0, target.x0, ty0);
+      // Draw along target edge
       ctx.lineTo(target.x0, ty1);
-      ctx.lineTo(source.x1, sy1);
+      // Draw bottom curve from target to source
+      ctx.bezierCurveTo(xi, ty1, xi, sy1, source.x1, sy1);
+      // Close path
       ctx.closePath();
       ctx.fill();
     });
@@ -270,13 +358,36 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
 
   render() {
     const { width, height } = this.props;
+    const { tooltipX, tooltipY, tooltipText, showTooltip } = this.state;
+    
     return (
-      <canvas
-        ref={this.canvasRef}
-        width={width}
-        height={height}
-        style={{ display: 'block' }}
-      />
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <canvas
+          ref={this.canvasRef}
+          width={width}
+          height={height}
+          style={{ display: 'block' }}
+        />
+        {showTooltip && (
+          <div
+            style={{
+              position: 'fixed',
+              left: tooltipX + 10,
+              top: tooltipY + 10,
+              background: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              pointerEvents: 'none',
+              zIndex: 1000,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {tooltipText}
+          </div>
+        )}
+      </div>
     );
   }
 }
