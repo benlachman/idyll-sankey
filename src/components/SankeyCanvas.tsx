@@ -22,13 +22,30 @@ interface LinkColors {
   gradientColor: string;
 }
 
-export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
+interface SankeyCanvasState {
+  tooltipX: number;
+  tooltipY: number;
+  tooltipText: string;
+  showTooltip: boolean;
+}
+
+export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanvasState> {
   private canvasRef = React.createRef<HTMLCanvasElement>();
   private rafId: number | null = null;
   private hoveredNode: SankeyNode | null = null;
   private hoveredLink: SankeyLink | null = null;
   private linkColorCache = new Map<SankeyLink, LinkColors>();
   private needsRedraw = true;
+
+  constructor(props: SankeyCanvasProps) {
+    super(props);
+    this.state = {
+      tooltipX: 0,
+      tooltipY: 0,
+      tooltipText: '',
+      showTooltip: false,
+    };
+  }
 
   componentDidMount() {
     this.precomputeColors();
@@ -144,6 +161,28 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
       }
     }
 
+    // Update tooltip
+    if (foundNode) {
+      const nodeValue = this.getNodeValue(foundNode);
+      this.setState({
+        tooltipX: e.clientX,
+        tooltipY: e.clientY,
+        tooltipText: `${foundNode.id}: ${nodeValue.toFixed(2)}`,
+        showTooltip: true,
+      });
+    } else if (foundLink) {
+      const source = typeof foundLink.source === 'number' ? this.props.data.nodes[foundLink.source] : foundLink.source;
+      const target = typeof foundLink.target === 'number' ? this.props.data.nodes[foundLink.target] : foundLink.target;
+      this.setState({
+        tooltipX: e.clientX,
+        tooltipY: e.clientY,
+        tooltipText: `${source.id} → ${target.id}: ${foundLink.value.toFixed(2)}`,
+        showTooltip: true,
+      });
+    } else {
+      this.setState({ showTooltip: false });
+    }
+
     if (foundNode !== this.hoveredNode || foundLink !== this.hoveredLink) {
       this.hoveredNode = foundNode;
       this.hoveredLink = foundLink;
@@ -155,6 +194,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
   private handleMouseLeave = () => {
     this.hoveredNode = null;
     this.hoveredLink = null;
+    this.setState({ showTooltip: false });
     const canvas = this.canvasRef.current;
     if (canvas) {
       canvas.style.cursor = 'default';
@@ -174,6 +214,37 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
       this.rafId = requestAnimationFrame(render);
     };
     render();
+  }
+
+  /**
+   * Get the total value for a node (sum of incoming or outgoing links)
+   */
+  private getNodeValue(node: SankeyNode): number {
+    // Node value is already computed by d3-sankey
+    // It's the sum of all links flowing through the node
+    const nodeIndex = this.props.data.nodes.indexOf(node);
+    if (nodeIndex === -1) return 0;
+    
+    // Sum all outgoing links from this node
+    let value = 0;
+    this.props.data.links.forEach((link) => {
+      const sourceIndex = typeof link.source === 'number' ? link.source : this.props.data.nodes.indexOf(link.source);
+      if (sourceIndex === nodeIndex) {
+        value += link.value;
+      }
+    });
+    
+    // If no outgoing links, sum incoming links
+    if (value === 0) {
+      this.props.data.links.forEach((link) => {
+        const targetIndex = typeof link.target === 'number' ? link.target : this.props.data.nodes.indexOf(link.target);
+        if (targetIndex === nodeIndex) {
+          value += link.value;
+        }
+      });
+    }
+    
+    return value;
   }
 
   /**
@@ -287,13 +358,36 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps> {
 
   render() {
     const { width, height } = this.props;
+    const { tooltipX, tooltipY, tooltipText, showTooltip } = this.state;
+    
     return (
-      <canvas
-        ref={this.canvasRef}
-        width={width}
-        height={height}
-        style={{ display: 'block' }}
-      />
+      <div style={{ position: 'relative', display: 'inline-block' }}>
+        <canvas
+          ref={this.canvasRef}
+          width={width}
+          height={height}
+          style={{ display: 'block' }}
+        />
+        {showTooltip && (
+          <div
+            style={{
+              position: 'fixed',
+              left: tooltipX + 10,
+              top: tooltipY + 10,
+              background: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '6px 10px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              pointerEvents: 'none',
+              zIndex: 1000,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {tooltipText}
+          </div>
+        )}
+      </div>
     );
   }
 }
