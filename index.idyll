@@ -4,6 +4,8 @@
 
 This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout.
 
+## Small Dataset Demo
+
 [data name:"flows" source:"flows.csv" /]
 
 [IdyllSankey
@@ -12,6 +14,25 @@ This is a demonstration of a high-performance Sankey diagram built with Canvas r
   labelMinHeight:8
   width:960
   height:600
+  units:"Gt CO2e"
+/]
+
+## Large Dataset Stress Test
+
+This demonstrates performance with a large dataset (~900+ flows).
+
+[data name:"largeFlows" source:"flows_from_connections.csv" /]
+
+[IdyllSankey
+  rows:largeFlows
+  linkColorStrategy:"gradient"
+  labelMinHeight:10
+  width:1200
+  height:800
+  allowNegative:false // Clamps negative values to zero
+  minValue:0.01 // Filters out very small flows
+  units:"Quads"
+  aggregateDuplicates:true // Combines duplicate source->target flows
 /]
 
 ## About
@@ -22,5 +43,9 @@ This visualization shows energy and emissions flows. The Sankey diagram is rende
 - **d3-sankey** for layout computation
 - **Hover highlights** with hit testing
 - **Color strategies**: source, target, or gradient
+- **Negative value support**: Render with dashed strokes when `allowNegative` is true
+- **Smart filtering**: `minValue` filters out tiny flows
+- **Label normalization**: Consistent title case for all labels
+- **Performance optimization**: Auto-disables shadows for datasets with >5000 links
 
-Hover over nodes and links to see highlights!
+Hover over nodes and links to see highlights with unit labels!

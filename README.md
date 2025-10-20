@@ -10,6 +10,11 @@ High-performance Sankey diagram component for Idyll 5.x, built with TypeScript a
 - **Multiple color strategies**: source, target, or gradient
 - **Label culling** by height threshold
 - **TypeScript** implementation with full type safety
+- **Negative value support** with dashed rendering
+- **Minimum value filtering** to drop hairlines and zeros
+- **Label normalization** for consistent display
+- **Duplicate aggregation** for cleaner visualizations
+- **Performance optimizations** for large datasets (>5k links)
 
 ## Usage
 
@@ -36,6 +41,11 @@ Note: Place your CSV file in the `data/` directory and reference it by filename 
 - `labelMinHeight` - Minimum node height (in pixels) to show labels (default: `8`)
 - `width` - Canvas width in pixels (default: `960`)
 - `height` - Canvas height in pixels (default: `600`)
+- `allowNegative` - Allow negative values, rendered with dashed strokes (default: `false`)
+- `minValue` - Minimum absolute value to include in visualization (default: `0.01`)
+- `units` - Optional string to append to tooltip values (e.g., `"Quads"`)
+- `aggregateDuplicates` - Aggregate duplicate flows (default: `true`)
+- `performanceThreshold` - Number of links above which shadows are disabled for performance (default: `5000`). Set to `0` or `false` to never disable shadows
 
 ### Data Format
 
@@ -49,6 +59,21 @@ B,D,10
 ```
 
 ## Development
+
+### Running Locally
+
+To start a local development server:
+
+```bash
+npm install
+npm run dev
+```
+
+This will compile TypeScript and start the Idyll development server at `http://localhost:3000`.
+
+### Available Pages
+
+- `index.idyll` - Main demo with both small and large datasets
 
 This project is designed to work entirely through PRs and GitHub Actions. No local terminal work needed!
 
@@ -110,6 +135,9 @@ The implementation is optimized for performance:
 - **Efficient hit testing**: Uses simple bounding box checks
 - **requestAnimationFrame**: Smooth rendering loop
 - **Label culling**: Only draws labels for nodes above minimum height threshold
+- **Auto-optimization**: For large datasets, shadows and halos can be automatically disabled (configurable via `performanceThreshold` prop)
+- **Smart filtering**: `minValue` prop filters out tiny flows before layout computation
+- **Duplicate aggregation**: Reduces layout complexity by combining duplicate source-target pairs
 
 ## Live Demo
 

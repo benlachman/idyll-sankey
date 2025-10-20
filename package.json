@@ -5,6 +5,7 @@
   "main": "dist/src/idyll/IdyllSankey.js",
   "scripts": {
     "build": "tsc && idyll build --output _site",
+    "dev": "tsc && idyll",
     "test": "jest --runInBand",
     "prebuild": "tsc"
   },

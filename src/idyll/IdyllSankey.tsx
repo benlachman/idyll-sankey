@@ -14,6 +14,11 @@ interface IdyllSankeyProps {
   labelMinHeight?: number;
   width?: number;
   height?: number;
+  allowNegative?: boolean;
+  minValue?: number;
+  units?: string;
+  aggregateDuplicates?: boolean;
+  performanceThreshold?: number | boolean;
 }
 
 class IdyllSankey extends React.Component<IdyllSankeyProps> {
@@ -23,10 +28,25 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
     labelMinHeight: 8,
     width: 960,
     height: 600,
+    allowNegative: false,
+    minValue: 0.01,
+    aggregateDuplicates: true,
+    performanceThreshold: 5000,
   };
 
   render() {
-    const { rows, linkColorStrategy, labelMinHeight, width, height } = this.props;
+    const { 
+      rows, 
+      linkColorStrategy, 
+      labelMinHeight, 
+      width, 
+      height,
+      allowNegative,
+      minValue,
+      units,
+      aggregateDuplicates,
+      performanceThreshold,
+    } = this.props;
 
     // Handle empty data
     if (!rows || rows.length === 0) {
@@ -37,8 +57,12 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
       );
     }
 
-    // Compute layout
-    const data = computeLayout(rows, width!, height!);
+    // Compute layout with options
+    const data = computeLayout(rows, width!, height!, {
+      allowNegative,
+      minValue,
+      aggregateDuplicates,
+    });
 
     return (
       <SankeyCanvas
@@ -47,6 +71,9 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
         height={height!}
         linkColorStrategy={linkColorStrategy!}
         labelMinHeight={labelMinHeight!}
+        units={units}
+        allowNegative={allowNegative}
+        performanceThreshold={performanceThreshold}
       />
     );
   }
