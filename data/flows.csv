@@ -1,0 +1,18 @@
+source,target,value
+Agricultural Energy Use,Carbon Dioxide,1.4
+Carbon Dioxide,Air,53.5
+Deforestation,Carbon Dioxide,10.9
+Fossil Fuels,Carbon Dioxide,34.1
+Industrial Processes,Carbon Dioxide,4.3
+Residential,Energy,10.0
+Transportation,Energy,14.0
+Energy,Carbon Dioxide,21.3
+Electricity and Heat,Energy,24.9
+Industry,Energy,14.7
+Agriculture,Methane,1.7
+Energy,Methane,1.4
+Industrial Processes,Nitrous Oxide,0.4
+Agricultural Soils,Nitrous Oxide,2.8
+Commercial,Energy,6.3
+Methane,Air,16.1
+Nitrous Oxide,Air,7.9

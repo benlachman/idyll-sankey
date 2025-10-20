@@ -1,0 +1,26 @@
+[meta title:"Idyll Sankey Diagram Demo" description:"High-performance Sankey diagram visualization" /]
+
+# Idyll Sankey Diagram
+
+This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout.
+
+[data name:"flows" source:"flows.csv" /]
+
+[IdyllSankey
+  rows:flows
+  linkColorStrategy:"gradient"
+  labelMinHeight:8
+  width:960
+  height:600
+/]
+
+## About
+
+This visualization shows energy and emissions flows. The Sankey diagram is rendered using Canvas for high performance, with:
+
+- **Canvas rendering** with `requestAnimationFrame` loop
+- **d3-sankey** for layout computation
+- **Hover highlights** with hit testing
+- **Color strategies**: source, target, or gradient
+
+Hover over nodes and links to see highlights!
