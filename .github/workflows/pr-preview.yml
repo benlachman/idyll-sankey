@@ -53,9 +53,13 @@ jobs:
             ### How to test locally:
             1. Download the artifact from the [workflow run](${runUrl})
             2. Extract the zip file
-            3. Serve the \`_site\` directory with a local server:
+            3. Serve the extracted directory with a local server:
                \`\`\`bash
-               npx serve _site
+               npx serve .
+               \`\`\`
+               Or if you prefer a specific directory name:
+               \`\`\`bash
+               npx serve path/to/extracted/folder
                \`\`\`
             
             The preview artifact will be available for 7 days.
