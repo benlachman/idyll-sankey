@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -28,42 +28,41 @@ jobs:
       - name: Upload preview artifact
         uses: actions/upload-artifact@v4
         with:
-          name: preview-build-${{ github.event.pull_request.number }}
+          name: pr-${{ github.event.pull_request.number }}-preview
           path: _site
           retention-days: 7
       
-      - name: Deploy to GitHub Pages (PR Preview)
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          publish_branch: gh-pages-preview
-          destination_dir: pr-${{ github.event.pull_request.number }}
-          force_orphan: false
-      
-      - name: Comment PR with preview link
+      - name: Comment PR with preview info
         uses: actions/github-script@v7
         with:
           script: |
             const prNumber = context.payload.pull_request.number;
             const repoName = context.repo.repo;
             const owner = context.repo.owner;
-            const previewUrl = `https://${owner}.github.io/${repoName}/pr-${prNumber}/`;
             const runUrl = `https://github.com/${owner}/${repoName}/actions/runs/${context.runId}`;
+            const artifactUrl = `${runUrl}#artifacts`;
             
-            const comment = `## 🚀 Deploy Preview
+            const comment = `## 🚀 PR Preview Build
             
-            Your preview deployment is ready!
+            Your preview build is ready!
             
-            **Preview URL:** ${previewUrl}
+            **📦 Download Preview:** [pr-${prNumber}-preview.zip](${artifactUrl})
             
-            Built from commit: ${context.sha.substring(0, 7)}
+            Built from commit: [\`${context.sha.substring(0, 7)}\`](https://github.com/${owner}/${repoName}/commit/${context.sha})
             
-            [View workflow run](${runUrl})
+            ### How to test locally:
+            1. Download the artifact from the [workflow run](${runUrl})
+            2. Extract the zip file
+            3. Serve the \`_site\` directory with a local server:
+               \`\`\`bash
+               npx serve _site
+               \`\`\`
             
-            📦 **Artifact Download:** You can also download the built site from the [workflow artifacts](${runUrl}).
+            The preview artifact will be available for 7 days.
             
-            This preview will be available for 7 days or until the PR is closed.`;
+            ---
+            
+            💡 **Tip:** For automatic live previews, consider using [Netlify](https://www.netlify.com/) or [Vercel](https://vercel.com/) which support PR previews out of the box.`;
             
             // Find existing comment
             const { data: comments } = await github.rest.issues.listComments({
@@ -73,7 +72,7 @@ jobs:
             });
             
             const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && comment.body.includes('Deploy Preview')
+              comment.user.type === 'Bot' && comment.body.includes('PR Preview Build')
             );
             
             if (botComment) {
