@@ -106,22 +106,65 @@ export function computeLayout(
   }));
 
   // Compute layout using d3-sankey
-  const sankeyGenerator = d3Sankey<SankeyNode, SankeyLink>()
+  // First, do an initial layout pass to determine node depths
+  const initialGenerator = d3Sankey<SankeyNode, SankeyLink>()
     .nodeWidth(15)
-    .nodePadding(10)
+    .nodePadding(10) // Use default padding for first pass
     .extent([
       [1, 1],
       [width - 1, height - 5],
     ]);
 
-  const graph = sankeyGenerator({
+  const initialGraph = initialGenerator({
     nodes: nodes.map((n) => ({ ...n })),
     links: links.map((l) => ({ ...l })),
   });
 
+  // Count nodes per depth from the initial layout
+  const nodesPerDepth = new Map<number, number>();
+  initialGraph.nodes.forEach(node => {
+    const depth = node.depth || 0;
+    nodesPerDepth.set(depth, (nodesPerDepth.get(depth) || 0) + 1);
+  });
+
+  const maxNodesPerDepth = Math.max(...Array.from(nodesPerDepth.values()));
+  
+  // Calculate appropriate padding based on actual depth distribution
+  // Reserve enough space so nodes don't have zero height
+  const availableHeight = height - 6; // Account for extent margins
+  const minHeightPerNode = 5; // Minimum height per node in pixels
+  const minPadding = 1;
+  const defaultPadding = 10;
+  
+  // Calculate the maximum padding that leaves room for node rectangles
+  const maxPadding = Math.floor((availableHeight - (maxNodesPerDepth * minHeightPerNode)) / maxNodesPerDepth);
+  const nodePadding = Math.max(minPadding, Math.min(defaultPadding, maxPadding));
+
+  // Only recompute if padding changed significantly
+  if (nodePadding < 8) {
+    const finalGenerator = d3Sankey<SankeyNode, SankeyLink>()
+      .nodeWidth(15)
+      .nodePadding(nodePadding)
+      .extent([
+        [1, 1],
+        [width - 1, height - 5],
+      ]);
+
+    const finalGraph = finalGenerator({
+      nodes: nodes.map((n) => ({ ...n })),
+      links: links.map((l) => ({ ...l })),
+    });
+
+    return {
+      nodes: finalGraph.nodes,
+      links: finalGraph.links,
+    };
+  }
+
+  // Use initial graph if padding is fine
   return {
-    nodes: graph.nodes,
-    links: graph.links,
+    nodes: initialGraph.nodes,
+    links: initialGraph.links,
   };
 }
 
