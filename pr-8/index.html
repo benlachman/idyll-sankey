@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+    <title>Idyll Sankey Diagram Demo</title>
+    <meta property="og:title" content="Idyll Sankey Diagram Demo" />
+    <meta charset="utf-8" />
+    <meta property="og:type" content="article" />
+
+    <meta property="og:description" content="High-performance Sankey diagram visualization" />
+    <meta property="description" content="High-performance Sankey diagram visualization" />
+
+    <link rel="stylesheet" href="static/idyll_styles.css" />
+  </head>
+  <body>
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div class=" idyll-text-container"><h1 id="idyll-sankey-diagram">Idyll Sankey Diagram</h1><p>This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout.</p><h2 id="small-dataset-demo">Small Dataset Demo</h2><div style="position:relative;display:inline-block"><canvas width="960" height="600" style="display:block"></canvas></div><h2 id="large-dataset-stress-test">Large Dataset Stress Test</h2><p>This demonstrates performance with a large dataset (~900+ flows).</p><div style="position:relative;display:inline-block"><canvas width="1200" height="800" style="display:block"></canvas></div><h2 id="about">About</h2><p>This visualization shows energy and emissions flows. The Sankey diagram is rendered using Canvas for high performance, with:</p><ul><li><strong>Canvas rendering</strong> <!-- -->with <code>requestAnimationFrame</code> loop</li><li><strong>d<!-- -->3<!-- -->-sankey</strong> <!-- -->for layout computation</li><li><strong>Hover highlights</strong> <!-- -->with hit testing</li><li><strong>Color strategies</strong>: source, target, or gradient</li><li><strong>Negative value support</strong>: Render with dashed strokes when <code>allowNegative</code> is true</li><li><strong>Smart filtering</strong>: <code>minValue</code> filters out tiny flows</li><li><strong>Label normalization</strong>: Consistent title case for all labels</li><li><strong>Performance optimization</strong>: Auto-disables shadows for datasets with &gt;<!-- -->5<!-- -->0<!-- -->0<!-- -->0 <!-- -->links</li></ul><p>
+Hover over nodes and links to see highlights with unit labels!</p></div></div></div></div>
+    <script src="static/idyll_index.js"></script>
+  </body>
+</html>
