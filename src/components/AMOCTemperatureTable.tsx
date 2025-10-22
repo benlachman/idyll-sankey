@@ -54,7 +54,7 @@ const COUNTRY_DATA: CountryData[] = [
 ];
 
 interface AMOCTemperatureTableProps {
-  amocDecrease: number;  // 0-100, percentage decrease in AMOC strength
+  amocDecrease?: number;  // 0-100, percentage decrease in AMOC strength
 }
 
 export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTableProps> {
@@ -85,7 +85,7 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
   }
 
   render() {
-    const { amocDecrease } = this.props;
+    const { amocDecrease = 15 } = this.props;
 
     return (
       <div style={{ width: '100%', overflowX: 'auto', userSelect: 'text' }}>
