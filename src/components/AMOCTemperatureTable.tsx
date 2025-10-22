@@ -73,55 +73,55 @@ interface ImpactLevel {
 function getImpactData(delta: number): ImpactLevel {
   if (delta < -8) {
     return {
-      icon: '❄️❄️❄️',
+      icon: '🏚️💀',
       color: '#003d82',
       description: 'Extreme cooling; widespread agricultural collapse; winter heating demands surge; major infrastructure stress from freeze-thaw cycles; significant population displacement likely'
     };
   } else if (delta < -5) {
     return {
-      icon: '❄️❄️',
+      icon: '🌾❌',
       color: '#0052a3',
       description: 'Severe cooling; shortened growing seasons; crop failures in northern regions; increased winter energy demands; potential food security concerns'
     };
   } else if (delta < -3) {
     return {
-      icon: '❄️',
+      icon: '🏗️🔧',
       color: '#0066cc',
       description: 'Major cooling; significant agricultural challenges; increased heating costs; infrastructure adaptation required; ecosystem shifts begin'
     };
   } else if (delta < -1.5) {
     return {
-      icon: '🌡️↓',
+      icon: '🌱⚡',
       color: '#3399ff',
       description: 'Moderate cooling; reduced growing season length; some crop yield declines; higher heating requirements; gradual ecological changes'
     };
   } else if (delta < -0.5) {
     return {
-      icon: '↘️',
+      icon: '🍃💨',
       color: '#66b3ff',
       description: 'Mild cooling; slight agricultural impacts; marginally increased winter energy use; minor ecosystem adjustments'
     };
   } else if (delta < 0.5) {
     return {
-      icon: '→',
+      icon: '✓',
       color: '#999999',
       description: 'Minimal change; negligible impacts on agriculture and infrastructure; stable conditions maintained'
     };
   } else if (delta < 1.5) {
     return {
-      icon: '↗️',
+      icon: '☀️🌿',
       color: '#ff9966',
       description: 'Mild warming; extended growing seasons in some regions; reduced heating costs; slight ecosystem changes'
     };
   } else if (delta < 3) {
     return {
-      icon: '🌡️↑',
+      icon: '💧🌡️',
       color: '#ff6633',
       description: 'Moderate warming; shifting agricultural zones; increased cooling needs; water stress begins; notable ecosystem disruption'
     };
   } else {
     return {
-      icon: '🔥',
+      icon: '🔥🏜️',
       color: '#cc3300',
       description: 'Significant warming; major agricultural shifts required; high cooling demands; water scarcity; ecosystem transformation'
     };
@@ -189,7 +189,7 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
     const { previousValues } = this.state;
 
     return (
-      <div style={{ width: '100%', overflowX: 'auto', userSelect: 'text' }}>
+      <div style={{ width: '125%', maxWidth: '125%', userSelect: 'text' }}>
         <style>{`
           @keyframes highlightChange {
             0% { background-color: rgba(255, 215, 0, 0.3); }
@@ -256,7 +256,7 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
                   fontWeight: 600,
                   letterSpacing: '0.5px',
                 }} title="Expected consequences of temperature change">
-                  Expected Impacts
+                  Possible Effects
                 </th>
               </tr>
             </thead>
