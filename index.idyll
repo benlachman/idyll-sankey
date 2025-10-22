@@ -1,8 +1,8 @@
-[meta title:"Idyll Sankey Diagram Demo" description:"High-performance Sankey diagram visualization" /]
+[meta title:"Idyll Sankey Diagram Demo" description:"High-performance Sankey diagram visualization with smart labels" /]
 
 # Idyll Sankey Diagram
 
-This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout.
+This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout, featuring intelligent label placement with collision detection.
 
 ## Small Dataset Demo
 
@@ -15,11 +15,14 @@ This is a demonstration of a high-performance Sankey diagram built with Canvas r
   width:960
   height:600
   units:"Gt CO2e"
+  enableSmartLabels:true
+  enableHoverLabels:true
+  enableDetachedLabels:true
 /]
 
 ## Large Dataset Stress Test
 
-This demonstrates performance with a large dataset (~900+ flows).
+This demonstrates performance with a large dataset (~900+ flows) using smart label placement to avoid overlaps.
 
 [data name:"largeFlows" source:"flows_from_connections.csv" /]
 
@@ -29,23 +32,36 @@ This demonstrates performance with a large dataset (~900+ flows).
   labelMinHeight:10
   width:1200
   height:800
-  allowNegative:false // Clamps negative values to zero
-  minValue:0.01 // Filters out very small flows
+  allowNegative:false
+  minValue:0.01
   units:"Quads"
-  aggregateDuplicates:true // Combines duplicate source->target flows
+  aggregateDuplicates:true
+  enableSmartLabels:true
+  enableHoverLabels:true
+  enableDetachedLabels:true
 /]
 
 ## About
 
-This visualization shows energy and emissions flows. The Sankey diagram is rendered using Canvas for high performance, with:
+This visualization shows energy and emissions flows with advanced labeling features:
 
-- **Canvas rendering** with `requestAnimationFrame` loop
+### Core Features
+- **Canvas rendering** with `requestAnimationFrame` loop for smooth performance
 - **d3-sankey** for layout computation
-- **Hover highlights** with hit testing
+- **Hover highlights** with efficient hit testing
 - **Color strategies**: source, target, or gradient
 - **Negative value support**: Render with dashed strokes when `allowNegative` is true
 - **Smart filtering**: `minValue` filters out tiny flows
 - **Label normalization**: Consistent title case for all labels
 - **Performance optimization**: Auto-disables shadows for datasets with >5000 links
 
-Hover over nodes and links to see highlights with unit labels!
+### Smart Label Features (NEW!)
+- **Collision detection**: Labels automatically reposition to avoid overlaps
+- **Hover labels**: Small flows show labels on hover instead of cluttering the view
+- **Detached labels**: Labels can float in whitespace with leader lines when needed
+- **Prioritized placement**: Larger nodes get label priority
+- **Contrast-aware text**: Labels have backgrounds for readability
+- **Text truncation**: Long labels are truncated with ellipsis
+- **Performance optimized**: Spatial indexing and caching for 10k+ links
+
+Hover over nodes and links to see highlights with unit labels! Small nodes will show their labels on hover.
