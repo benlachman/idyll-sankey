@@ -1,6 +1,12 @@
 # Idyll Sankey
 
-High-performance Sankey diagram component for Idyll 5.x, built with TypeScript and Canvas rendering.
+High-performance visualization components for Idyll 5.x, built with TypeScript and Canvas rendering.
+
+## Components
+
+### Sankey Diagram
+
+High-performance Sankey diagram component for visualizing flows.
 
 ## Features
 
@@ -17,6 +23,8 @@ High-performance Sankey diagram component for Idyll 5.x, built with TypeScript a
 - **Performance optimizations** for large datasets (>5k links)
 
 ## Usage
+
+### Sankey Diagram
 
 In your Idyll document (`.idyll` file):
 
@@ -58,6 +66,52 @@ A,C,5
 B,D,10
 ```
 
+### Learning Rates Plot
+
+Canvas-based line plot for visualizing learning rates and cost trends over time.
+
+In your Idyll document (`.idyll` file):
+
+```idl
+[data name:"learningRates" source:"learning_rates.csv" /]
+
+[IdyllLearningRates
+  rows:learningRates
+  width:1000
+  height:600
+/]
+```
+
+#### Props
+
+- `rows` - Array of objects with `year`, `technology`, and `cost_per_unit` properties (from `[data]` component)
+- `width` - Canvas width in pixels (default: `960`)
+- `height` - Canvas height in pixels (default: `600`)
+- `title` - Chart title (default: `"Learning Rates: Cost Decline in Energy Technologies"`)
+- `xLabel` - X-axis label (default: `"Year"`)
+- `yLabel` - Y-axis label (default: `"Relative Cost per Unit"`)
+- `showGrid` - Show grid lines (default: `true`)
+- `showLegend` - Show legend (default: `true`)
+
+#### Data Format
+
+Your CSV file should have three columns:
+
+```csv
+year,technology,cost_per_unit
+1995,Solar,10.00
+1996,Solar,9.50
+1995,Wind,5.00
+1996,Wind,4.85
+```
+
+The component automatically:
+- Groups data by technology
+- Assigns colors based on technology name
+- Adds annotations for key milestones
+- Enables hover tooltips showing values
+- Highlights the hovered series
+
 ## Development
 
 ### Running Locally
@@ -73,7 +127,7 @@ This will compile TypeScript and start the Idyll development server at `http://l
 
 ### Available Pages
 
-- `index.idyll` - Main demo with both small and large datasets
+- `index.idyll` - Main demo with Sankey diagrams and Learning Rates visualization
 
 This project is designed to work entirely through PRs and GitHub Actions. No local terminal work needed!
 
@@ -92,17 +146,22 @@ This project is designed to work entirely through PRs and GitHub Actions. No loc
 │   │   ├── color.ts       # Color utilities
 │   │   └── layout.ts      # d3-sankey layout wrapper
 │   ├── components/
-│   │   └── SankeyCanvas.tsx  # Canvas renderer
+│   │   ├── SankeyCanvas.tsx  # Canvas renderer for Sankey
+│   │   └── LineCanvas.tsx    # Canvas renderer for line plots
 │   └── idyll/
-│       └── IdyllSankey.tsx   # Idyll wrapper component
+│       ├── IdyllSankey.tsx         # Idyll wrapper for Sankey
+│       └── IdyllLearningRates.tsx  # Idyll wrapper for Learning Rates
 ├── __tests__/
 │   ├── color.test.ts
-│   └── layout.test.ts
+│   ├── layout.test.ts
+│   └── line-plot.test.ts
 ├── components/
-│   └── IdyllSankey.js     # Bridge to compiled TS
+│   ├── IdyllSankey.js         # Bridge to compiled TS
+│   └── IdyllLearningRates.js  # Bridge to compiled TS
 ├── data/
-│   └── flows.csv          # Sample data
-├── index.idl              # Main Idyll document
+│   ├── flows.csv              # Sample Sankey data
+│   └── learning_rates.csv     # Sample learning rates data
+├── index.idyl              # Main Idyll document
 └── package.json
 
 ```
@@ -125,6 +184,7 @@ npm test
 Tests cover:
 - Color utility functions (hashing, mixing, conversion)
 - Layout computation (node/link positions, data transformation)
+- Line plot data processing and coordinate transformations
 
 ## Performance Notes
 
