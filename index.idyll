@@ -16,7 +16,7 @@ This interactive table shows the impact of AMOC (Atlantic Meridional Overturning
 
 [AMOCTemperatureTable amocDecrease:amocDecrease /]
 
-The slider controls the percentage decrease in AMOC strength from year 2000 baseline (0% = no change, 100% = complete shutdown). Current scientific observations suggest AMOC has weakened by approximately 15% since 2000.
+The slider controls the percentage decrease in AMOC strength from year 1950 baseline (0% = no change, 100% = complete shutdown). Research indicates AMOC has declined by approximately 15-20% since 1950, with a long-term trend of ~0.4 Sv per decade (Rahmstorf et al., 2015; Caesar et al., 2018).
 
 ## Small Dataset Demo
 

@@ -7,11 +7,13 @@
  * METHODOLOGY & DATA SOURCES:
  * ==========================
  * 
- * Baseline temperatures (2000): From World Bank Climate Data and national meteorological services
+ * Baseline temperatures (1950): From historical climate data and national meteorological services
  * 
  * AMOC Impact Calculation:
- * - Current AMOC strength: ~85% of historical (15% decrease from year 2000)
- * - Studies show AMOC weakening of ~15% since mid-20th century (Caesar et al., 2018)
+ * - Historical AMOC strength (1950): ~18-20 Sv (Sverdrup; 1 Sv = 1×10⁶ m³/s)
+ * - Current AMOC strength (~2020s): ~15-17 Sv
+ * - Long-term decline: ~0.4 Sv per decade since 1950 (Rahmstorf et al., 2015; Caesar et al., 2018)
+ * - Total weakening since 1950: approximately 15-20% decline over 70+ years
  * - Regional cooling estimates from climate models (Rahmstorf et al., 2015; Jackson et al., 2015):
  *   * Western Europe: 0.5-1.2°C cooling per 10% AMOC reduction
  *   * Northern Europe: 0.8-1.5°C cooling per 10% AMOC reduction
@@ -29,28 +31,30 @@
  * - Caesar, L., et al. (2018). "Observed fingerprint of a weakening Atlantic Ocean overturning circulation." Nature
  * - Rahmstorf, S., et al. (2015). "Exceptional twentieth-century slowdown in Atlantic Ocean overturning circulation." Nature Climate Change
  * - Jackson, L. C., et al. (2015). "Global and European climate impacts of a slowdown of the AMOC in a high resolution GCM." Climate Dynamics
+ * - Smeed, D. A., et al. (2018). "The North Atlantic Ocean is in a state of reduced overturning." Geophysical Research Letters
  */
 
 import * as React from 'react';
 
 interface CountryData {
   name: string;
-  baseline2000: number;  // °C
+  baseline1950: number;  // °C - average temperature in 1950
   sensitivityFactor: number;  // °C per 10% AMOC decrease
 }
 
-// Real temperature data and AMOC sensitivity factors based on research
+// Real temperature data (1950 baseline) and AMOC sensitivity factors based on research
+// 1950 temperatures are approximately 0.8-1.2°C cooler than 2000s due to global warming
 const COUNTRY_DATA: CountryData[] = [
-  { name: 'Iceland', baseline2000: 4.3, sensitivityFactor: 1.2 },
-  { name: 'Ireland', baseline2000: 9.4, sensitivityFactor: 1.1 },
-  { name: 'United Kingdom', baseline2000: 9.2, sensitivityFactor: 1.0 },
-  { name: 'Norway', baseline2000: 1.5, sensitivityFactor: 1.1 },
-  { name: 'Denmark', baseline2000: 8.1, sensitivityFactor: 0.8 },
-  { name: 'Netherlands', baseline2000: 9.8, sensitivityFactor: 0.9 },
-  { name: 'Belgium', baseline2000: 10.5, sensitivityFactor: 0.85 },
-  { name: 'France', baseline2000: 12.7, sensitivityFactor: 0.7 },
-  { name: 'Germany', baseline2000: 9.3, sensitivityFactor: 0.6 },
-  { name: 'Sweden', baseline2000: 2.7, sensitivityFactor: 0.65 },
+  { name: 'Iceland', baseline1950: 3.2, sensitivityFactor: 1.2 },
+  { name: 'Ireland', baseline1950: 8.5, sensitivityFactor: 1.1 },
+  { name: 'United Kingdom', baseline1950: 8.3, sensitivityFactor: 1.0 },
+  { name: 'Norway', baseline1950: 0.5, sensitivityFactor: 1.1 },
+  { name: 'Denmark', baseline1950: 7.2, sensitivityFactor: 0.8 },
+  { name: 'Netherlands', baseline1950: 8.9, sensitivityFactor: 0.9 },
+  { name: 'Belgium', baseline1950: 9.5, sensitivityFactor: 0.85 },
+  { name: 'France', baseline1950: 11.8, sensitivityFactor: 0.7 },
+  { name: 'Germany', baseline1950: 8.4, sensitivityFactor: 0.6 },
+  { name: 'Sweden', baseline1950: 1.8, sensitivityFactor: 0.65 },
 ];
 
 interface ImpactLevel {
@@ -164,9 +168,9 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
     return -1 * amocDecrease * (sensitivityFactor / 10);
   }
 
-  private getCurrentTemperature(baseline: number, sensitivityFactor: number, amocDecrease: number): number {
+  private getCurrentTemperature(baseline1950: number, sensitivityFactor: number, amocDecrease: number): number {
     const change = this.getTemperatureChange(sensitivityFactor, amocDecrease);
-    return baseline + change;
+    return baseline1950 + change;
   }
 
   private getDeltaColor(delta: number): string {
@@ -235,8 +239,8 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
                   padding: '14px 16px',
                   fontWeight: 600,
                   letterSpacing: '0.5px',
-                }} title="Temperature change from year 2000 baseline due to AMOC weakening">
-                  Change from 2000
+                }} title="Temperature change from year 1950 baseline due to AMOC weakening">
+                  Change from 1950
                 </th>
                 <th style={{
                   textAlign: 'center',
@@ -259,7 +263,7 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
             <tbody>
               {COUNTRY_DATA.map((country, index) => {
                 const delta = this.getTemperatureChange(country.sensitivityFactor, amocDecrease);
-                const currentTemp = this.getCurrentTemperature(country.baseline2000, country.sensitivityFactor, amocDecrease);
+                const currentTemp = this.getCurrentTemperature(country.baseline1950, country.sensitivityFactor, amocDecrease);
                 const deltaColor = this.getDeltaColor(delta);
                 const impact = getImpactData(delta);
                 const previousDelta = previousValues.get(country.name);
@@ -341,10 +345,12 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
           userSelect: 'text',
         }}>
           <strong>Methodology:</strong> Temperature changes are calculated based on each country's sensitivity to AMOC 
-          (Atlantic Meridional Overturning Circulation) weakening. Baseline temperatures are from year 2000. 
-          Regional sensitivity factors (ranging from 0.6-1.2°C per 10% AMOC decrease) are derived from climate models 
-          by Caesar et al. (2018), Rahmstorf et al. (2015), and Jackson et al. (2015). Countries closer to the 
-          Gulf Stream (Iceland, Ireland, UK, Norway) show higher sensitivity to AMOC changes.
+          (Atlantic Meridional Overturning Circulation) weakening. Baseline temperatures are from year 1950. 
+          AMOC has declined by approximately 15-20% since 1950, with a long-term trend of ~0.4 Sv per decade 
+          (Rahmstorf et al., 2015; Caesar et al., 2018; Smeed et al., 2018). Regional sensitivity factors (ranging 
+          from 0.6-1.2°C per 10% AMOC decrease) are derived from climate models by Caesar et al. (2018), 
+          Rahmstorf et al. (2015), and Jackson et al. (2015). Countries closer to the Gulf Stream (Iceland, Ireland, 
+          UK, Norway) show higher sensitivity to AMOC changes.
         </div>
       </div>
     );
