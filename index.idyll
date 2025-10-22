@@ -49,3 +49,25 @@ This visualization shows energy and emissions flows. The Sankey diagram is rende
 - **Performance optimization**: Auto-disables shadows for datasets with >5000 links
 
 Hover over nodes and links to see highlights with unit labels!
+
+## Energy Technology Learning Rates
+
+This visualization shows how the cost of different energy technologies has evolved over the past 30 years. Renewables (solar, wind, and batteries) have experienced dramatic cost reductions due to rapid technological learning and scale-up. In contrast, fossil fuels (coal and natural gas) and nuclear power have seen much slower cost improvements.
+
+[data name:"learningRates" source:"learning_rates.csv" /]
+
+[IdyllLearningRates
+  rows:learningRates
+  width:1000
+  height:600
+/]
+
+### Key Insights
+
+- **Solar energy** has experienced the steepest cost decline, dropping by over 78% since 1995
+- **Wind energy** costs have fallen by approximately 60% over the same period
+- **Battery costs** have decreased dramatically, especially after 2010, enabling the renewable energy transition
+- **Fossil fuels** (coal and natural gas) show minimal cost improvements
+- **Nuclear power** costs have remained relatively flat, with limited learning curve benefits
+
+The dramatic cost reductions in renewables are driven by strong learning rates - as cumulative production doubles, costs drop significantly. This creates a virtuous cycle: lower costs drive more deployment, which drives further cost reductions.

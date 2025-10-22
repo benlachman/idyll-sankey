@@ -32,3 +32,36 @@ export interface SankeyData {
 }
 
 export type LinkColorStrategy = 'source' | 'target' | 'gradient';
+
+/**
+ * Type definitions for line plot data structures
+ */
+
+export interface TimeSeriesRow {
+  year: number;
+  technology: string;
+  cost_per_unit: number;
+}
+
+export interface LinePlotDataPoint {
+  x: number;
+  y: number;
+}
+
+export interface LinePlotSeries {
+  name: string;
+  data: LinePlotDataPoint[];
+  color: string;
+}
+
+export interface LinePlotAnnotation {
+  x: number;
+  y: number;
+  text: string;
+  series?: string;
+}
+
+export interface LinePlotData {
+  series: LinePlotSeries[];
+  annotations?: LinePlotAnnotation[];
+}
