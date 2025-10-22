@@ -7,6 +7,13 @@
 import * as React from 'react';
 import { SankeyData, SankeyNode, SankeyLink, LinkColorStrategy } from '../lib/types';
 import { hashColor, hslToRgb, mixColors, rgbToString } from '../lib/color';
+import {
+  LabelLayoutManager,
+  LabelLayout,
+  LabelLayoutOptions,
+  getContrastColor,
+  truncateText,
+} from '../lib/label-layout';
 
 interface SankeyCanvasProps {
   data: SankeyData;
@@ -17,6 +24,11 @@ interface SankeyCanvasProps {
   units?: string;
   allowNegative?: boolean;
   performanceThreshold?: number | boolean;
+  enableSmartLabels?: boolean;  // Enable collision detection and smart placement
+  enableHoverLabels?: boolean;  // Show labels on hover for small flows
+  enableDetachedLabels?: boolean; // Allow labels to detach with leader lines
+  labelFontSize?: number;
+  labelFontFamily?: string;
 }
 
 interface LinkColors {
@@ -30,6 +42,10 @@ interface SankeyCanvasState {
   tooltipY: number;
   tooltipText: string;
   showTooltip: boolean;
+  hoverLabelText: string;
+  hoverLabelX: number;
+  hoverLabelY: number;
+  showHoverLabel: boolean;
 }
 
 export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanvasState> {
@@ -40,6 +56,9 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
   private linkColorCache = new Map<SankeyLink, LinkColors>();
   private needsRedraw = true;
   private useShadows = true; // Performance flag for large datasets
+  private labelLayoutManager: LabelLayoutManager | null = null;
+  private placedLabels: LabelLayout[] = [];
+  private unplacedLabels: LabelLayout[] = [];
 
   constructor(props: SankeyCanvasProps) {
     super(props);
@@ -48,12 +67,17 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       tooltipY: 0,
       tooltipText: '',
       showTooltip: false,
+      hoverLabelText: '',
+      hoverLabelX: 0,
+      hoverLabelY: 0,
+      showHoverLabel: false,
     };
   }
 
   componentDidMount() {
     this.checkPerformanceFlags();
     this.precomputeColors();
+    this.initializeLabelLayout();
     this.startRenderLoop();
     this.setupMouseHandlers();
   }
@@ -62,6 +86,7 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
     this.checkPerformanceFlags();
     this.linkColorCache.clear();
     this.precomputeColors();
+    this.initializeLabelLayout();
     this.needsRedraw = true;
   }
 
@@ -93,6 +118,54 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
     // Otherwise, use the threshold (default 5000)
     const threshold = typeof performanceThreshold === 'number' ? performanceThreshold : 5000;
     this.useShadows = data.links.length <= threshold;
+  }
+
+  /**
+   * Initialize label layout system
+   */
+  private initializeLabelLayout() {
+    const canvas = this.canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const {
+      enableSmartLabels = true,
+      enableHoverLabels = true,
+      enableDetachedLabels = true,
+      labelFontSize = 12,
+      labelFontFamily = 'sans-serif',
+      labelMinHeight,
+      width,
+      height,
+    } = this.props;
+    
+    if (!enableSmartLabels) {
+      this.labelLayoutManager = null;
+      this.placedLabels = [];
+      this.unplacedLabels = [];
+      return;
+    }
+    
+    const options: LabelLayoutOptions = {
+      minLabelHeight: labelMinHeight,
+      fontSize: labelFontSize,
+      fontFamily: labelFontFamily,
+      padding: 4,
+      leaderLineThreshold: 100,
+      canvasWidth: width,
+      canvasHeight: height,
+      enableHoverLabels,
+      enableDetachedLabels,
+    };
+    
+    this.labelLayoutManager = new LabelLayoutManager(ctx, options);
+    
+    // Compute label layouts
+    const result = this.labelLayoutManager.computeNodeLabelLayouts(this.props.data.nodes);
+    this.placedLabels = result.placed;
+    this.unplacedLabels = result.unplaced;
   }
 
   /**
@@ -166,15 +239,23 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       }
     }
 
-    // Update tooltip
+    // Update tooltip and hover labels
     if (foundNode) {
       const nodeValue = this.getNodeValue(foundNode);
       const units = this.props.units ? ` ${this.props.units}` : '';
+      
+      // Check if this node has an unplaced label that should show on hover
+      const unplacedLabel = this.unplacedLabels.find(l => l.nodeOrLinkId === foundNode.id);
+      
       this.setState({
         tooltipX: e.clientX,
         tooltipY: e.clientY,
         tooltipText: `${foundNode.id}: ${nodeValue.toFixed(2)}${units}`,
         showTooltip: true,
+        hoverLabelText: unplacedLabel ? foundNode.id : '',
+        hoverLabelX: unplacedLabel ? x : 0,
+        hoverLabelY: unplacedLabel ? y : 0,
+        showHoverLabel: !!unplacedLabel && this.props.enableHoverLabels !== false,
       });
     } else if (foundLink) {
       const source = typeof foundLink.source === 'number' ? this.props.data.nodes[foundLink.source] : foundLink.source;
@@ -185,9 +266,13 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
         tooltipY: e.clientY,
         tooltipText: `${source.id} → ${target.id}: ${foundLink.value.toFixed(2)}${units}`,
         showTooltip: true,
+        showHoverLabel: false,
       });
     } else {
-      this.setState({ showTooltip: false });
+      this.setState({ 
+        showTooltip: false,
+        showHoverLabel: false,
+      });
     }
 
     if (foundNode !== this.hoveredNode || foundLink !== this.hoveredLink) {
@@ -201,7 +286,10 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
   private handleMouseLeave = () => {
     this.hoveredNode = null;
     this.hoveredLink = null;
-    this.setState({ showTooltip: false });
+    this.setState({ 
+      showTooltip: false,
+      showHoverLabel: false,
+    });
     const canvas = this.canvasRef.current;
     if (canvas) {
       canvas.style.cursor = 'default';
@@ -322,7 +410,16 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const { data, width, height, linkColorStrategy, labelMinHeight } = this.props;
+    const { 
+      data, 
+      width, 
+      height, 
+      linkColorStrategy, 
+      labelMinHeight,
+      enableSmartLabels = true,
+      labelFontSize = 12,
+      labelFontFamily = 'sans-serif',
+    } = this.props;
 
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
@@ -417,15 +514,97 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       }
 
       const isHovered = node === this.hoveredNode;
-      ctx.fillStyle = isHovered ? hashColor(node.id) : '#333';
+      const nodeColor = isHovered ? hashColor(node.id) : '#333';
+      ctx.fillStyle = nodeColor;
       ctx.fillRect(node.x0, node.y0, node.x1 - node.x0, node.y1 - node.y0);
+    });
+
+    // Draw labels using smart layout or simple layout
+    if (enableSmartLabels && this.placedLabels.length > 0) {
+      this.drawSmartLabels(ctx);
+    } else {
+      this.drawSimpleLabels(ctx);
+    }
+  }
+
+  /**
+   * Draw labels using smart layout with collision detection
+   */
+  private drawSmartLabels(ctx: CanvasRenderingContext2D) {
+    const {
+      labelFontSize = 12,
+      labelFontFamily = 'sans-serif',
+      width,
+    } = this.props;
+
+    const font = `${labelFontSize}px ${labelFontFamily}`;
+    ctx.font = font;
+    ctx.textBaseline = 'middle';
+
+    // Draw placed labels
+    this.placedLabels.forEach((label) => {
+      // Draw leader line if detached
+      if (label.hasLeaderLine) {
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([2, 2]);
+        ctx.beginPath();
+        ctx.moveTo(label.anchorX, label.anchorY);
+        ctx.lineTo(label.x + label.width / 2, label.y + label.height / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Draw label background for better readability
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillRect(label.x, label.y, label.width, label.height);
+      
+      // Draw label border
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(label.x, label.y, label.width, label.height);
+
+      // Draw label text with contrast
+      const textColor = '#000';
+      ctx.fillStyle = textColor;
+      
+      // Truncate if needed
+      const maxTextWidth = label.width - 8;
+      const displayText = truncateText(ctx, label.text, maxTextWidth, font);
+      
+      ctx.fillText(displayText, label.x + 4, label.y + label.height / 2);
+    });
+  }
+
+  /**
+   * Draw labels using simple layout (legacy behavior)
+   */
+  private drawSimpleLabels(ctx: CanvasRenderingContext2D) {
+    const {
+      data,
+      labelMinHeight,
+      labelFontSize = 12,
+      labelFontFamily = 'sans-serif',
+      width,
+    } = this.props;
+
+    ctx.font = `${labelFontSize}px ${labelFontFamily}`;
+    ctx.textBaseline = 'middle';
+
+    data.nodes.forEach((node) => {
+      if (
+        node.x0 === undefined ||
+        node.x1 === undefined ||
+        node.y0 === undefined ||
+        node.y1 === undefined
+      ) {
+        return;
+      }
 
       // Draw label if node is tall enough
       const nodeHeight = node.y1 - node.y0;
       if (nodeHeight >= labelMinHeight) {
         ctx.fillStyle = '#000';
-        ctx.font = '12px sans-serif';
-        ctx.textBaseline = 'middle';
         
         const labelX = node.x0 < width / 2 ? node.x1 + 6 : node.x0 - 6;
         const labelY = (node.y0 + node.y1) / 2;
@@ -437,7 +616,16 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
 
   render() {
     const { width, height } = this.props;
-    const { tooltipX, tooltipY, tooltipText, showTooltip } = this.state;
+    const { 
+      tooltipX, 
+      tooltipY, 
+      tooltipText, 
+      showTooltip,
+      hoverLabelText,
+      hoverLabelX,
+      hoverLabelY,
+      showHoverLabel,
+    } = this.state;
     
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -464,6 +652,27 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
             }}
           >
             {tooltipText}
+          </div>
+        )}
+        {showHoverLabel && (
+          <div
+            style={{
+              position: 'fixed',
+              left: tooltipX + 10,
+              top: tooltipY - 30,
+              background: 'rgba(255, 255, 255, 0.95)',
+              color: 'black',
+              padding: '4px 8px',
+              borderRadius: '3px',
+              fontSize: '11px',
+              pointerEvents: 'none',
+              zIndex: 999,
+              whiteSpace: 'nowrap',
+              border: '1px solid rgba(0, 0, 0, 0.2)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            {hoverLabelText}
           </div>
         )}
       </div>
