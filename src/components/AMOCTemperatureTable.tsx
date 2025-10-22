@@ -53,14 +53,110 @@ const COUNTRY_DATA: CountryData[] = [
   { name: 'Sweden', baseline2000: 2.7, sensitivityFactor: 0.65 },
 ];
 
+interface ImpactLevel {
+  icon: string;
+  color: string;
+  description: string;
+}
+
+/**
+ * Impact descriptions based on temperature change thresholds
+ * Research sources:
+ * - IPCC AR6 (2021): Regional climate impacts and adaptation
+ * - European Environment Agency (2019): Climate change impacts in Europe
+ * - UK Met Office (2020): Climate change impacts on European agriculture and ecosystems
+ */
+function getImpactData(delta: number): ImpactLevel {
+  if (delta < -8) {
+    return {
+      icon: '❄️❄️❄️',
+      color: '#003d82',
+      description: 'Extreme cooling; widespread agricultural collapse; winter heating demands surge; major infrastructure stress from freeze-thaw cycles; significant population displacement likely'
+    };
+  } else if (delta < -5) {
+    return {
+      icon: '❄️❄️',
+      color: '#0052a3',
+      description: 'Severe cooling; shortened growing seasons; crop failures in northern regions; increased winter energy demands; potential food security concerns'
+    };
+  } else if (delta < -3) {
+    return {
+      icon: '❄️',
+      color: '#0066cc',
+      description: 'Major cooling; significant agricultural challenges; increased heating costs; infrastructure adaptation required; ecosystem shifts begin'
+    };
+  } else if (delta < -1.5) {
+    return {
+      icon: '🌡️↓',
+      color: '#3399ff',
+      description: 'Moderate cooling; reduced growing season length; some crop yield declines; higher heating requirements; gradual ecological changes'
+    };
+  } else if (delta < -0.5) {
+    return {
+      icon: '↘️',
+      color: '#66b3ff',
+      description: 'Mild cooling; slight agricultural impacts; marginally increased winter energy use; minor ecosystem adjustments'
+    };
+  } else if (delta < 0.5) {
+    return {
+      icon: '→',
+      color: '#999999',
+      description: 'Minimal change; negligible impacts on agriculture and infrastructure; stable conditions maintained'
+    };
+  } else if (delta < 1.5) {
+    return {
+      icon: '↗️',
+      color: '#ff9966',
+      description: 'Mild warming; extended growing seasons in some regions; reduced heating costs; slight ecosystem changes'
+    };
+  } else if (delta < 3) {
+    return {
+      icon: '🌡️↑',
+      color: '#ff6633',
+      description: 'Moderate warming; shifting agricultural zones; increased cooling needs; water stress begins; notable ecosystem disruption'
+    };
+  } else {
+    return {
+      icon: '🔥',
+      color: '#cc3300',
+      description: 'Significant warming; major agricultural shifts required; high cooling demands; water scarcity; ecosystem transformation'
+    };
+  }
+}
+
 interface AMOCTemperatureTableProps {
   amocDecrease?: number;  // 0-100, percentage decrease in AMOC strength
 }
 
-export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTableProps> {
+interface AMOCTemperatureTableState {
+  previousValues: Map<string, number>;
+}
+
+export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTableProps, AMOCTemperatureTableState> {
   static defaultProps = {
     amocDecrease: 15,  // Current 15% decrease
   };
+
+  constructor(props: AMOCTemperatureTableProps) {
+    super(props);
+    this.state = {
+      previousValues: new Map(),
+    };
+  }
+
+  componentDidUpdate(prevProps: AMOCTemperatureTableProps) {
+    if (prevProps.amocDecrease !== this.props.amocDecrease) {
+      const { amocDecrease = 15 } = prevProps;
+      const newPreviousValues = new Map<string, number>();
+      
+      COUNTRY_DATA.forEach(country => {
+        const delta = this.getTemperatureChange(country.sensitivityFactor, amocDecrease);
+        newPreviousValues.set(country.name, delta);
+      });
+      
+      this.setState({ previousValues: newPreviousValues });
+    }
+  }
 
   private getTemperatureChange(sensitivityFactor: number, amocDecrease: number): number {
     // Temperature change = -1 × (AMOC decrease %) × (sensitivity factor / 10)
@@ -86,78 +182,154 @@ export class AMOCTemperatureTable extends React.Component<AMOCTemperatureTablePr
 
   render() {
     const { amocDecrease = 15 } = this.props;
+    const { previousValues } = this.state;
 
     return (
       <div style={{ width: '100%', overflowX: 'auto', userSelect: 'text' }}>
-        <table style={{
-          width: '100%',
-          borderCollapse: 'collapse',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
-          fontSize: '14px',
-        }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5', borderBottom: '2px solid #ddd' }}>
-              <th style={{
-                textAlign: 'left',
-                padding: '12px 16px',
-                fontWeight: 600,
+        <style>{`
+          @keyframes highlightChange {
+            0% { background-color: rgba(255, 215, 0, 0.3); }
+            100% { background-color: transparent; }
+          }
+          .amoc-row-changed {
+            animation: highlightChange 0.6s ease-out;
+          }
+          .amoc-table-container {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+          }
+        `}</style>
+        <div className="amoc-table-container">
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+            fontSize: '14px',
+          }}>
+            <thead>
+              <tr style={{
+                background: 'linear-gradient(to bottom, #2c3e50 0%, #34495e 100%)',
+                color: '#ffffff',
+                borderBottom: '3px solid #1a252f',
               }}>
-                Country
-              </th>
-              <th style={{
-                textAlign: 'right',
-                padding: '12px 16px',
-                fontWeight: 600,
-              }} title="Average temperature with current AMOC conditions">
-                Current Temp (°C)
-              </th>
-              <th style={{
-                textAlign: 'right',
-                padding: '12px 16px',
-                fontWeight: 600,
-              }} title="Temperature change from year 2000 baseline due to AMOC weakening">
-                Change from 2000 (°C)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {COUNTRY_DATA.map((country, index) => {
-              const delta = this.getTemperatureChange(country.sensitivityFactor, amocDecrease);
-              const currentTemp = this.getCurrentTemperature(country.baseline2000, country.sensitivityFactor, amocDecrease);
-              const deltaColor = this.getDeltaColor(delta);
-
-              return (
-                <tr key={country.name} style={{
-                  borderBottom: '1px solid #eee',
-                  backgroundColor: index % 2 === 0 ? '#ffffff' : '#fafafa',
+                <th style={{
+                  textAlign: 'left',
+                  padding: '14px 16px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
                 }}>
-                  <td style={{
-                    padding: '12px 16px',
-                    fontWeight: 500,
-                  }}>
-                    {country.name}
-                  </td>
-                  <td style={{
-                    textAlign: 'right',
-                    padding: '12px 16px',
-                    fontVariantNumeric: 'tabular-nums',
-                  }}>
-                    {currentTemp.toFixed(1)}
-                  </td>
-                  <td style={{
-                    textAlign: 'right',
-                    padding: '12px 16px',
-                    fontWeight: 600,
-                    color: deltaColor,
-                    fontVariantNumeric: 'tabular-nums',
-                  }} title={`Based on ${country.sensitivityFactor}°C per 10% AMOC decrease sensitivity factor`}>
-                    {delta > 0 ? '+' : ''}{delta.toFixed(1)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  Country
+                </th>
+                <th style={{
+                  textAlign: 'right',
+                  padding: '14px 16px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
+                }} title="Average temperature with current AMOC conditions">
+                  Current Temp
+                </th>
+                <th style={{
+                  textAlign: 'right',
+                  padding: '14px 16px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
+                }} title="Temperature change from year 2000 baseline due to AMOC weakening">
+                  Change from 2000
+                </th>
+                <th style={{
+                  textAlign: 'center',
+                  padding: '14px 16px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
+                }} title="Impact level indicator">
+                  Impact
+                </th>
+                <th style={{
+                  textAlign: 'left',
+                  padding: '14px 16px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
+                }} title="Expected consequences of temperature change">
+                  Expected Impacts
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {COUNTRY_DATA.map((country, index) => {
+                const delta = this.getTemperatureChange(country.sensitivityFactor, amocDecrease);
+                const currentTemp = this.getCurrentTemperature(country.baseline2000, country.sensitivityFactor, amocDecrease);
+                const deltaColor = this.getDeltaColor(delta);
+                const impact = getImpactData(delta);
+                const previousDelta = previousValues.get(country.name);
+                const hasChanged = previousDelta !== undefined && Math.abs(previousDelta - delta) > 0.01;
+
+                return (
+                  <tr 
+                    key={country.name} 
+                    className={hasChanged ? 'amoc-row-changed' : ''}
+                    style={{
+                      borderBottom: '1px solid #e0e0e0',
+                      backgroundColor: index % 2 === 0 ? '#ffffff' : '#f8f9fa',
+                      transition: 'background-color 0.3s ease',
+                    }}
+                  >
+                    <td style={{
+                      padding: '14px 16px',
+                      fontWeight: 600,
+                      color: '#2c3e50',
+                    }}>
+                      {country.name}
+                    </td>
+                    <td style={{
+                      textAlign: 'right',
+                      padding: '14px 16px',
+                      fontVariantNumeric: 'tabular-nums',
+                      fontWeight: 500,
+                      color: '#34495e',
+                      transition: 'color 0.3s ease',
+                    }}>
+                      {currentTemp.toFixed(1)}°C
+                    </td>
+                    <td style={{
+                      textAlign: 'right',
+                      padding: '14px 16px',
+                      fontWeight: 700,
+                      color: deltaColor,
+                      fontVariantNumeric: 'tabular-nums',
+                      fontSize: '15px',
+                      transition: 'color 0.3s ease, transform 0.3s ease',
+                      transform: hasChanged ? 'scale(1.1)' : 'scale(1)',
+                    }} title={`Based on ${country.sensitivityFactor}°C per 10% AMOC decrease sensitivity factor`}>
+                      {delta > 0 ? '+' : ''}{delta.toFixed(1)}°C
+                    </td>
+                    <td style={{
+                      textAlign: 'center',
+                      padding: '14px 16px',
+                      fontSize: '20px',
+                      transition: 'transform 0.3s ease',
+                      transform: hasChanged ? 'scale(1.2)' : 'scale(1)',
+                    }}>
+                      <span style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))' }}>
+                        {impact.icon}
+                      </span>
+                    </td>
+                    <td style={{
+                      padding: '14px 16px',
+                      fontSize: '12px',
+                      lineHeight: '1.6',
+                      color: '#555',
+                      transition: 'color 0.3s ease',
+                    }}>
+                      {impact.description}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
         <div style={{
           marginTop: '16px',
           padding: '12px',
