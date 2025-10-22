@@ -152,8 +152,8 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       minLabelHeight: labelMinHeight,
       fontSize: labelFontSize,
       fontFamily: labelFontFamily,
-      padding: 4,
-      leaderLineThreshold: 100,
+      padding: 2,
+      leaderLineThreshold: 200,
       canvasWidth: width,
       canvasHeight: height,
       enableHoverLabels,
@@ -569,10 +569,10 @@ export class SankeyCanvas extends React.Component<SankeyCanvasProps, SankeyCanva
       ctx.fillStyle = textColor;
       
       // Truncate if needed
-      const maxTextWidth = label.width - 8;
+      const maxTextWidth = label.width - 4;
       const displayText = truncateText(ctx, label.text, maxTextWidth, font);
       
-      ctx.fillText(displayText, label.x + 4, label.y + label.height / 2);
+      ctx.fillText(displayText, label.x + 2, label.y + label.height / 2);
     });
   }
 

@@ -331,7 +331,7 @@ export class LabelLayoutManager {
     
     // Try positions in a spiral pattern around the anchor
     const maxDistance = this.options.leaderLineThreshold;
-    const step = 20;
+    const step = 15;
     
     for (let distance = step; distance <= maxDistance; distance += step) {
       // Try 8 directions
