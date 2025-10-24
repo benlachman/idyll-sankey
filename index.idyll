@@ -4,6 +4,20 @@
 
 This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout, featuring intelligent label placement with collision detection.
 
+## AMOC Temperature Impact Table
+
+This interactive table shows the impact of AMOC (Atlantic Meridional Overturning Circulation) weakening on temperatures in Western and Northern European countries.
+
+[var name:"amocDecrease" value:15 /]
+
+### AMOC Strength Decrease: [Display value:amocDecrease format:".0f" /]%
+
+[Range value:amocDecrease min:0 max:100 step:1 /]
+
+[AMOCTemperatureTable amocDecrease:amocDecrease /]
+
+The slider controls the percentage decrease in AMOC strength from year 1950 baseline (0% = no change, 100% = complete shutdown). Research indicates AMOC has declined by approximately 15-20% since 1950, with a long-term trend of ~0.4 Sv per decade (Rahmstorf et al., 2015; Caesar et al., 2018).
+
 ## Small Dataset Demo
 
 [data name:"flows" source:"flows.csv" /]
