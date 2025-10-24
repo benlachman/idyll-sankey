@@ -19,6 +19,11 @@ interface IdyllSankeyProps {
   units?: string;
   aggregateDuplicates?: boolean;
   performanceThreshold?: number | boolean;
+  enableSmartLabels?: boolean;
+  enableHoverLabels?: boolean;
+  enableDetachedLabels?: boolean;
+  labelFontSize?: number;
+  labelFontFamily?: string;
 }
 
 class IdyllSankey extends React.Component<IdyllSankeyProps> {
@@ -32,6 +37,11 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
     minValue: 0.01,
     aggregateDuplicates: true,
     performanceThreshold: 5000,
+    enableSmartLabels: true,
+    enableHoverLabels: true,
+    enableDetachedLabels: true,
+    labelFontSize: 12,
+    labelFontFamily: 'sans-serif',
   };
 
   render() {
@@ -46,6 +56,11 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
       units,
       aggregateDuplicates,
       performanceThreshold,
+      enableSmartLabels,
+      enableHoverLabels,
+      enableDetachedLabels,
+      labelFontSize,
+      labelFontFamily,
     } = this.props;
 
     // Handle empty data
@@ -74,6 +89,11 @@ class IdyllSankey extends React.Component<IdyllSankeyProps> {
         units={units}
         allowNegative={allowNegative}
         performanceThreshold={performanceThreshold}
+        enableSmartLabels={enableSmartLabels}
+        enableHoverLabels={enableHoverLabels}
+        enableDetachedLabels={enableDetachedLabels}
+        labelFontSize={labelFontSize}
+        labelFontFamily={labelFontFamily}
       />
     );
   }
