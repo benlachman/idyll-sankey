@@ -69,13 +69,27 @@ This visualization shows energy and emissions flows with advanced labeling featu
 - **Label normalization**: Consistent title case for all labels
 - **Performance optimization**: Auto-disables shadows for datasets with >5000 links
 
-### Smart Label Features (NEW!)
-- **Collision detection**: Labels automatically reposition to avoid overlaps
-- **Hover labels**: Small flows show labels on hover instead of cluttering the view
-- **Detached labels**: Labels can float in whitespace with leader lines when needed
-- **Prioritized placement**: Larger nodes get label priority
-- **Contrast-aware text**: Labels have backgrounds for readability
-- **Text truncation**: Long labels are truncated with ellipsis
-- **Performance optimized**: Spatial indexing and caching for 10k+ links
+Hover over nodes and links to see highlights with unit labels!
 
-Hover over nodes and links to see highlights with unit labels! Small nodes will show their labels on hover.
+## Energy Technology Learning Rates
+
+This visualization demonstrates learning rates for electricity from different energy sources. The plot shows the price per megawatt hour ($/MWh) versus cumulative installed capacity on logarithmic axes. Each technology's data points are fitted with a trend line that represents its learning rate - the cost reduction achieved with each doubling of cumulative capacity.
+
+[data name:"learningRates" source:"learning_rates.csv" /]
+
+[IdyllLearningRates
+  rows:learningRates
+  width:1000
+  height:600
+/]
+
+### Understanding Learning Rates
+
+The learning rate indicates how much cheaper a technology becomes as production scales up:
+- **Solar PV** shows a steep downward trend with a high learning rate (~36%), meaning costs drop significantly as capacity doubles
+- **Onshore wind** demonstrates consistent cost reductions with approximately 23% learning rate
+- **Offshore wind** has about 10% learning rate, showing moderate improvement
+- **Nuclear energy** has a negative learning rate - costs have actually increased with scale
+- **Coal** shows minimal cost changes, with costs remaining relatively flat
+
+Data points represent actual historical cost observations from 2002-2019. Hover over points to see the year and cost. Hover over trend lines to see the calculated learning rate.
