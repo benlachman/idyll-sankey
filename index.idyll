@@ -1,8 +1,8 @@
-[meta title:"Idyll Sankey Diagram Demo" description:"High-performance Sankey diagram visualization with smart labels" /]
+[meta title:"Idyll Interactive Diagrams Exploration" description:"Exploring building interactive visualizations for Idyll docs" /]
 
-# Idyll Sankey Diagram
+# Idyll Interactive Diagrams Exploration
 
-This is a demonstration of a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout, featuring intelligent label placement with collision detection.
+This is a demonstration of several interactive dragrams including a AMOC collapse, a high-performance Sankey diagram built with Canvas rendering and d3-sankey layout, and renewables learning rate comparison.
 
 ## AMOC Temperature Impact Table
 
