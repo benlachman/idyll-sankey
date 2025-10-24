@@ -1,11 +1,11 @@
 /**
- * Canvas-based line plot renderer
+ * Canvas-based scatter plot renderer with logarithmic axes
  * High-performance rendering using Canvas API with requestAnimationFrame
- * Implements hover highlights and annotations
+ * Implements hover highlights for both data points and trend lines
  */
 
 import * as React from 'react';
-import { LinePlotData, LinePlotSeries, LinePlotDataPoint, LinePlotAnnotation } from '../lib/types';
+import { LinePlotData, LinePlotSeries, LinePlotDataPoint } from '../lib/types';
 
 interface LineCanvasProps {
   data: LinePlotData;
@@ -24,6 +24,8 @@ interface LineCanvasState {
   tooltipText: string;
   showTooltip: boolean;
   hoveredSeriesIndex: number | null;
+  hoveredPointIndex: number | null;
+  hoveredTrendLine: boolean;
 }
 
 interface PlotBounds {
@@ -37,7 +39,7 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
   private canvasRef = React.createRef<HTMLCanvasElement>();
   private rafId: number | null = null;
   private needsRedraw = true;
-  private plotBounds: PlotBounds = { left: 80, right: 40, top: 60, bottom: 80 };
+  private plotBounds: PlotBounds = { left: 80, right: 200, top: 80, bottom: 80 };
   private xMin = 0;
   private xMax = 0;
   private yMin = 0;
@@ -51,6 +53,8 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
       tooltipText: '',
       showTooltip: false,
       hoveredSeriesIndex: null,
+      hoveredPointIndex: null,
+      hoveredTrendLine: false,
     };
   }
 
@@ -77,7 +81,7 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
   }
 
   /**
-   * Compute the min/max bounds for x and y axes
+   * Compute the min/max bounds for x and y axes in log space
    */
   private computeDataBounds() {
     const { data } = this.props;
@@ -89,47 +93,41 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
 
     data.series.forEach((series) => {
       series.data.forEach((point) => {
-        xMin = Math.min(xMin, point.x);
-        xMax = Math.max(xMax, point.x);
-        yMin = Math.min(yMin, point.y);
-        yMax = Math.max(yMax, point.y);
+        if (point.x > 0 && point.y > 0) { // Only consider positive values for log scale
+          xMin = Math.min(xMin, point.x);
+          xMax = Math.max(xMax, point.x);
+          yMin = Math.min(yMin, point.y);
+          yMax = Math.max(yMax, point.y);
+        }
       });
     });
 
-    // Add padding to y-axis
-    const yPadding = (yMax - yMin) * 0.1;
-    this.yMin = Math.max(0, yMin - yPadding);
-    this.yMax = yMax + yPadding;
-    this.xMin = xMin;
-    this.xMax = xMax;
+    // Round to nice log scale bounds
+    this.xMin = Math.pow(10, Math.floor(Math.log10(xMin)));
+    this.xMax = Math.pow(10, Math.ceil(Math.log10(xMax)));
+    this.yMin = Math.pow(10, Math.floor(Math.log10(yMin)));
+    this.yMax = Math.pow(10, Math.ceil(Math.log10(yMax)));
   }
 
   /**
-   * Convert data coordinates to canvas coordinates
+   * Convert data coordinates to canvas coordinates (log scale)
    */
   private dataToCanvas(x: number, y: number): { cx: number; cy: number } {
     const { width, height } = this.props;
     const plotWidth = width - this.plotBounds.left - this.plotBounds.right;
     const plotHeight = height - this.plotBounds.top - this.plotBounds.bottom;
 
-    const cx = this.plotBounds.left + ((x - this.xMin) / (this.xMax - this.xMin)) * plotWidth;
-    const cy = this.plotBounds.top + plotHeight - ((y - this.yMin) / (this.yMax - this.yMin)) * plotHeight;
+    const logX = Math.log10(x);
+    const logY = Math.log10(y);
+    const logXMin = Math.log10(this.xMin);
+    const logXMax = Math.log10(this.xMax);
+    const logYMin = Math.log10(this.yMin);
+    const logYMax = Math.log10(this.yMax);
+
+    const cx = this.plotBounds.left + ((logX - logXMin) / (logXMax - logXMin)) * plotWidth;
+    const cy = this.plotBounds.top + plotHeight - ((logY - logYMin) / (logYMax - logYMin)) * plotHeight;
 
     return { cx, cy };
-  }
-
-  /**
-   * Convert canvas coordinates to data coordinates
-   */
-  private canvasToData(cx: number, cy: number): { x: number; y: number } {
-    const { width, height } = this.props;
-    const plotWidth = width - this.plotBounds.left - this.plotBounds.right;
-    const plotHeight = height - this.plotBounds.top - this.plotBounds.bottom;
-
-    const x = this.xMin + ((cx - this.plotBounds.left) / plotWidth) * (this.xMax - this.xMin);
-    const y = this.yMin + ((this.plotBounds.top + plotHeight - cy) / plotHeight) * (this.yMax - this.yMin);
-
-    return { x, y };
   }
 
   /**
@@ -151,39 +149,100 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
 
-    // Find closest point on any series
     const { data } = this.props;
-    let closestDist = Infinity;
-    let found: { series: LinePlotSeries; point: LinePlotDataPoint; seriesIndex: number } | undefined;
+
+    // First, check for hover on data points
+    let foundPoint: { seriesIndex: number; pointIndex: number; point: LinePlotDataPoint; series: LinePlotSeries } | undefined;
+    let closestPointDist = Infinity;
 
     data.series.forEach((series, seriesIndex) => {
-      series.data.forEach((point) => {
+      series.data.forEach((point, pointIndex) => {
         const { cx: px, cy: py } = this.dataToCanvas(point.x, point.y);
         const dist = Math.sqrt((cx - px) ** 2 + (cy - py) ** 2);
-        if (dist < closestDist && dist < 20) { // 20px threshold
-          closestDist = dist;
-          found = { series, point, seriesIndex };
+        if (dist < closestPointDist && dist < 8) { // 8px threshold for points
+          closestPointDist = dist;
+          foundPoint = { seriesIndex, pointIndex, point, series };
         }
       });
     });
 
-    if (found) {
+    if (foundPoint) {
+      // Hovering on a data point
+      const costStr = `$${foundPoint.point.y}/MWh`;
+      const yearStr = foundPoint.point.year || '';
       this.setState({
         tooltipX: e.clientX,
         tooltipY: e.clientY,
-        tooltipText: `${found.series.name} (${found.point.x}): ${found.point.y.toFixed(2)}`,
+        tooltipText: `${foundPoint.series.name} ${yearStr}: ${costStr}`,
         showTooltip: true,
-        hoveredSeriesIndex: found.seriesIndex,
+        hoveredSeriesIndex: foundPoint.seriesIndex,
+        hoveredPointIndex: foundPoint.pointIndex,
+        hoveredTrendLine: false,
       });
     } else {
-      this.setState({ showTooltip: false, hoveredSeriesIndex: null });
+      // Check for hover on trend lines
+      let foundTrendLine: { seriesIndex: number; series: LinePlotSeries } | undefined;
+      let closestTrendDist = Infinity;
+
+      data.series.forEach((series, seriesIndex) => {
+        if (series.trendLine) {
+          // Check if mouse is near the trend line
+          const { startX, endX, slope, intercept } = series.trendLine;
+          
+          // Sample points along the trend line and check distance
+          const numSamples = 50;
+          for (let i = 0; i <= numSamples; i++) {
+            const logX = Math.log10(startX) + (Math.log10(endX) - Math.log10(startX)) * (i / numSamples);
+            const logY = slope * logX + intercept;
+            const x = Math.pow(10, logX);
+            const y = Math.pow(10, logY);
+            
+            const { cx: px, cy: py } = this.dataToCanvas(x, y);
+            const dist = Math.sqrt((cx - px) ** 2 + (cy - py) ** 2);
+            
+            if (dist < closestTrendDist && dist < 10) { // 10px threshold for trend lines
+              closestTrendDist = dist;
+              foundTrendLine = { seriesIndex, series };
+            }
+          }
+        }
+      });
+
+      if (foundTrendLine) {
+        const learningRate = foundTrendLine.series.trendLine!.learningRate;
+        const lrText = learningRate > 0 
+          ? `Learning rate: ${learningRate.toFixed(0)}%` 
+          : `No learning rate - costs increased`;
+        
+        this.setState({
+          tooltipX: e.clientX,
+          tooltipY: e.clientY,
+          tooltipText: `${foundTrendLine.series.name}\n${lrText}`,
+          showTooltip: true,
+          hoveredSeriesIndex: foundTrendLine.seriesIndex,
+          hoveredPointIndex: null,
+          hoveredTrendLine: true,
+        });
+      } else {
+        this.setState({ 
+          showTooltip: false, 
+          hoveredSeriesIndex: null,
+          hoveredPointIndex: null,
+          hoveredTrendLine: false,
+        });
+      }
     }
 
     this.needsRedraw = true;
   };
 
   private handleMouseLeave = () => {
-    this.setState({ showTooltip: false, hoveredSeriesIndex: null });
+    this.setState({ 
+      showTooltip: false, 
+      hoveredSeriesIndex: null,
+      hoveredPointIndex: null,
+      hoveredTrendLine: false,
+    });
     this.needsRedraw = true;
   };
 
@@ -202,7 +261,7 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
   }
 
   /**
-   * Draw the line plot on canvas
+   * Draw the scatter plot with trend lines on canvas
    */
   private draw() {
     const canvas = this.canvasRef.current;
@@ -212,59 +271,62 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
     if (!ctx) return;
 
     const { data, width, height, xLabel, yLabel, title, showGrid, showLegend } = this.props;
-    const { hoveredSeriesIndex } = this.state;
 
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
     // Draw title
     if (title) {
-      ctx.fillStyle = '#000';
-      ctx.font = 'bold 16px sans-serif';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = '#333';
+      ctx.font = '18px sans-serif';
+      ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
-      ctx.fillText(title, width / 2, 10);
+      const maxWidth = width - this.plotBounds.left - this.plotBounds.right;
+      this.wrapText(ctx, title, this.plotBounds.left, 20, maxWidth, 22);
     }
 
     // Draw grid
     if (showGrid) {
-      this.drawGrid(ctx);
+      this.drawLogGrid(ctx);
     }
 
     // Draw axes
-    this.drawAxes(ctx);
+    this.drawLogAxes(ctx);
 
     // Draw axis labels
     if (xLabel) {
-      ctx.fillStyle = '#000';
-      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#666';
+      ctx.font = '13px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.fillText(xLabel, width / 2, height - 30);
+      ctx.fillText(xLabel, (this.plotBounds.left + width - this.plotBounds.right) / 2, height - 35);
     }
 
     if (yLabel) {
       ctx.save();
-      ctx.fillStyle = '#000';
-      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#666';
+      ctx.font = '13px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
-      ctx.translate(20, height / 2);
+      ctx.translate(25, (this.plotBounds.top + height - this.plotBounds.bottom) / 2);
       ctx.rotate(-Math.PI / 2);
       ctx.fillText(yLabel, 0, 0);
       ctx.restore();
     }
 
-    // Draw lines
+    // Draw trend lines first (behind points)
     data.series.forEach((series, index) => {
-      const isHovered = index === hoveredSeriesIndex;
-      this.drawLine(ctx, series, isHovered);
+      if (series.trendLine) {
+        const isHovered = index === this.state.hoveredSeriesIndex && this.state.hoveredTrendLine;
+        this.drawTrendLine(ctx, series, isHovered);
+      }
     });
 
-    // Draw annotations
-    if (data.annotations) {
-      this.drawAnnotations(ctx, data.annotations);
-    }
+    // Draw scatter points on top
+    data.series.forEach((series, index) => {
+      const isSeriesHovered = index === this.state.hoveredSeriesIndex;
+      this.drawScatterPoints(ctx, series, index, isSeriesHovered);
+    });
 
     // Draw legend
     if (showLegend !== false) {
@@ -273,50 +335,94 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
   }
 
   /**
-   * Draw grid lines
+   * Wrap text to multiple lines
    */
-  private drawGrid(ctx: CanvasRenderingContext2D) {
+  private wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number) {
+    const words = text.split(' ');
+    let line = '';
+    let currentY = y;
+
+    for (let i = 0; i < words.length; i++) {
+      const testLine = line + words[i] + ' ';
+      const metrics = ctx.measureText(testLine);
+      
+      if (metrics.width > maxWidth && i > 0) {
+        ctx.fillText(line, x, currentY);
+        line = words[i] + ' ';
+        currentY += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, currentY);
+  }
+
+  /**
+   * Draw logarithmic grid lines
+   */
+  private drawLogGrid(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.props;
     const plotWidth = width - this.plotBounds.left - this.plotBounds.right;
     const plotHeight = height - this.plotBounds.top - this.plotBounds.bottom;
 
-    ctx.strokeStyle = '#e0e0e0';
+    ctx.strokeStyle = '#f0f0f0';
     ctx.lineWidth = 1;
-    ctx.setLineDash([2, 2]);
 
-    // Vertical grid lines (every 5 years)
-    const xStep = 5;
-    for (let x = Math.ceil(this.xMin / xStep) * xStep; x <= this.xMax; x += xStep) {
-      const { cx } = this.dataToCanvas(x, 0);
+    // Draw vertical grid lines at each power of 10
+    const logXMin = Math.log10(this.xMin);
+    const logXMax = Math.log10(this.xMax);
+    
+    for (let logX = Math.ceil(logXMin); logX <= Math.floor(logXMax); logX++) {
+      const x = Math.pow(10, logX);
+      const { cx } = this.dataToCanvas(x, this.yMin);
+      
+      ctx.strokeStyle = '#d0d0d0';
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(cx, this.plotBounds.top);
       ctx.lineTo(cx, this.plotBounds.top + plotHeight);
       ctx.stroke();
     }
 
-    // Horizontal grid lines
-    const yStep = Math.ceil((this.yMax - this.yMin) / 6);
-    for (let y = Math.ceil(this.yMin / yStep) * yStep; y <= this.yMax; y += yStep) {
-      const { cy } = this.dataToCanvas(0, y);
+    // Draw horizontal grid lines at each power of 10
+    const logYMin = Math.log10(this.yMin);
+    const logYMax = Math.log10(this.yMax);
+    
+    for (let logY = Math.ceil(logYMin); logY <= Math.floor(logYMax); logY++) {
+      const y = Math.pow(10, logY);
+      const { cy } = this.dataToCanvas(this.xMin, y);
+      
+      ctx.strokeStyle = '#d0d0d0';
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(this.plotBounds.left, cy);
       ctx.lineTo(this.plotBounds.left + plotWidth, cy);
       ctx.stroke();
     }
-
-    ctx.setLineDash([]);
   }
 
   /**
-   * Draw axes with ticks and labels
+   * Format number with SI suffix (K, M)
    */
-  private drawAxes(ctx: CanvasRenderingContext2D) {
+  private formatNumber(num: number): string {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(num >= 10000000 ? 0 : 1) + ' M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(num >= 10000 ? 0 : 1) + ' K';
+    }
+    return num.toFixed(0);
+  }
+
+  /**
+   * Draw logarithmic axes with ticks and labels
+   */
+  private drawLogAxes(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.props;
     const plotWidth = width - this.plotBounds.left - this.plotBounds.right;
     const plotHeight = height - this.plotBounds.top - this.plotBounds.bottom;
 
     ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
 
     // Draw x-axis
     ctx.beginPath();
@@ -330,96 +436,118 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
     ctx.lineTo(this.plotBounds.left, this.plotBounds.top + plotHeight);
     ctx.stroke();
 
-    // Draw x-axis ticks and labels (every 5 years)
-    ctx.fillStyle = '#000';
-    ctx.font = '12px sans-serif';
+    // Draw x-axis ticks and labels (powers of 10)
+    ctx.fillStyle = '#666';
+    ctx.font = '11px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    const xStep = 5;
-    for (let x = Math.ceil(this.xMin / xStep) * xStep; x <= this.xMax; x += xStep) {
-      const { cx } = this.dataToCanvas(x, 0);
+    
+    const logXMin = Math.log10(this.xMin);
+    const logXMax = Math.log10(this.xMax);
+    
+    for (let logX = Math.ceil(logXMin); logX <= Math.floor(logXMax); logX++) {
+      const x = Math.pow(10, logX);
+      const { cx } = this.dataToCanvas(x, this.yMin);
+      
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(cx, this.plotBounds.top + plotHeight);
-      ctx.lineTo(cx, this.plotBounds.top + plotHeight + 5);
+      ctx.lineTo(cx, this.plotBounds.top + plotHeight + 6);
       ctx.stroke();
-      ctx.fillText(x.toString(), cx, this.plotBounds.top + plotHeight + 8);
+      
+      ctx.fillText(this.formatNumber(x) + ' MW', cx, this.plotBounds.top + plotHeight + 10);
     }
 
-    // Draw y-axis ticks and labels
+    // Draw y-axis ticks and labels (powers of 10)
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    const yStep = Math.ceil((this.yMax - this.yMin) / 6);
-    for (let y = Math.ceil(this.yMin / yStep) * yStep; y <= this.yMax; y += yStep) {
-      const { cy } = this.dataToCanvas(0, y);
+    
+    const logYMin = Math.log10(this.yMin);
+    const logYMax = Math.log10(this.yMax);
+    
+    // Draw major ticks at powers of 10
+    for (let logY = Math.ceil(logYMin); logY <= Math.floor(logYMax); logY++) {
+      const y = Math.pow(10, logY);
+      const { cy } = this.dataToCanvas(this.xMin, y);
+      
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.moveTo(this.plotBounds.left - 5, cy);
+      ctx.moveTo(this.plotBounds.left - 6, cy);
       ctx.lineTo(this.plotBounds.left, cy);
       ctx.stroke();
-      ctx.fillText(y.toFixed(1), this.plotBounds.left - 8, cy);
+      
+      ctx.fillText('$' + y.toFixed(0), this.plotBounds.left - 10, cy);
     }
   }
 
   /**
-   * Draw a single line series
+   * Draw trend line for a series
    */
-  private drawLine(ctx: CanvasRenderingContext2D, series: LinePlotSeries, isHovered: boolean) {
-    if (series.data.length === 0) return;
+  private drawTrendLine(ctx: CanvasRenderingContext2D, series: LinePlotSeries, isHovered: boolean) {
+    if (!series.trendLine) return;
+
+    const { slope, intercept, startX, endX } = series.trendLine;
 
     ctx.strokeStyle = series.color;
     ctx.lineWidth = isHovered ? 3 : 2;
-    ctx.globalAlpha = isHovered ? 1 : 0.8;
+    ctx.globalAlpha = isHovered ? 0.9 : 0.7;
+    ctx.setLineDash([]);
 
     ctx.beginPath();
     let firstPoint = true;
-    series.data.forEach((point) => {
-      const { cx, cy } = this.dataToCanvas(point.x, point.y);
-      if (firstPoint) {
-        ctx.moveTo(cx, cy);
-        firstPoint = false;
-      } else {
-        ctx.lineTo(cx, cy);
-      }
-    });
-    ctx.stroke();
 
-    // Draw data points if hovered
-    if (isHovered) {
-      ctx.fillStyle = series.color;
-      series.data.forEach((point) => {
-        const { cx, cy } = this.dataToCanvas(point.x, point.y);
-        ctx.beginPath();
-        ctx.arc(cx, cy, 3, 0, 2 * Math.PI);
-        ctx.fill();
-      });
+    // Draw trend line by sampling points in log space
+    const numPoints = 100;
+    const logStartX = Math.log10(startX);
+    const logEndX = Math.log10(endX);
+
+    for (let i = 0; i <= numPoints; i++) {
+      const logX = logStartX + (logEndX - logStartX) * (i / numPoints);
+      const logY = slope * logX + intercept;
+      const x = Math.pow(10, logX);
+      const y = Math.pow(10, logY);
+
+      // Only draw if within visible bounds
+      if (x >= this.xMin && x <= this.xMax && y >= this.yMin && y <= this.yMax) {
+        const { cx, cy } = this.dataToCanvas(x, y);
+        
+        if (firstPoint) {
+          ctx.moveTo(cx, cy);
+          firstPoint = false;
+        } else {
+          ctx.lineTo(cx, cy);
+        }
+      }
     }
 
+    ctx.stroke();
     ctx.globalAlpha = 1;
   }
 
   /**
-   * Draw annotations on the plot
+   * Draw scatter points for a series
    */
-  private drawAnnotations(ctx: CanvasRenderingContext2D, annotations: LinePlotAnnotation[]) {
-    ctx.fillStyle = '#333';
-    ctx.font = '11px sans-serif';
-    ctx.textBaseline = 'bottom';
+  private drawScatterPoints(ctx: CanvasRenderingContext2D, series: LinePlotSeries, seriesIndex: number, isSeriesHovered: boolean) {
+    const { hoveredSeriesIndex, hoveredPointIndex } = this.state;
 
-    annotations.forEach((annotation) => {
-      const { cx, cy } = this.dataToCanvas(annotation.x, annotation.y);
+    series.data.forEach((point, pointIndex) => {
+      const { cx, cy } = this.dataToCanvas(point.x, point.y);
       
-      // Draw annotation line
-      ctx.strokeStyle = '#666';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 3]);
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx, cy - 25);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      const isThisPointHovered = seriesIndex === hoveredSeriesIndex && pointIndex === hoveredPointIndex;
+      const radius = isThisPointHovered ? 5 : 3.5;
+      const strokeWidth = isThisPointHovered ? 2.5 : 1.5;
 
-      // Draw annotation text
-      ctx.textAlign = 'center';
-      ctx.fillText(annotation.text, cx, cy - 27);
+      // Draw point with white border
+      ctx.fillStyle = series.color;
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = strokeWidth;
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
     });
   }
 
@@ -428,9 +556,9 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
    */
   private drawLegend(ctx: CanvasRenderingContext2D) {
     const { data, width } = this.props;
-    const legendX = width - this.plotBounds.right - 150;
-    const legendY = this.plotBounds.top + 10;
-    const lineHeight = 20;
+    const legendX = width - this.plotBounds.right + 10;
+    const legendY = this.plotBounds.top;
+    const lineHeight = 28;
 
     ctx.font = '12px sans-serif';
     ctx.textBaseline = 'middle';
@@ -439,17 +567,30 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
     data.series.forEach((series, index) => {
       const y = legendY + index * lineHeight;
 
-      // Draw line sample
-      ctx.strokeStyle = series.color;
-      ctx.lineWidth = 2;
+      // Draw colored circle
+      ctx.fillStyle = series.color;
       ctx.beginPath();
-      ctx.moveTo(legendX, y);
-      ctx.lineTo(legendX + 30, y);
+      ctx.arc(legendX + 6, y, 4, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Draw label
-      ctx.fillStyle = '#000';
-      ctx.fillText(series.name, legendX + 35, y);
+      // Draw series name
+      ctx.fillStyle = '#333';
+      ctx.fillText(series.name, legendX + 18, y);
+
+      // Draw learning rate if available
+      if (series.trendLine) {
+        const lr = series.trendLine.learningRate;
+        const lrText = lr > 0 
+          ? `${lr.toFixed(0)}%` 
+          : 'increasing';
+        ctx.fillStyle = '#666';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`Learning rate: ${lrText}`, legendX + 18, y + 12);
+        ctx.font = '12px sans-serif';
+      }
     });
   }
 
@@ -471,14 +612,15 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
               position: 'fixed',
               left: tooltipX + 10,
               top: tooltipY + 10,
-              background: 'rgba(0, 0, 0, 0.8)',
+              background: 'rgba(0, 0, 0, 0.85)',
               color: 'white',
-              padding: '6px 10px',
+              padding: '8px 12px',
               borderRadius: '4px',
               fontSize: '12px',
               pointerEvents: 'none',
               zIndex: 1000,
-              whiteSpace: 'nowrap',
+              whiteSpace: 'pre-line',
+              maxWidth: '200px',
             }}
           >
             {tooltipText}

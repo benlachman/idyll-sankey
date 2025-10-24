@@ -40,18 +40,32 @@ export type LinkColorStrategy = 'source' | 'target' | 'gradient';
 export interface TimeSeriesRow {
   year: number;
   technology: string;
-  cost_per_unit: number;
+  cost_per_mwh: number;
+  cumulative_capacity_mw: number;
 }
 
 export interface LinePlotDataPoint {
   x: number;
   y: number;
+  year?: number;
+  label?: string;
+}
+
+export interface TrendLine {
+  slope: number;
+  intercept: number;
+  learningRate: number;
+  startX: number;
+  endX: number;
 }
 
 export interface LinePlotSeries {
   name: string;
   data: LinePlotDataPoint[];
   color: string;
+  trendLine?: TrendLine;
+  showPoints?: boolean;
+  showLine?: boolean;
 }
 
 export interface LinePlotAnnotation {
@@ -64,4 +78,5 @@ export interface LinePlotAnnotation {
 export interface LinePlotData {
   series: LinePlotSeries[];
   annotations?: LinePlotAnnotation[];
+  useLogScale?: boolean;
 }

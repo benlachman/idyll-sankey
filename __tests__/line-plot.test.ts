@@ -6,10 +6,10 @@ import { TimeSeriesRow } from '../src/lib/types';
 
 describe('Line Plot Data Processing', () => {
   const mockData: TimeSeriesRow[] = [
-    { year: 2020, technology: 'Solar', cost_per_unit: 2.74 },
-    { year: 2021, technology: 'Solar', cost_per_unit: 2.60 },
-    { year: 2020, technology: 'Wind', cost_per_unit: 2.36 },
-    { year: 2021, technology: 'Wind', cost_per_unit: 2.29 },
+    { year: 2020, technology: 'Solar', cost_per_mwh: 2.74, cumulative_capacity_mw: 500000 },
+    { year: 2021, technology: 'Solar', cost_per_mwh: 2.60, cumulative_capacity_mw: 600000 },
+    { year: 2020, technology: 'Wind', cost_per_mwh: 2.36, cumulative_capacity_mw: 400000 },
+    { year: 2021, technology: 'Wind', cost_per_mwh: 2.29, cumulative_capacity_mw: 450000 },
   ];
 
   it('should have time series data structure', () => {
@@ -21,10 +21,12 @@ describe('Line Plot Data Processing', () => {
     const row = mockData[0];
     expect(row).toHaveProperty('year');
     expect(row).toHaveProperty('technology');
-    expect(row).toHaveProperty('cost_per_unit');
+    expect(row).toHaveProperty('cost_per_mwh');
+    expect(row).toHaveProperty('cumulative_capacity_mw');
     expect(typeof row.year).toBe('number');
     expect(typeof row.technology).toBe('string');
-    expect(typeof row.cost_per_unit).toBe('number');
+    expect(typeof row.cost_per_mwh).toBe('number');
+    expect(typeof row.cumulative_capacity_mw).toBe('number');
   });
 
   it('should group data by technology', () => {
@@ -42,7 +44,7 @@ describe('Line Plot Data Processing', () => {
 
   it('should show cost decline over time', () => {
     const solarData = mockData.filter(row => row.technology === 'Solar').sort((a, b) => a.year - b.year);
-    expect(solarData[0].cost_per_unit).toBeGreaterThan(solarData[1].cost_per_unit);
+    expect(solarData[0].cost_per_mwh).toBeGreaterThan(solarData[1].cost_per_mwh);
   });
 });
 

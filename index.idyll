@@ -59,7 +59,7 @@ Hover over nodes and links to see highlights with unit labels!
 
 ## Energy Technology Learning Rates
 
-This visualization shows how the cost of different energy technologies has evolved over the past 30 years. Renewables (solar, wind, and batteries) have experienced dramatic cost reductions due to rapid technological learning and scale-up. In contrast, fossil fuels (coal and natural gas) and nuclear power have seen much slower cost improvements.
+This visualization demonstrates learning rates for electricity from different energy sources. The plot shows the price per megawatt hour ($/MWh) versus cumulative installed capacity on logarithmic axes. Each technology's data points are fitted with a trend line that represents its learning rate - the cost reduction achieved with each doubling of cumulative capacity.
 
 [data name:"learningRates" source:"learning_rates.csv" /]
 
@@ -69,12 +69,13 @@ This visualization shows how the cost of different energy technologies has evolv
   height:600
 /]
 
-### Key Insights
+### Understanding Learning Rates
 
-- **Solar energy** has experienced the steepest cost decline, dropping by over 78% since 1995
-- **Wind energy** costs have fallen by approximately 60% over the same period
-- **Battery costs** have decreased dramatically, especially after 2010, enabling the renewable energy transition
-- **Fossil fuels** (coal and natural gas) show minimal cost improvements
-- **Nuclear power** costs have remained relatively flat, with limited learning curve benefits
+The learning rate indicates how much cheaper a technology becomes as production scales up:
+- **Solar PV** shows a steep downward trend with a high learning rate (~36%), meaning costs drop significantly as capacity doubles
+- **Onshore wind** demonstrates consistent cost reductions with approximately 23% learning rate
+- **Offshore wind** has about 10% learning rate, showing moderate improvement
+- **Nuclear energy** has a negative learning rate - costs have actually increased with scale
+- **Coal** shows minimal cost changes, with costs remaining relatively flat
 
-The dramatic cost reductions in renewables are driven by strong learning rates - as cumulative production doubles, costs drop significantly. This creates a virtuous cycle: lower costs drive more deployment, which drives further cost reductions.
+Data points represent actual historical cost observations from 2002-2019. Hover over points to see the year and cost. Hover over trend lines to see the calculated learning rate.

@@ -1,187 +1,51 @@
-year,technology,cost_per_unit
-1995,Solar,10.00
-1996,Solar,9.50
-1997,Solar,9.00
-1998,Solar,8.55
-1999,Solar,8.12
-2000,Solar,7.71
-2001,Solar,7.32
-2002,Solar,6.95
-2003,Solar,6.60
-2004,Solar,6.27
-2005,Solar,5.96
-2006,Solar,5.66
-2007,Solar,5.37
-2008,Solar,5.10
-2009,Solar,4.85
-2010,Solar,4.60
-2011,Solar,4.37
-2012,Solar,4.15
-2013,Solar,3.94
-2014,Solar,3.74
-2015,Solar,3.55
-2016,Solar,3.37
-2017,Solar,3.20
-2018,Solar,3.04
-2019,Solar,2.89
-2020,Solar,2.74
-2021,Solar,2.60
-2022,Solar,2.47
-2023,Solar,2.35
-2024,Solar,2.23
-2025,Solar,2.12
-1995,Wind,5.00
-1996,Wind,4.85
-1997,Wind,4.71
-1998,Wind,4.57
-1999,Wind,4.43
-2000,Wind,4.30
-2001,Wind,4.17
-2002,Wind,4.05
-2003,Wind,3.93
-2004,Wind,3.81
-2005,Wind,3.70
-2006,Wind,3.59
-2007,Wind,3.48
-2008,Wind,3.38
-2009,Wind,3.28
-2010,Wind,3.18
-2011,Wind,3.09
-2012,Wind,3.00
-2013,Wind,2.91
-2014,Wind,2.82
-2015,Wind,2.74
-2016,Wind,2.66
-2017,Wind,2.58
-2018,Wind,2.51
-2019,Wind,2.43
-2020,Wind,2.36
-2021,Wind,2.29
-2022,Wind,2.23
-2023,Wind,2.16
-2024,Wind,2.10
-2025,Wind,2.04
-1995,Batteries,15.00
-1996,Batteries,14.40
-1997,Batteries,13.82
-1998,Batteries,13.27
-1999,Batteries,12.74
-2000,Batteries,12.23
-2001,Batteries,11.74
-2002,Batteries,11.27
-2003,Batteries,10.82
-2004,Batteries,10.39
-2005,Batteries,9.97
-2006,Batteries,9.57
-2007,Batteries,9.19
-2008,Batteries,8.82
-2009,Batteries,8.47
-2010,Batteries,8.13
-2011,Batteries,7.80
-2012,Batteries,7.49
-2013,Batteries,7.19
-2014,Batteries,6.90
-2015,Batteries,6.62
-2016,Batteries,6.36
-2017,Batteries,6.10
-2018,Batteries,5.86
-2019,Batteries,5.62
-2020,Batteries,5.40
-2021,Batteries,5.18
-2022,Batteries,4.97
-2023,Batteries,4.77
-2024,Batteries,4.58
-2025,Batteries,4.40
-1995,Natural Gas,3.00
-1996,Natural Gas,2.97
-1997,Natural Gas,2.94
-1998,Natural Gas,2.91
-1999,Natural Gas,2.88
-2000,Natural Gas,2.85
-2001,Natural Gas,2.82
-2002,Natural Gas,2.79
-2003,Natural Gas,2.76
-2004,Natural Gas,2.73
-2005,Natural Gas,2.70
-2006,Natural Gas,2.67
-2007,Natural Gas,2.64
-2008,Natural Gas,2.61
-2009,Natural Gas,2.58
-2010,Natural Gas,2.55
-2011,Natural Gas,2.52
-2012,Natural Gas,2.49
-2013,Natural Gas,2.46
-2014,Natural Gas,2.43
-2015,Natural Gas,2.40
-2016,Natural Gas,2.37
-2017,Natural Gas,2.34
-2018,Natural Gas,2.31
-2019,Natural Gas,2.28
-2020,Natural Gas,2.25
-2021,Natural Gas,2.22
-2022,Natural Gas,2.19
-2023,Natural Gas,2.16
-2024,Natural Gas,2.13
-2025,Natural Gas,2.10
-1995,Coal,2.50
-1996,Coal,2.49
-1997,Coal,2.48
-1998,Coal,2.47
-1999,Coal,2.46
-2000,Coal,2.45
-2001,Coal,2.44
-2002,Coal,2.43
-2003,Coal,2.42
-2004,Coal,2.41
-2005,Coal,2.40
-2006,Coal,2.39
-2007,Coal,2.38
-2008,Coal,2.37
-2009,Coal,2.36
-2010,Coal,2.35
-2011,Coal,2.34
-2012,Coal,2.33
-2013,Coal,2.32
-2014,Coal,2.31
-2015,Coal,2.30
-2016,Coal,2.29
-2017,Coal,2.28
-2018,Coal,2.27
-2019,Coal,2.26
-2020,Coal,2.25
-2021,Coal,2.24
-2022,Coal,2.23
-2023,Coal,2.22
-2024,Coal,2.21
-2025,Coal,2.20
-1995,Nuclear,6.00
-1996,Nuclear,5.97
-1997,Nuclear,5.94
-1998,Nuclear,5.91
-1999,Nuclear,5.88
-2000,Nuclear,5.85
-2001,Nuclear,5.82
-2002,Nuclear,5.79
-2003,Nuclear,5.76
-2004,Nuclear,5.73
-2005,Nuclear,5.70
-2006,Nuclear,5.67
-2007,Nuclear,5.64
-2008,Nuclear,5.61
-2009,Nuclear,5.58
-2010,Nuclear,5.55
-2011,Nuclear,5.52
-2012,Nuclear,5.49
-2013,Nuclear,5.46
-2014,Nuclear,5.43
-2015,Nuclear,5.40
-2016,Nuclear,5.37
-2017,Nuclear,5.34
-2018,Nuclear,5.31
-2019,Nuclear,5.28
-2020,Nuclear,5.25
-2021,Nuclear,5.22
-2022,Nuclear,5.19
-2023,Nuclear,5.16
-2024,Nuclear,5.13
-2025,Nuclear,5.10
+year,technology,cost_per_mwh,cumulative_capacity_mw
+2010,Solar PV,378,40000
+2011,Solar PV,320,71000
+2012,Solar PV,265,100000
+2013,Solar PV,210,139000
+2014,Solar PV,175,177000
+2015,Solar PV,140,227000
+2016,Solar PV,115,303000
+2017,Solar PV,95,405000
+2018,Solar PV,82,505000
+2019,Solar PV,68,627000
+2010,Onshore wind,86,198000
+2011,Onshore wind,81,238000
+2012,Onshore wind,78,283000
+2013,Onshore wind,74,319000
+2014,Onshore wind,70,370000
+2015,Onshore wind,67,433000
+2016,Onshore wind,64,487000
+2017,Onshore wind,61,539000
+2018,Onshore wind,58,591000
+2019,Onshore wind,53,651000
+2002,Offshore wind,162,2000
+2004,Offshore wind,178,5000
+2006,Offshore wind,185,9000
+2008,Offshore wind,165,15000
+2010,Offshore wind,162,23000
+2012,Offshore wind,142,35000
+2014,Offshore wind,138,53000
+2016,Offshore wind,125,76000
+2018,Offshore wind,118,107000
+2019,Offshore wind,115,145000
+2010,Nuclear,96,370000
+2011,Nuclear,98,375000
+2012,Nuclear,102,380000
+2013,Nuclear,105,385000
+2014,Nuclear,108,390000
+2015,Nuclear,112,392000
+2016,Nuclear,118,395000
+2017,Nuclear,125,398000
+2018,Nuclear,135,400000
+2019,Nuclear,155,402000
+2010,Coal,111,1850000
+2011,Coal,110,1900000
+2012,Coal,109,1950000
+2013,Coal,109,1990000
+2014,Coal,108,2020000
+2015,Coal,108,2040000
+2016,Coal,107,2050000
+2017,Coal,108,2055000
+2018,Coal,109,2058000
+2019,Coal,109,2060000
