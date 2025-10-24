@@ -9,6 +9,13 @@ year,technology,cost_per_mwh,cumulative_capacity_mw
 2017,Solar PV,95,405000
 2018,Solar PV,82,505000
 2019,Solar PV,68,627000
+2020,Solar PV,57,760000
+2010,Solar Concentrated,315,2000
+2012,Solar Concentrated,280,3500
+2014,Solar Concentrated,245,5200
+2016,Solar Concentrated,210,7800
+2018,Solar Concentrated,185,11200
+2020,Solar Concentrated,165,15800
 2010,Onshore wind,86,198000
 2011,Onshore wind,81,238000
 2012,Onshore wind,78,283000
@@ -19,33 +26,49 @@ year,technology,cost_per_mwh,cumulative_capacity_mw
 2017,Onshore wind,61,539000
 2018,Onshore wind,58,591000
 2019,Onshore wind,53,651000
-2002,Offshore wind,162,2000
-2004,Offshore wind,178,5000
-2006,Offshore wind,185,9000
-2008,Offshore wind,165,15000
+2020,Onshore wind,50,730000
 2010,Offshore wind,162,23000
 2012,Offshore wind,142,35000
 2014,Offshore wind,138,53000
 2016,Offshore wind,125,76000
 2018,Offshore wind,118,107000
-2019,Offshore wind,115,145000
+2020,Offshore wind,105,160000
+2010,Lithium-ion batteries,1100,5000
+2012,Lithium-ion batteries,850,12000
+2014,Lithium-ion batteries,650,28000
+2016,Lithium-ion batteries,480,65000
+2018,Lithium-ion batteries,350,140000
+2020,Lithium-ion batteries,245,320000
+2015,Lithium iron phosphate,720,8000
+2016,Lithium iron phosphate,650,15000
+2017,Lithium iron phosphate,580,28000
+2018,Lithium iron phosphate,510,52000
+2019,Lithium iron phosphate,450,95000
+2020,Lithium iron phosphate,390,175000
+2018,Sodium-ion batteries,580,500
+2019,Sodium-ion batteries,530,1200
+2020,Sodium-ion batteries,480,2800
 2010,Nuclear,96,370000
-2011,Nuclear,98,375000
 2012,Nuclear,102,380000
-2013,Nuclear,105,385000
 2014,Nuclear,108,390000
-2015,Nuclear,112,392000
 2016,Nuclear,118,395000
-2017,Nuclear,125,398000
 2018,Nuclear,135,400000
-2019,Nuclear,155,402000
+2020,Nuclear,163,405000
 2010,Coal,111,1850000
-2011,Coal,110,1900000
 2012,Coal,109,1950000
-2013,Coal,109,1990000
 2014,Coal,108,2020000
-2015,Coal,108,2040000
 2016,Coal,107,2050000
-2017,Coal,108,2055000
 2018,Coal,109,2058000
-2019,Coal,109,2060000
+2020,Coal,112,2060000
+2010,Natural gas,68,1480000
+2012,Natural gas,65,1620000
+2014,Natural gas,63,1780000
+2016,Natural gas,61,1940000
+2018,Natural gas,59,2100000
+2020,Natural gas,58,2280000
+2010,Oil,95,850000
+2012,Oil,98,870000
+2014,Oil,102,885000
+2016,Oil,105,895000
+2018,Oil,108,900000
+2020,Oil,112,905000

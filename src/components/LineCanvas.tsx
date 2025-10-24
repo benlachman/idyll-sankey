@@ -103,26 +103,32 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
     });
 
     // Round to nice log scale bounds
+    // X-axis uses log base 10
     this.xMin = Math.pow(10, Math.floor(Math.log10(xMin)));
     this.xMax = Math.pow(10, Math.ceil(Math.log10(xMax)));
-    this.yMin = Math.pow(10, Math.floor(Math.log10(yMin)));
-    this.yMax = Math.pow(10, Math.ceil(Math.log10(yMax)));
+    // Y-axis uses log base 7
+    this.yMin = Math.pow(7, Math.floor(Math.log(yMin) / Math.log(7)));
+    this.yMax = Math.pow(7, Math.ceil(Math.log(yMax) / Math.log(7)));
   }
 
   /**
    * Convert data coordinates to canvas coordinates (log scale)
+   * X-axis: log base 10, Y-axis: log base 7
    */
   private dataToCanvas(x: number, y: number): { cx: number; cy: number } {
     const { width, height } = this.props;
     const plotWidth = width - this.plotBounds.left - this.plotBounds.right;
     const plotHeight = height - this.plotBounds.top - this.plotBounds.bottom;
 
+    // X-axis: log base 10
     const logX = Math.log10(x);
-    const logY = Math.log10(y);
     const logXMin = Math.log10(this.xMin);
     const logXMax = Math.log10(this.xMax);
-    const logYMin = Math.log10(this.yMin);
-    const logYMax = Math.log10(this.yMax);
+    
+    // Y-axis: log base 7
+    const logY = Math.log(y) / Math.log(7);
+    const logYMin = Math.log(this.yMin) / Math.log(7);
+    const logYMax = Math.log(this.yMax) / Math.log(7);
 
     const cx = this.plotBounds.left + ((logX - logXMin) / (logXMax - logXMin)) * plotWidth;
     const cy = this.plotBounds.top + plotHeight - ((logY - logYMin) / (logYMax - logYMin)) * plotHeight;
@@ -359,6 +365,7 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
 
   /**
    * Draw logarithmic grid lines
+   * X-axis: log base 10, Y-axis: log base 7
    */
   private drawLogGrid(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.props;
@@ -384,12 +391,12 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
       ctx.stroke();
     }
 
-    // Draw horizontal grid lines at each power of 10
-    const logYMin = Math.log10(this.yMin);
-    const logYMax = Math.log10(this.yMax);
+    // Draw horizontal grid lines at each power of 7
+    const logYMin = Math.log(this.yMin) / Math.log(7);
+    const logYMax = Math.log(this.yMax) / Math.log(7);
     
     for (let logY = Math.ceil(logYMin); logY <= Math.floor(logYMax); logY++) {
-      const y = Math.pow(10, logY);
+      const y = Math.pow(7, logY);
       const { cy } = this.dataToCanvas(this.xMin, y);
       
       ctx.strokeStyle = '#d0d0d0';
@@ -402,19 +409,15 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
   }
 
   /**
-   * Format number with SI suffix (K, M)
+   * Format number without abbreviation (per user request)
    */
   private formatNumber(num: number): string {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(num >= 10000000 ? 0 : 1) + ' M';
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(num >= 10000 ? 0 : 1) + ' K';
-    }
-    return num.toFixed(0);
+    return num.toLocaleString('en-US', { maximumFractionDigits: 0 });
   }
 
   /**
    * Draw logarithmic axes with ticks and labels
+   * X-axis: log base 10, Y-axis: log base 7
    */
   private drawLogAxes(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.props;
@@ -459,16 +462,16 @@ export class LineCanvas extends React.Component<LineCanvasProps, LineCanvasState
       ctx.fillText(this.formatNumber(x) + ' MW', cx, this.plotBounds.top + plotHeight + 10);
     }
 
-    // Draw y-axis ticks and labels (powers of 10)
+    // Draw y-axis ticks and labels (powers of 7)
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     
-    const logYMin = Math.log10(this.yMin);
-    const logYMax = Math.log10(this.yMax);
+    const logYMin = Math.log(this.yMin) / Math.log(7);
+    const logYMax = Math.log(this.yMax) / Math.log(7);
     
-    // Draw major ticks at powers of 10
+    // Draw major ticks at powers of 7
     for (let logY = Math.ceil(logYMin); logY <= Math.floor(logYMax); logY++) {
-      const y = Math.pow(10, logY);
+      const y = Math.pow(7, logY);
       const { cy } = this.dataToCanvas(this.xMin, y);
       
       ctx.strokeStyle = '#000';

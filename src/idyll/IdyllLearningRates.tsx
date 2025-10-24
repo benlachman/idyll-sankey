@@ -21,10 +21,16 @@ interface IdyllLearningRatesProps {
 // Color palette for different technologies (matching Our World in Data style)
 const TECHNOLOGY_COLORS: { [key: string]: string } = {
   'Solar PV': '#E63946',
+  'Solar Concentrated': '#F77F00',
   'Onshore wind': '#1D3557',
   'Offshore wind': '#457B9D',
-  'Nuclear': '#2A9D8F',
-  'Coal': '#8E44AD',
+  'Lithium-ion batteries': '#06A77D',
+  'Lithium iron phosphate': '#2A9D8F',
+  'Sodium-ion batteries': '#48BF84',
+  'Nuclear': '#8338EC',
+  'Coal': '#6A4C93',
+  'Natural gas': '#BC6C25',
+  'Oil': '#8B4513',
 };
 
 /**
